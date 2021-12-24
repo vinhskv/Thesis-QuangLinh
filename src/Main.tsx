@@ -9,7 +9,6 @@ export default class MainScreen extends React.Component {
     return (
       <>
         <SafeAreaView>
-          <Text>ádfasdfasdf</Text>
           <JDAForm
             defaultValue={{
               name: 'LINH',
