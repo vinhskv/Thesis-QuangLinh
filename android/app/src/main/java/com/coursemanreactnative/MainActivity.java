@@ -1,7 +1,9 @@
 package com.coursemanreactnative;
 
 import com.facebook.react.ReactActivity;
-
+//react navigation
+import android.os.Bundle;
+//react navigation
 public class MainActivity extends ReactActivity {
 
   /**
@@ -14,5 +16,10 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "CourseManReactNative";
   }
-
+  //react navigation
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(null);
+  }
+  //react navigation
 }

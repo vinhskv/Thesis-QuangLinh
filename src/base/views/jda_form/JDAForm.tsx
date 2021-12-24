@@ -11,16 +11,17 @@ export interface IJDAFormProps<T> extends IJDAFormControlerProps {
   formName: string;
   initialValue?: T;
   children: JSX.Element[];
+  submitText?: string;
 }
 
 function JDAForm<T>(props: IJDAFormProps<T>) {
   return (
     <Card>
-      <Card.Title>{props.formName}</Card.Title>
+      <Card.Title>{props.formName + ' form'}</Card.Title>
       <Card.Divider />
       <FlatList data={props.children} renderItem={({item}) => item} />
       <Button
-        title="Submit"
+        title={props.submitText || 'Submit'}
         buttonStyle={{
           backgroundColor: 'black',
           borderWidth: 2,

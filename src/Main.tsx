@@ -1,28 +1,19 @@
 import * as React from 'react';
 import {SafeAreaView} from 'react-native';
-import {Text} from 'react-native-elements';
-import JDAForm from './base/containers/jda_form/JDAForm';
-import JDAStringInput from './base/containers/jda_form/jda_form_inputs/JDAStringInput';
+import JDADrawer from './base/views/jda_drawer/JDADrawer';
+import {AddressFormScreen} from './modules/addresses/AddressFormScreen';
+import {StudentFormScreen} from './modules/students/StudentFormScreen';
 
 export default class MainScreen extends React.Component {
   public render() {
     return (
-      <>
-        <SafeAreaView>
-          <JDAForm
-            defaultValue={{
-              name: 'LINH',
-              age: '18',
-            }}
-            formName={'UserForm'}
-            onSubmit={formValue => {
-              console.log(formValue);
-            }}>
-            <JDAStringInput label={'Tên'} name="name" />
-            <JDAStringInput label={'Tuổi'} name="age" />
-          </JDAForm>
-        </SafeAreaView>
-      </>
+      <JDADrawer
+        initialRoute={'Address'}
+        routes={[
+          {component: StudentFormScreen, name: 'Student'},
+          {component: AddressFormScreen, name: 'Address'},
+        ]}
+      />
     );
   }
 }
