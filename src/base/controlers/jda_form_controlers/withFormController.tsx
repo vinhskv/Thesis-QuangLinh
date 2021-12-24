@@ -1,21 +1,21 @@
-import React, {ComponentType} from 'react';
+import React, {ComponentClass, ComponentType} from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 
-export interface IJDAFormControlerProps {
+export interface IJDAFormControlerProps<T> {
   submit: () => void;
-  defaultValue?: any;
-  onSubmit: (value: any) => void;
+  defaultValue?: T;
+  onSubmit: (value: T) => void;
 }
 
-export function withJDAFormControler<T extends IJDAFormControlerProps>(
-  Component: ComponentType<T>,
+export function withJDAFormControler<T, P extends IJDAFormControlerProps<T>>(
+  Component: ComponentType<P>,
 ) {
-  return (props: Omit<T, 'submit'>) => {
+  return function (props: Omit<P, 'submit'>) {
     const form = useForm({defaultValues: props.defaultValue});
     return (
       <FormProvider {...form}>
         <Component
-          {...(props as T)}
+          {...(props as P)}
           submit={() => form.handleSubmit(data => props.onSubmit(data as T))()}
         />
       </FormProvider>
