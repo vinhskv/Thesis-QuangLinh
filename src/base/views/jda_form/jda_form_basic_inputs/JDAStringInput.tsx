@@ -5,9 +5,8 @@ import {
   withJDAFormInputController,
 } from '../../../controlers/jda_form_controlers/withFormInputController';
 
-export interface IJDAStringInputProps extends IJDAFormInputControllerProps {
-  label: string;
-}
+export interface IJDAStringInputProps
+  extends IJDAFormInputControllerProps<string> {}
 
 function JDAStringInput(props: IJDAStringInputProps) {
   return (
@@ -19,4 +18,6 @@ function JDAStringInput(props: IJDAStringInputProps) {
   );
 }
 
-export default withJDAFormInputController(JDAStringInput);
+export default withJDAFormInputController<string, IJDAStringInputProps>(
+  JDAStringInput,
+);

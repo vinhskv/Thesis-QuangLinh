@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {SafeAreaView} from 'react-native';
 import JDADrawer from './base/views/jda_drawer/JDADrawer';
-import {AddressFormScreen} from './modules/addresses/AddressFormScreen';
-import {StudentFormScreen} from './modules/students/StudentFormScreen';
+import {AddressFormComponent} from './modules/addresses/AddressForm';
+import {StudentFormComponent} from './modules/students/StudentFormComponent';
 
 export default class MainScreen extends React.Component {
   public render() {
@@ -10,8 +10,8 @@ export default class MainScreen extends React.Component {
       <JDADrawer
         initialRoute={'Address'}
         routes={[
-          {component: StudentFormScreen, name: 'Student'},
-          {component: AddressFormScreen, name: 'Address'},
+          {component: StudentFormComponent, name: 'Student'},
+          {component: AddressFormComponent, name: 'Address'},
         ]}
       />
     );

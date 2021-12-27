@@ -1,9 +1,14 @@
 import React, {ComponentClass, ComponentType} from 'react';
-import {FormProvider, useForm} from 'react-hook-form';
+import {
+  DeepPartial,
+  FormProvider,
+  UnpackNestedValue,
+  useForm,
+} from 'react-hook-form';
 
 export interface IJDAFormControlerProps<T> {
   submit: () => void;
-  defaultValue?: T;
+  defaultValue?: UnpackNestedValue<DeepPartial<T>>;
   onSubmit: (value: T) => void;
 }
 
@@ -11,7 +16,7 @@ export function withJDAFormControler<T, P extends IJDAFormControlerProps<T>>(
   Component: ComponentType<P>,
 ) {
   return function (props: Omit<P, 'submit'>) {
-    const form = useForm({defaultValues: props.defaultValue});
+    const form = useForm<T>({defaultValues: props.defaultValue});
     return (
       <FormProvider {...form}>
         <Component
