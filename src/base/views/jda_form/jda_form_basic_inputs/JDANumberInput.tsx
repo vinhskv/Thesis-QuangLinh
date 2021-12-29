@@ -1,5 +1,5 @@
+import {Input} from '@ui-kitten/components';
 import * as React from 'react';
-import {Input} from 'react-native-elements/dist/input/Input';
 import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
@@ -13,7 +13,7 @@ function JDANumberInput(props: IJDAStringInputProps) {
     <Input
       value={props.field.value}
       label={props.label}
-      onChangeText={props.field.onChange}
+      keyboardType="numeric"
     />
   );
 }

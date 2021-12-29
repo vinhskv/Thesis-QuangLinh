@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Input} from 'react-native-elements/dist/input/Input';
+import {Value} from 'react-native-reanimated';
 import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
@@ -10,7 +10,7 @@ export interface IAddressInputProps
   extends IJDAFormInputControllerProps<Address> {}
 
 function AddressInput(props: IAddressInputProps) {
-  return <Input value={props.field.value}></Input>;
+  return <></>;
 }
 
 export default withJDAFormInputController<Address, IAddressInputProps>(

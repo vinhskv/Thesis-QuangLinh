@@ -8,9 +8,12 @@ export interface IJDAListProps<T> extends IJDAListControllerProps<T> {
 
 export function JDAList<T>(props: IJDAListProps<T>) {
   return (
-    <FlatList
-      data={props.items}
-      renderItem={({item}) => props.renderItem(item)}
-    />
+    <>
+      <FlatList
+        data={props.items}
+        renderItem={({item}) => props.renderItem(item)}
+      />
+      
+    </>
   );
 }

@@ -1,5 +1,5 @@
+import {Input} from '@ui-kitten/components';
 import * as React from 'react';
-import {Input} from 'react-native-elements/dist/input/Input';
 import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,

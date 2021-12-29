@@ -5,7 +5,7 @@ export interface Address {
   name: string;
 }
 
-export const AddressFieldLable: Record<keyof Address, string> = {
+export const AddressFieldLabel: Record<keyof Address, string> = {
   id: 'ID',
   name: 'City name',
 };
