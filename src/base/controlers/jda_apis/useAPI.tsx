@@ -1,0 +1,106 @@
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
+import {useCallback} from 'react';
+import {
+  IAPIError,
+  IAPIGetListReturn,
+  IAPIReturn as IAPIReturn,
+} from './apiTypes';
+const axiosConfigs: AxiosRequestConfig = {
+  baseURL: 'http://localhost:8080',
+  withCredentials: true,
+};
+
+function successWithData<T>(data: T): IAPIReturn<T> {
+  return {
+    success: true,
+    payload: data,
+    error: {
+      code: 0,
+      message: '',
+    },
+  };
+}
+function failWithError<T>(err: IAPIError): IAPIReturn<T> {
+  return {
+    success: false,
+    payload: {} as T,
+    error: err,
+  };
+}
+
+export function useAPI<T>(routeName: string) {
+  const create = useCallback(
+    async (data: Omit<T, 'id'>) => {
+      const res = await axios.post<Omit<T, 'id'>, AxiosResponse<T>>(
+        `/${routeName}`,
+        data,
+        axiosConfigs,
+      );
+      return res.data;
+    },
+    [routeName],
+  );
+  const getById = useCallback(
+    async (id: string | number): Promise<IAPIReturn<T>> => {
+      try {
+        const result = await axios.get<T, AxiosResponse<T>>(
+          `/${routeName}/${id}`,
+          axiosConfigs,
+        );
+        return successWithData(result.data);
+      } catch (error) {
+        return failWithError({
+          code: 0,
+        });
+      }
+    },
+    [routeName],
+  );
+  const getByPage = useCallback(
+    async (_pageNumber: number): Promise<IAPIReturn<IAPIGetListReturn<T>>> => {
+      console.log(routeName);
+      try {
+        const res = await axios.get<T, AxiosResponse<IAPIGetListReturn<T>>>(
+          `/${routeName}`,
+          axiosConfigs,
+        );
+        console.log(res.data);
+        return successWithData(res.data);
+      } catch (error) {
+        console.log(error);
+        return failWithError({
+          code: 100,
+        });
+      }
+    },
+    [routeName],
+  );
+  const updateById = useCallback(
+    async (id: string | number, data: Omit<T, 'id'>) => {
+      const res = await axios.patch<T, AxiosResponse<T>>(
+        `/${routeName}/${id}`,
+        data,
+        axiosConfigs,
+      );
+      return res.data;
+    },
+    [routeName],
+  );
+  const deleteById = useCallback(
+    async (id: string | number) => {
+      const res = await axios.delete<T, AxiosResponse<T>>(
+        `/${routeName}/${id}`,
+        axiosConfigs,
+      );
+      return res.data;
+    },
+    [routeName],
+  );
+  return {
+    getById,
+    getByPage,
+    deleteById,
+    updateById,
+    create,
+  };
+}

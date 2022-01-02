@@ -1,22 +1,35 @@
-import {ApplicationProvider} from '@ui-kitten/components';
-import * as React from 'react';
-import JDADrawer from './base/views/jda_drawer/JDADrawer';
-import {AddressFormComponent} from './modules/addresses/AddressForm';
-import {StudentFormComponent} from './modules/students/StudentFormComponent';
 import * as eva from '@eva-design/eva';
+import {
+  ApplicationProvider as UIKittenProvider,
+  IconRegistry,
+} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import * as React from 'react';
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import JDADrawer from './base/views/jda_drawer/JDADrawer';
+import AddressModule from './modules/addresses/AddressModule';
+import StudentModule from './modules/students/StudentModule';
 
 export default class MainScreen extends React.Component {
   public render() {
     return (
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <JDADrawer
-          initialRoute={'Address'}
-          routes={[
-            {component: StudentFormComponent, name: 'Student'},
-            {component: AddressFormComponent, name: 'Address'},
-          ]}
-        />
-      </ApplicationProvider>
+      <>
+        <IconRegistry icons={EvaIconsPack} />
+        <PaperProvider theme={{...DefaultTheme}}>
+          <UIKittenProvider {...eva} theme={eva.light}>
+            <JDADrawer
+              initialRoute={'Addresses'}
+              routes={[
+                {component: <StudentModule />, name: 'Student'},
+                {
+                  component: <AddressModule />,
+                  name: 'Addresses',
+                },
+              ]}
+            />
+          </UIKittenProvider>
+        </PaperProvider>
+      </>
     );
   }
 }

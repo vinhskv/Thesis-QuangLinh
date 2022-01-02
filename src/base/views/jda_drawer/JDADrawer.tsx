@@ -1,12 +1,12 @@
 import {
   DrawerContentScrollView,
-  DrawerItemList
+  DrawerItemList,
 } from '@react-navigation/drawer';
 import * as React from 'react';
 import {
   IJDADrawerControllerProps,
-  withDrawerController
-} from '../../controlers/jda_drawer_controlers/withDrawerController';
+  withDrawerController,
+} from '../../controlers/jda_drawer_controllers/withDrawerController';
 
 export interface IJDADrawerProps extends IJDADrawerControllerProps {}
 

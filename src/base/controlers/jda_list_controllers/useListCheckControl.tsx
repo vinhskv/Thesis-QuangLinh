@@ -7,17 +7,18 @@ export function useListCheckControl<T>(keyField: string | keyof T, items: T[]) {
       const item = items.find(
         x => String(x[keyField as keyof T]) === String(id),
       );
-      if (item)
+      if (item) {
         setCheckedItems(oldArr => {
           const newArr = [...oldArr, item];
           return newArr;
         });
+      }
     },
-    [keyField],
+    [items, keyField],
   );
   const checkAll = useCallback(() => {
     setCheckedItems([...items]);
-  }, [keyField]);
+  }, [items]);
   const unCheck = useCallback(
     (id: string | number) => {
       setCheckedItems(oldArr => {
@@ -31,7 +32,7 @@ export function useListCheckControl<T>(keyField: string | keyof T, items: T[]) {
   );
   const unCheckAll = useCallback(() => {
     setCheckedItems([]);
-  }, [keyField]);
+  }, []);
   return {
     checkedItems,
     check,

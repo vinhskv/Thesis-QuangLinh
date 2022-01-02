@@ -2,17 +2,17 @@ import React, {ComponentType} from 'react';
 import {
   Controller,
   ControllerFieldState,
-  ControllerRenderProps,
-  FieldValues,
-  Path,
   useFormContext,
   UseFormStateReturn,
 } from 'react-hook-form';
 
 export interface IJDAFormInputControllerProps<T> {
-  name: Path<T>;
+  name: string;
   label: string;
-  field: ControllerRenderProps<T>;
+  field: {
+    onChange: (value: T) => void;
+    value: T;
+  };
   fieldState: ControllerFieldState;
   formState: UseFormStateReturn<T>;
 }
@@ -22,12 +22,21 @@ export function withJDAFormInputController<
   P extends IJDAFormInputControllerProps<T>,
 >(Component: ComponentType<P>) {
   return (props: Omit<P, 'field' | 'fieldState' | 'formState'>) => {
-    const {control} = useFormContext<T>();
+    const {control} = useFormContext();
     return (
       <Controller
         name={props.name}
         control={control}
-        render={item => <Component {...(props as P)} {...item} />}
+        render={item => (
+          <Component
+            {...(props as P)}
+            {...item}
+            field={{
+              value: item.field.value,
+              onChange: (value: T) => item.field.onChange(value),
+            }}
+          />
+        )}
       />
     );
   };

@@ -1,16 +1,36 @@
-import {Card, List, ListItem} from '@ui-kitten/components';
+import {Button} from '@ui-kitten/components';
 import * as React from 'react';
-import {FlatList} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {IJDAFormControlerProps} from '../../controlers/jda_form_controlers/withFormController';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {IJDAFormControlerProps} from '../../controlers/jda_form_controllers/withFormController';
 
 export interface IJDAFormProps<T> extends IJDAFormControlerProps<T> {
-  formName: string;
   initialValue?: T;
+  // eslint-disable-next-line no-undef
   children: JSX.Element[];
   submitText?: string;
 }
 
+const styles = StyleSheet.create({
+  submit_button: {
+    marginVertical: 20,
+  },
+  container: {
+    padding: 10,
+    backgroundColor: 'white',
+  },
+});
+
 export default function JDAForm<T>(props: IJDAFormProps<T>) {
-  return <Card>{props.children}</Card>;
+  return (
+    <SafeAreaView>
+      <ScrollView style={styles.container}>
+        {props.children}
+        <Button style={styles.submit_button} onPress={props.submit}>
+          Submit
+        </Button>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }

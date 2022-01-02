@@ -3,12 +3,12 @@ import * as React from 'react';
 import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
-} from '../../../controlers/jda_form_controlers/withFormInputController';
+} from '../base/controlers/jda_form_controllers/withFormInputController';
 
 export interface IJDAStringInputProps
   extends IJDAFormInputControllerProps<string> {}
 
-function JDAStringInput(props: IJDAStringInputProps) {
+function StringInput(props: IJDAStringInputProps) {
   return (
     <Input
       value={props.field.value}
@@ -19,5 +19,5 @@ function JDAStringInput(props: IJDAStringInputProps) {
 }
 
 export default withJDAFormInputController<string, IJDAStringInputProps>(
-  JDAStringInput,
+  StringInput,
 );

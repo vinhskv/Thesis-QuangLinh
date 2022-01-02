@@ -1,4 +1,4 @@
-import React, {ComponentClass, ComponentType} from 'react';
+import React, {ComponentType} from 'react';
 import {
   DeepPartial,
   FormProvider,
