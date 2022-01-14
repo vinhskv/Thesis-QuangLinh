@@ -14,6 +14,7 @@ export interface IJDAListItemControllerProps<
   item: T;
   onItemAction: (actionType: ActionTypes, payload?: any) => void;
 }
+// HOC == high oder component
 
 export function withListItemController<
   T,

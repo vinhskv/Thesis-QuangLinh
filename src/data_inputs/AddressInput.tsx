@@ -2,11 +2,11 @@ import {Autocomplete, AutocompleteItem} from '@ui-kitten/components';
 import * as React from 'react';
 import {useCallback, useEffect, useState} from 'react';
 import useDebounce from '../base/common_hooks/useDebounce';
-import {useAPI} from '../base/controlers/jda_apis/useAPI';
+import {useAPI} from '../base/controllers/jda_apis/useAPI';
 import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
-} from '../base/controlers/jda_form_controllers/withFormInputController';
+} from '../base/controllers/jda_form_controllers/withFormInputController';
 import {Address} from '../data_types/Address';
 
 export interface IAddressInputProps

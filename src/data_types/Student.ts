@@ -18,3 +18,14 @@ export const StudentFieldLabel: Record<keyof Student, string> = {
   email: 'Email',
   address: 'Address',
 };
+
+export interface StudentPOST extends Omit<Student, 'id' | 'address'> {
+  addressId: string;
+}
+
+export function toStudentPOST(s: Student): StudentPOST {
+  return {
+    ...s,
+    addressId: s.address.id,
+  };
+}

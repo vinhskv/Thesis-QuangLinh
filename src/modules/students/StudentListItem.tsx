@@ -4,7 +4,7 @@ import {
   DefaultListItemAction,
   IJDAListItemControllerProps,
   withListItemController,
-} from '../../base/controlers/jda_list_controllers/withListItemController';
+} from '../../base/controllers/jda_list_controllers/withListItemController';
 import {Student} from '../../data_types/Student';
 
 export function StudentListItem(
@@ -14,7 +14,9 @@ export function StudentListItem(
     <List.Item
       left={p => <Avatar.Icon size={30} {...p.style} icon="account" />}
       onPress={() => props.onItemAction(DefaultListItemAction.EDIT)}
-      title={`#${props.item.id}  ${props.item.name}`}
+      title={`#${props.item.id}  ${props.item.name} - ${
+        props.item.address?.name || ''
+      }`}
       right={p => (
         <IconButton
           onPress={() => props.onItemAction(DefaultListItemAction.DELETE)}

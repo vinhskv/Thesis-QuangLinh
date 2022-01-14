@@ -3,7 +3,7 @@ import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {IJDAFormControlerProps} from '../../controlers/jda_form_controllers/withFormController';
+import {IJDAFormControlerProps} from '../../controllers/jda_form_controllers/withFormController';
 
 export interface IJDAFormProps<T> extends IJDAFormControlerProps<T> {
   initialValue?: T;

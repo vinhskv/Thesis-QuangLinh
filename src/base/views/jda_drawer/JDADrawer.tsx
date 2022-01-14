@@ -6,7 +6,7 @@ import * as React from 'react';
 import {
   IJDADrawerControllerProps,
   withDrawerController,
-} from '../../controlers/jda_drawer_controllers/withDrawerController';
+} from '../../controllers/jda_drawer_controllers/withDrawerController';
 
 export interface IJDADrawerProps extends IJDADrawerControllerProps {}
 

@@ -3,17 +3,17 @@ import {useCallback} from 'react';
 import {StyleSheet} from 'react-native';
 import {FAB} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useAPI} from '../base/controlers/jda_apis/useAPI';
-import {withJDAFormControler} from '../base/controlers/jda_form_controllers/withFormController';
+import {useAPI} from '../base/controllers/jda_apis/useAPI';
+import {withJDAFormControler} from '../base/controllers/jda_form_controllers/withFormController';
 import {
   IJDAGroupScreenItemControllerProps,
   withGroupScreenItemController,
-} from '../base/controlers/jda_group_screens_controllers/withGroupScreenItemController';
-import {withListController} from '../base/controlers/jda_list_controllers/withListController';
+} from '../base/controllers/jda_group_screens_controllers/withGroupScreenItemController';
+import {withListController} from '../base/controllers/jda_list_controllers/withListController';
 import {
   DefaultListItemAction,
   IJDAListItemControllerProps,
-} from '../base/controlers/jda_list_controllers/withListItemController';
+} from '../base/controllers/jda_list_controllers/withListItemController';
 import JDAForm, {IJDAFormProps} from '../base/views/jda_form/JDAForm';
 import {GroupScreen} from '../base/views/jda_group_screens/GroupScreens';
 import {IJDAListProps, JDAList} from '../base/views/jda_list/JDAList';
@@ -46,19 +46,27 @@ export default function BaseModule<T>(props: IBaseModuleProps<T>) {
     DefaultListItemAction,
     IJDAListProps<T, DefaultListItemAction>
   >(props.api_resource, props.keyField, JDAList);
+
   const api = useAPI<T>(props.api_resource);
   const Form = withJDAFormControler<T, IJDAFormProps<T>>(JDAForm);
-  const FormWraper = () => {
-    return (
-      <Form onSubmit={v => api.create(v)}>
-        {Object.keys(props.formConfig).map(key => (
-          <React.Fragment key={key}>
-            {props.formConfig[key as keyof typeof props.formConfig]}
-          </React.Fragment>
-        ))}
-      </Form>
+  const FormWraper =
+    withGroupScreenItemController<IJDAGroupScreenItemControllerProps>(
+      screenProps => {
+        return (
+          <Form
+            onSubmit={async v => {
+              await api.create(v);
+              screenProps.goTo('List');
+            }}>
+            {Object.keys(props.formConfig).map(key => (
+              <React.Fragment key={key}>
+                {props.formConfig[key as keyof typeof props.formConfig]}
+              </React.Fragment>
+            ))}
+          </Form>
+        );
+      },
     );
-  };
 
   const handleItemAction = useCallback(
     async (item: T, actionType: DefaultListItemAction, _payload: any) => {

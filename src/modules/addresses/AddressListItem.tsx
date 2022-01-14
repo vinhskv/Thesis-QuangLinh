@@ -4,7 +4,7 @@ import {
   DefaultListItemAction,
   IJDAListItemControllerProps,
   withListItemController,
-} from '../../base/controlers/jda_list_controllers/withListItemController';
+} from '../../base/controllers/jda_list_controllers/withListItemController';
 import {Address} from '../../data_types/Address';
 
 export interface IAddressListItemProps
