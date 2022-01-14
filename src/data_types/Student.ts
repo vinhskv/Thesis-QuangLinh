@@ -1,14 +1,15 @@
 import {Address} from './Address';
-import {Gender} from './Gender';
+import {Student_Gender} from './Student_Gender';
 
 export interface Student {
   id: string;
   name: string;
-  gender: Gender;
+  gender: Student_Gender;
   dob: Date;
   email: string;
   address: Address;
 }
+export const StudentKeyField: keyof Student = 'id';
 
 export const StudentFieldLabel: Record<keyof Student, string> = {
   id: 'ID',

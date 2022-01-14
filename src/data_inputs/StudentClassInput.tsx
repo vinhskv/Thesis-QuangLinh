@@ -7,14 +7,14 @@ import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
 } from '../base/controllers/jda_form_controllers/withFormInputController';
-import {Student} from '../data_types/Student';
+import {StudentClass} from '../data_types/StudentClass';
 
-export interface IStudentInputProps
-  extends IJDAFormInputControllerProps<Student> {}
+export interface IStudentClassInputProps
+  extends IJDAFormInputControllerProps<StudentClass> {}
 
-function StudentInput(props: IStudentInputProps) {
-  const api = useAPI<Student>('students');
-  const [options, setOptions] = useState<Student[]>([]);
+function StudentClassInput(props: IStudentClassInputProps) {
+  const api = useAPI<StudentClass>('addresses');
+  const [options, setOptions] = useState<StudentClass[]>([]);
   const [keyword, setKeyword] = useState('');
   const searchValue = useDebounce<string>(keyword, 500);
   const search = useCallback(async () => {
@@ -28,21 +28,23 @@ function StudentInput(props: IStudentInputProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
 
-  const studentValue = (ad?: Student) => (ad ? `# ${ad.id} ${ad.name}` : '');
+  const studentClassValue = (ad?: StudentClass) =>
+    ad ? `# ${ad.id} ${ad.name}` : '';
   return (
     <Autocomplete
       label={props.label}
-      value={studentValue(props.field.value)}
+      value={studentClassValue(props.field.value)}
       onSelect={index => props.field.onChange(options[index])}
       onChangeText={v => {
         setKeyword(v);
       }}>
       {options.map(ad => (
-        <AutocompleteItem key={ad.id} title={studentValue(ad)} />
+        <AutocompleteItem key={ad.id} title={studentClassValue(ad)} />
       ))}
     </Autocomplete>
   );
 }
-export default withJDAFormInputController<Student, IStudentInputProps>(
-  StudentInput,
-);
+export default withJDAFormInputController<
+  StudentClass,
+  IStudentClassInputProps
+>(StudentClassInput);

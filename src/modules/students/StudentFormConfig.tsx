@@ -5,7 +5,6 @@ import GenderInput from '../../data_inputs/GenderInput';
 import StringInput from '../../data_inputs/StringInput';
 import {Student, StudentFieldLabel} from '../../data_types/Student';
 
-// eslint-disable-next-line no-undef
 export const StudentFormConfig: Record<keyof Student, React.ReactNode> = {
   id: <StringInput name="id" label={StudentFieldLabel.id} />,
   name: <StringInput name="name" label={StudentFieldLabel.name} />,

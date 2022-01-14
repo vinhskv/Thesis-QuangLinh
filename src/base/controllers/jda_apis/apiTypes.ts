@@ -10,7 +10,7 @@ export interface IAPIError {
 }
 
 export interface IAPIGetListReturn<T> {
-  currentPage: number;
+  currentPage?: number;
   pageCount: number;
-  content: T[];
+  content?: T[];
 }

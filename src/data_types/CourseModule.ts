@@ -5,6 +5,7 @@ export interface CourseModule {
   semester: number;
   credits: number;
 }
+export const CourseModuleKeyField: keyof CourseModule = 'id';
 
 export const CourseModuleFieldLabel: Record<keyof CourseModule, string> = {
   id: 'ID',

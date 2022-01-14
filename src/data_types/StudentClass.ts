@@ -5,8 +5,9 @@ export interface StudentClass {
   name: string;
   students: Student[];
 }
+export const StudentClassKeyField: keyof StudentClass = 'id';
 
-export const StudentClass: Record<keyof StudentClass, string> = {
+export const StudentClassFieldLabel: Record<keyof StudentClass, string> = {
   id: 'ID',
   name: 'Name',
   students: 'Students',

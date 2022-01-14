@@ -11,7 +11,7 @@ export interface IJDANumberInputProps
 function NumberInput(props: IJDANumberInputProps) {
   return (
     <Input
-      value={String(props.field.value)}
+      value={String(props.field.value || '')}
       label={props.label}
       onChangeText={t => props.field.onChange(parseInt(t))}
       keyboardType="numeric"

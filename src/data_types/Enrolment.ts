@@ -9,12 +9,13 @@ export interface Enrolment {
   examMark: number;
   finalGrade: string;
 }
+export const EnrolmentKeyField: keyof Enrolment = 'id';
 
 export const EnrolmentFieldLabel: Record<keyof Enrolment, string> = {
   id: 'ID',
   student: 'Student',
-  courseModule: 'courseModule',
-  internalMark: 'internalMark',
-  examMark: 'examMark',
-  finalGrade: 'finalGrade',
+  courseModule: 'Course module',
+  internalMark: 'Internal mark',
+  examMark: 'Exam mark',
+  finalGrade: 'Final grade',
 };

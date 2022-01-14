@@ -4,10 +4,10 @@ import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
 } from '../base/controllers/jda_form_controllers/withFormInputController';
-import {Gender} from '../data_types/Gender';
+import {Student_Gender} from '../data_types/Student_Gender';
 
 export interface IGenderInputProps
-  extends IJDAFormInputControllerProps<Gender> {}
+  extends IJDAFormInputControllerProps<Student_Gender> {}
 
 function GenderInput(props: IGenderInputProps) {
   return (
@@ -16,15 +16,15 @@ function GenderInput(props: IGenderInputProps) {
       value={props.field.value}
       onSelect={index =>
         props.field.onChange(
-          Object.values(Gender)[parseInt(index.toString(), 0) - 1],
+          Object.values(Student_Gender)[parseInt(index.toString(), 0) - 1],
         )
       }>
-      {Object.keys(Gender).map(k => (
+      {Object.keys(Student_Gender).map(k => (
         <SelectItem key={k} title={k} />
       ))}
     </Select>
   );
 }
-export default withJDAFormInputController<Gender, IGenderInputProps>(
+export default withJDAFormInputController<Student_Gender, IGenderInputProps>(
   GenderInput,
 );
