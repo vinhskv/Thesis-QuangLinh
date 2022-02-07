@@ -1,8 +1,8 @@
 import React from 'react';
 import AddressInput from '../../data_inputs/AddressInput';
-import DateInput from '../../data_inputs/DateInput';
-import GenderInput from '../../data_inputs/GenderInput';
-import StringInput from '../../data_inputs/StringInput';
+import DateInput from '../../data_inputs/basic_inputs/DateInput';
+import StringInput from '../../data_inputs/basic_inputs/StringInput';
+import {GenderInput} from '../../data_inputs/StudentInput';
 import {Student, StudentFieldLabel} from '../../data_types/Student';
 
 export const StudentFormConfig: Record<keyof Student, React.ReactNode> = {

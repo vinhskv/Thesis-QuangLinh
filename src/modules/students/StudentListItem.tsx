@@ -1,25 +1,27 @@
 import * as React from 'react';
 import {Avatar, IconButton, List} from 'react-native-paper';
-import {
-  DefaultListItemAction,
-  IJDAListItemControllerProps,
-  withListItemController,
-} from '../../base/controllers/jda_list_controllers/withListItemController';
-import {Student} from '../../data_types/Student';
+import {StudentListItemControllerProps, withStudentListItemController} from '.';
+import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListActionContext';
 
-export function StudentListItem(
-  props: IJDAListItemControllerProps<Student, DefaultListItemAction>,
-) {
+export function StudentListItem(props: StudentListItemControllerProps) {
   return (
     <List.Item
       left={p => <Avatar.Icon size={30} {...p.style} icon="account" />}
-      onPress={() => props.onItemAction(DefaultListItemAction.EDIT)}
+      onPress={() => {
+        if (props.onItemAction) {
+          props.onItemAction(DefaultListItemAction.EDIT);
+        }
+      }}
       title={`#${props.item.id}  ${props.item.name} - ${
         props.item.address?.name || ''
       }`}
       right={p => (
         <IconButton
-          onPress={() => props.onItemAction(DefaultListItemAction.DELETE)}
+          onPress={() => {
+            if (props.onItemAction) {
+              props.onItemAction(DefaultListItemAction.DELETE);
+            }
+          }}
           icon={'delete'}
           {...p}
           color="red"
@@ -29,8 +31,4 @@ export function StudentListItem(
   );
 }
 
-export default withListItemController<
-  Student,
-  DefaultListItemAction,
-  IJDAListItemControllerProps<Student, DefaultListItemAction>
->(StudentListItem);
+export default withStudentListItemController(StudentListItem);

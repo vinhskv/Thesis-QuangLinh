@@ -7,7 +7,8 @@ import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
 } from '../base/controllers/jda_form_controllers/withFormInputController';
-import {Student} from '../data_types/Student';
+import {Gender, Student} from '../data_types/Student';
+import EnumInput from './basic_inputs/EnumInput';
 
 export interface IStudentInputProps
   extends IJDAFormInputControllerProps<Student> {}
@@ -46,3 +47,5 @@ function StudentInput(props: IStudentInputProps) {
 export default withJDAFormInputController<Student, IStudentInputProps>(
   StudentInput,
 );
+
+export const GenderInput = EnumInput({enum: Gender});

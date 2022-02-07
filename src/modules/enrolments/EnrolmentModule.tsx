@@ -1,15 +1,15 @@
 import * as React from 'react';
-import BaseModule from '../BaseModule';
+import {Enrolment} from '../../data_types/Enrolment';
+import GenericModule from '../GenericModule';
 import {EnrolmentFormConfig} from './EnrolmentFormConfig';
-import EnrolmentListItem from './EnrolmentListItem';
+import EnrolmentList from './EnrolmentList';
 
 export default function EnrolmentModule() {
   return (
-    <BaseModule
+    <GenericModule<Enrolment>
       api_resource="enrolments"
-      keyField="id"
       formConfig={EnrolmentFormConfig}
-      listItemComponent={EnrolmentListItem}
+      ListComponent={EnrolmentList}
     />
   );
 }

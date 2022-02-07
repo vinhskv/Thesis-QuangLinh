@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useAPI} from '../jda_apis/useAPI';
+import {useAPI} from '../../jda_apis/useAPI';
 
 class Wrapper<T> {
   wrapped(
@@ -29,7 +29,7 @@ export function useListItemsControl<T>(
     console.log(result);
     if (result.success) {
       setItems(_old => {
-        return result.payload.content;
+        return result.payload.content || [];
       });
       //TODO api in spring provide totalPage instead of totalItems, need to fix
       setTotalItem(result.payload.pageCount * pageSize); // isn't correct

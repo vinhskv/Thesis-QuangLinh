@@ -1,6 +1,6 @@
 import React from 'react';
-import NumberInput from '../../data_inputs/NumberInput';
-import StringInput from '../../data_inputs/StringInput';
+import StringInput from '../../data_inputs/basic_inputs/StringInput';
+import NumberInput from '../../data_inputs/basic_inputs/NumberInput';
 import {
   CourseModule,
   CourseModuleFieldLabel,

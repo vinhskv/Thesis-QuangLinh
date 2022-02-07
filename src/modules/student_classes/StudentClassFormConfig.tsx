@@ -1,5 +1,5 @@
 import React from 'react';
-import StringInput from '../../data_inputs/StringInput';
+import StringInput from '../../data_inputs/basic_inputs/StringInput';
 import StudentInput from '../../data_inputs/StudentInput';
 import {
   StudentClass,

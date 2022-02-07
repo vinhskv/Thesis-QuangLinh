@@ -6,6 +6,7 @@ export interface CourseModule {
   credits: number;
 }
 export const CourseModuleKeyField: keyof CourseModule = 'id';
+export const CourseResource: string = 'course-modules';
 
 export const CourseModuleFieldLabel: Record<keyof CourseModule, string> = {
   id: 'ID',
@@ -13,4 +14,15 @@ export const CourseModuleFieldLabel: Record<keyof CourseModule, string> = {
   name: 'Name',
   semester: 'Semester',
   credits: 'Credits',
+};
+
+export interface CompulsoryModule extends CourseModule {}
+
+export interface ElectiveModule extends CourseModule {
+  deptName: string;
+}
+
+export const ElectiveModuleFieldLabel: Record<keyof ElectiveModule, string> = {
+  deptName: 'deptName',
+  ...CourseModuleFieldLabel,
 };

@@ -1,19 +1,16 @@
 import * as React from 'react';
 import {Avatar, IconButton, List} from 'react-native-paper';
 import {
-  DefaultListItemAction,
-  IJDAListItemControllerProps,
-  withListItemController,
-} from '../../base/controllers/jda_list_controllers/withListItemController';
-import {StudentClass} from '../../data_types/StudentClass';
+  StudentClassListItemControllerProps,
+  withStudentClassListItemController,
+} from '.';
+import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListActionContext';
 
-export function StudentListItem(
-  props: IJDAListItemControllerProps<StudentClass, DefaultListItemAction>,
-) {
+export function StudentListItem(props: StudentClassListItemControllerProps) {
   return (
     <List.Item
       left={p => <Avatar.Icon size={30} {...p.style} icon="account" />}
-      onPress={() => props.onItemAction(DefaultListItemAction.EDIT)}
+      onPress={() => props.onItemAction(DefaultListItemAction.SHOW_DETAIL)}
       title={`#${props.item.id}  ${props.item.name}`}
       right={p => (
         <IconButton
@@ -27,8 +24,4 @@ export function StudentListItem(
   );
 }
 
-export default withListItemController<
-  StudentClass,
-  DefaultListItemAction,
-  IJDAListItemControllerProps<StudentClass, DefaultListItemAction>
->(StudentListItem);
+export default withStudentClassListItemController(StudentListItem);

@@ -19,7 +19,7 @@ function AddressInput(props: IAddressInputProps) {
   const searchValue = useDebounce<string>(keyword, 500);
   const search = useCallback(async () => {
     const address = await api.getByPage(0);
-    if (address.success) {
+    if (address.success && address.payload.content) {
       setOptions(address.payload.content);
     }
   }, [api]);

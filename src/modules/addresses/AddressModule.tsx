@@ -1,15 +1,15 @@
 import * as React from 'react';
-import BaseModule from '../BaseModule';
+import {Address, AddressResource} from '../../data_types/Address';
+import GenericModule from '../GenericModule';
 import {AddressFormConfig} from './AddressFormConfig';
-import AddressListItem from './AddressListItem';
+import AddressList from './AddressList';
 
 export default function AddressModule() {
   return (
-    <BaseModule
-      api_resource="addresses"
-      keyField="id"
+    <GenericModule<Address>
+      api_resource={AddressResource}
       formConfig={AddressFormConfig}
-      listItemComponent={AddressListItem}
+      ListComponent={AddressList}
     />
   );
 }

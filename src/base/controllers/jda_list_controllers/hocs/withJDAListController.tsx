@@ -1,19 +1,14 @@
 import React, {ComponentType, useState} from 'react';
 import {
+  DefaultListItemAction,
+  IListActionContext,
+} from '../contexts/ListActionContext';
+import {useListCheckControl} from '../hooks/useListCheckControl';
+import {
   UseListItemControlType,
   useListItemsControl,
-} from './useListItemsControl';
-import {useListCheckControl} from './useListCheckControl';
-import {useListPageControl} from './useListPageControl';
-import {DefaultListItemAction} from './withListItemController';
-
-export interface IListActionContext<T, ActionTypes = DefaultListItemAction> {
-  onItemAction?: (item: T, actionType: ActionTypes, payload: any) => any;
-}
-
-export function createListContext<T, ActionTypes = DefaultListItemAction>() {
-  return React.createContext<IListActionContext<T, ActionTypes> | null>(null);
-}
+} from '../hooks/useListItemsControl';
+import {useListPageControl} from '../hooks/useListPageControl';
 
 export interface IJDAListControllerProps<T, ActionTypes>
   extends IListActionContext<T, ActionTypes> {
@@ -24,11 +19,19 @@ export interface IJDAListControllerProps<T, ActionTypes>
   listCheckControl: ReturnType<typeof useListCheckControl>;
 }
 
-export function withListController<
+export function withJDAListController<
   T,
-  ActionTypes,
-  P extends IJDAListControllerProps<T, ActionTypes>,
->(resourceName: string, idField: keyof T, Component: ComponentType<P>) {
+  ActionTypes = DefaultListItemAction,
+  P extends IJDAListControllerProps<T, ActionTypes> = IJDAListControllerProps<
+    T,
+    ActionTypes
+  >,
+>(
+  resourceName: string,
+  idField: keyof T,
+  Component: ComponentType<P>,
+  context: React.Context<IListActionContext<T, ActionTypes>>,
+) {
   return (
     props: Omit<
       P,
@@ -47,16 +50,16 @@ export function withListController<
       idField,
       itemsControl.items,
     );
-    const ListActionContext = createListContext<T, ActionTypes>();
+    const ContextProvider = context.Provider;
     return (
-      <ListActionContext.Provider value={{onItemAction: props.onItemAction}}>
+      <ContextProvider value={{onItemAction: props.onItemAction}}>
         <Component
           {...(props as P)}
           pageControl={pageControl}
           listCheckControl={listCheckControl}
           itemsControl={itemsControl}
         />
-      </ListActionContext.Provider>
+      </ContextProvider>
     );
   };
 }

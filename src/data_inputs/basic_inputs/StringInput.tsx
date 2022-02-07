@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
-} from '../base/controllers/jda_form_controllers/withFormInputController';
+} from '../../base/controllers/jda_form_controllers/withFormInputController';
 
 export interface IJDAStringInputProps
   extends IJDAFormInputControllerProps<string> {}

@@ -28,17 +28,20 @@ function failWithError<T>(err: IAPIError): IAPIReturn<T> {
   };
 }
 
-export function useAPI<T>(routeName: string) {
+export function useAPI<T, POST_T = T>(
+  routeName: string,
+  toPostObject?: (source: T) => POST_T,
+) {
   const create = useCallback(
-    async (data: Omit<T, 'id'>) => {
-      const res = await axios.post<Omit<T, 'id'>, AxiosResponse<T>>(
+    async (data: T) => {
+      const res = await axios.post<POST_T, AxiosResponse<T>>(
         `/${routeName}`,
-        data,
+        toPostObject ? toPostObject(data) : data,
         axiosConfigs,
       );
       return res.data;
     },
-    [routeName],
+    [routeName, toPostObject],
   );
   const getById = useCallback(
     async (id: string | number): Promise<IAPIReturn<T>> => {

@@ -1,15 +1,15 @@
 import * as React from 'react';
-import BaseModule from '../BaseModule';
+import {Student} from '../../data_types/Student';
+import GenericModule from '../GenericModule';
 import {StudentFormConfig} from './StudentFormConfig';
-import StudentListItem from './StudentListItem';
+import StudentList from './StudentList';
 
 export default function StudentModule() {
   return (
-    <BaseModule
+    <GenericModule<Student>
       api_resource="students"
-      keyField="id"
       formConfig={StudentFormConfig}
-      listItemComponent={StudentListItem}
+      ListComponent={StudentList}
     />
   );
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import CourseModuleInput from '../../data_inputs/CourseModuleInput';
-import NumberInput from '../../data_inputs/NumberInput';
-import StringInput from '../../data_inputs/StringInput';
+import StringInput from '../../data_inputs/basic_inputs/StringInput';
 import StudentInput from '../../data_inputs/StudentInput';
 import {Enrolment, EnrolmentFieldLabel} from '../../data_types/Enrolment';
+import NumberInput from '../../data_inputs/basic_inputs/NumberInput';
 
 export const EnrolmentFormConfig: Record<keyof Enrolment, React.ReactNode> = {
   id: <StringInput name="id" label={EnrolmentFieldLabel.id} />,

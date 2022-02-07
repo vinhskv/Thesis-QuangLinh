@@ -1,10 +1,14 @@
 import {Address} from './Address';
-import {Student_Gender} from './Student_Gender';
+
+export enum Gender {
+  Male = 'Male',
+  Female = 'Female',
+}
 
 export interface Student {
   id: string;
   name: string;
-  gender: Student_Gender;
+  gender: Gender;
   dob: Date;
   email: string;
   address: Address;

@@ -3,11 +3,11 @@ import {Student} from './Student';
 export interface Address {
   id: string;
   name: string;
-  student: Student;
+  student?: Student;
 }
 
 export const AddressKeyField: keyof Address = 'id';
-
+export const AddressResource: string = 'addresses';
 export const AddressFieldLabel: Record<keyof Address, string> = {
   id: 'ID',
   name: 'City name',

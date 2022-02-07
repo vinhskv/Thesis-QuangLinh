@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
-} from '../base/controllers/jda_form_controllers/withFormInputController';
+} from '../../base/controllers/jda_form_controllers/withFormInputController';
 
 export interface IJDANumberInputProps
   extends IJDAFormInputControllerProps<number> {}
@@ -13,7 +13,7 @@ function NumberInput(props: IJDANumberInputProps) {
     <Input
       value={String(props.field.value || '')}
       label={props.label}
-      onChangeText={t => props.field.onChange(parseInt(t))}
+      onChangeText={t => props.field.onChange(parseInt(t, 10))}
       keyboardType="numeric"
     />
   );
