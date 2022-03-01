@@ -9,8 +9,8 @@ export interface Enrolment {
   examMark: number;
   finalGrade: string;
 }
-export const EnrolmentKeyField: keyof Enrolment = 'id';
-export const EnrolmentResource: string = 'enrolments';
+export const EnrolmentPrimaryKey: keyof Enrolment = 'id';
+export const EnrolmentApiResource: string = 'enrolments';
 export const EnrolmentFieldLabel: Record<keyof Enrolment, string> = {
   id: 'ID',
   student: 'Student',

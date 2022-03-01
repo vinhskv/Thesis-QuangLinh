@@ -5,8 +5,8 @@ export interface CourseModule {
   semester: number;
   credits: number;
 }
-export const CourseModuleKeyField: keyof CourseModule = 'id';
-export const CourseResource: string = 'course-modules';
+export const CourseModulePrimaryKey: keyof CourseModule = 'id';
+export const CourseApiResource: string = 'course-modules';
 
 export const CourseModuleFieldLabel: Record<keyof CourseModule, string> = {
   id: 'ID',

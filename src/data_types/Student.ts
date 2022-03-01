@@ -13,7 +13,7 @@ export interface Student {
   email: string;
   address: Address;
 }
-export const StudentKeyField: keyof Student = 'id';
+export const StudentPrimaryKey: keyof Student = 'id';
 
 export const StudentFieldLabel: Record<keyof Student, string> = {
   id: 'ID',
@@ -23,6 +23,7 @@ export const StudentFieldLabel: Record<keyof Student, string> = {
   email: 'Email',
   address: 'Address',
 };
+export const StudentApiResource: string = 'students';
 
 export interface StudentPOST extends Omit<Student, 'id' | 'address'> {
   addressId: string;

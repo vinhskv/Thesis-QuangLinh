@@ -1,8 +1,8 @@
 import {createJDAList} from '../../base/creators/createJDAList';
-import {CourseModule} from '../../data_types/CourseModule';
 import {
-  CourseModuleKeyField,
-  CourseResource,
+  CourseModule,
+  CourseModulePrimaryKey,
+  CourseApiResource,
 } from '../../data_types/CourseModule';
 
 const {
@@ -10,7 +10,7 @@ const {
   withListItemController,
   getListControllerPropsType,
   getListItemControllerPropsType,
-} = createJDAList<CourseModule>(CourseResource, CourseModuleKeyField);
+} = createJDAList<CourseModule>(CourseApiResource, CourseModulePrimaryKey);
 
 export type CourseListControllerProps = ReturnType<
   typeof getListControllerPropsType

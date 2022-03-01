@@ -1,47 +1,55 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useAPI} from '../../jda_apis/useAPI';
+import {useCallback, useState} from 'react';
 
-class Wrapper<T> {
-  wrapped(
-    routeName: string,
-    page: number,
-    pageSize: number,
-    setTotalItem: React.Dispatch<React.SetStateAction<number>>,
-  ) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useListItemsControl<T>(routeName, page, pageSize, setTotalItem);
-  }
-}
-export type UseListItemControlType<T> = ReturnType<Wrapper<T>['wrapped']>;
+export type IJDAItemControl<T> = {
+  resetItems: (newItems: T[]) => void;
+  addItems: (newItems: T[]) => void;
+  deleteItems: (removedItems: T[keyof T][]) => void;
+  updateItem: (updatedItem: T) => void;
+};
 
-export function useListItemsControl<T>(
-  routeName: string,
-  page: number,
-  pageSize: number,
-  setTotalItem: React.Dispatch<React.SetStateAction<number>>,
-) {
-  const api = useAPI<T>(routeName);
+export function useItemsControl<T>(itemPrimaryKey: keyof T): {
+  items: T[];
+  itemsControl: IJDAItemControl<T>;
+} {
   const [items, setItems] = useState<T[]>([]);
-  const [firstRender, setFirstRender] = useState(true);
-  const refreshList = useCallback(async () => {
-    //TODO api does not support pageSize
-    const result = await api.getByPage(page);
-    console.log(result);
-    if (result.success) {
-      setItems(_old => {
-        return result.payload.content || [];
+
+  // api for parent component, will forward by ref
+  const resetItems = useCallback((newItems: T[]) => {
+    setItems(newItems);
+  }, []);
+
+  const addItems = useCallback((newItems: T[]) => {
+    setItems(old => {
+      return [...old, ...newItems];
+    });
+  }, []);
+
+  const deleteItems = useCallback(
+    (removedItems: T[keyof T][]) => {
+      setItems(old => {
+        return [...old].filter(t => removedItems.includes(t[itemPrimaryKey]));
       });
-      //TODO api in spring provide totalPage instead of totalItems, need to fix
-      setTotalItem(result.payload.pageCount * pageSize); // isn't correct
-    }
-  }, [api, page, pageSize, setTotalItem]);
+    },
+    [itemPrimaryKey],
+  );
 
-  useEffect(() => {
-    if (firstRender) {
-      refreshList();
-      setFirstRender(false);
-    }
-  }, [refreshList, firstRender]);
+  const updateItem = useCallback(
+    (updatedItem: T) => {
+      setItems(old => {
+        const index = old.findIndex(
+          t => t[itemPrimaryKey] === updatedItem[itemPrimaryKey],
+        );
+        if (index > -1) {
+          const newItems = [...old];
+          newItems[index] = updatedItem;
+          return newItems;
+        } else {
+          return [...old];
+        }
+      });
+    },
+    [itemPrimaryKey],
+  );
 
-  return {items, refreshList};
+  return {items, itemsControl: {resetItems, addItems, deleteItems, updateItem}};
 }

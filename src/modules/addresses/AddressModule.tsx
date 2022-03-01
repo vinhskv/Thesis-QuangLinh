@@ -1,15 +1,32 @@
 import * as React from 'react';
-import {Address, AddressResource} from '../../data_types/Address';
-import GenericModule from '../GenericModule';
-import {AddressFormConfig} from './AddressFormConfig';
-import AddressList from './AddressList';
+import {AddressBasicList, AddressBasicListItem} from '.';
 
 export default function AddressModule() {
   return (
-    <GenericModule<Address>
-      api_resource={AddressResource}
-      formConfig={AddressFormConfig}
-      ListComponent={AddressList}
+    <AddressBasicList
+      data={[
+        {id: '1', name: 'Phu Tho'},
+        {id: '1', name: 'Phu Tho'},
+        {id: '1', name: 'Phu Tho'},
+        {id: '1', name: 'Phu Tho'},
+      ]}
+      ItemView={AddressBasicListItem}
+      itemViewProps={{
+        icon: 'delete',
+        title: item => `${item.name}`,
+      }}
+      onRefresh={() => {
+        console.log('asdfasdf');
+      }}
+      onAddItem={() => {
+        console.log('asdfasdf');
+      }}
+      onChangePage={() => {
+        console.log('asdfasdf');
+      }}
+      onChangePageSize={() => {
+        console.log('asdfasdf');
+      }}
     />
   );
 }

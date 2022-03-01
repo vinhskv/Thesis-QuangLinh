@@ -1,15 +1,15 @@
 import * as React from 'react';
 import {Avatar, IconButton, List} from 'react-native-paper';
 import {StudentListItemControllerProps, withStudentListItemController} from '.';
-import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListActionContext';
+import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListContext';
 
 export function StudentListItem(props: StudentListItemControllerProps) {
   return (
     <List.Item
       left={p => <Avatar.Icon size={30} {...p.style} icon="account" />}
       onPress={() => {
-        if (props.onItemAction) {
-          props.onItemAction(DefaultListItemAction.EDIT);
+        if (props.onListItemAction) {
+          props.onListItemAction(DefaultListItemAction.EDIT);
         }
       }}
       title={`#${props.item.id}  ${props.item.name} - ${
@@ -18,8 +18,8 @@ export function StudentListItem(props: StudentListItemControllerProps) {
       right={p => (
         <IconButton
           onPress={() => {
-            if (props.onItemAction) {
-              props.onItemAction(DefaultListItemAction.DELETE);
+            if (props.onListItemAction) {
+              props.onListItemAction(DefaultListItemAction.DELETE);
             }
           }}
           icon={'delete'}

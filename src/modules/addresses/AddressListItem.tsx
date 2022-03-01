@@ -1,17 +1,17 @@
 import * as React from 'react';
 import {Avatar, IconButton, List} from 'react-native-paper';
-import {AddressListItemControllerProps, withAddressListItemController} from '.';
-import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListActionContext';
+import {IJDAListItemControllerProps} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
+import {Address} from '../../data_types/Address';
 
-function AddressListItem(props: AddressListItemControllerProps) {
+export function AddressListItem(props: IJDAListItemControllerProps<Address>) {
   return (
     <List.Item
       left={p => <Avatar.Icon size={30} {...p.style} icon="home-city" />}
-      onPress={() => props.onItemAction(DefaultListItemAction.EDIT)}
+      onPress={props.onEdit}
       title={`#${props.item.id}  ${props.item.name}`}
       right={p => (
         <IconButton
-          onPress={() => props.onItemAction(DefaultListItemAction.DELETE)}
+          onPress={props.onDelete}
           icon={'delete'}
           {...p}
           color="red"
@@ -20,5 +20,3 @@ function AddressListItem(props: AddressListItemControllerProps) {
     />
   );
 }
-
-export default withAddressListItemController(AddressListItem);

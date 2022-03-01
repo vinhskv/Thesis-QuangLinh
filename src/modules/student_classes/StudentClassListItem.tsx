@@ -4,17 +4,17 @@ import {
   StudentClassListItemControllerProps,
   withStudentClassListItemController,
 } from '.';
-import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListActionContext';
+import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListContext';
 
 export function StudentListItem(props: StudentClassListItemControllerProps) {
   return (
     <List.Item
       left={p => <Avatar.Icon size={30} {...p.style} icon="account" />}
-      onPress={() => props.onItemAction(DefaultListItemAction.SHOW_DETAIL)}
+      onPress={() => props.onListItemAction(DefaultListItemAction.SHOW_DETAIL)}
       title={`#${props.item.id}  ${props.item.name}`}
       right={p => (
         <IconButton
-          onPress={() => props.onItemAction(DefaultListItemAction.DELETE)}
+          onPress={() => props.onListItemAction(DefaultListItemAction.DELETE)}
           icon={'delete'}
           {...p}
           color="red"

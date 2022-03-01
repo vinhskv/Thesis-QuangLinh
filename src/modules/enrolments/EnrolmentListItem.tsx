@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Avatar, IconButton, List} from 'react-native-paper';
 import {withEnrolmentListItemController} from '.';
-import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListActionContext';
+import {DefaultListItemAction} from '../../base/controllers/jda_list_controllers/contexts/ListContext';
 import {IJDAListItemControllerProps} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
 import {Enrolment} from '../../data_types/Enrolment';
 
@@ -11,11 +11,11 @@ export function EnrolmentListItem(
   return (
     <List.Item
       left={p => <Avatar.Icon size={30} {...p.style} icon="account" />}
-      onPress={() => props.onItemAction(DefaultListItemAction.EDIT)}
+      onPress={() => props.onListItemAction(DefaultListItemAction.EDIT)}
       title={`#${props.item.id} ${props.item.courseModule?.name}- ${props.item.student?.name}`}
       right={p => (
         <IconButton
-          onPress={() => props.onItemAction(DefaultListItemAction.DELETE)}
+          onPress={() => props.onListItemAction(DefaultListItemAction.DELETE)}
           icon={'delete'}
           {...p}
           color="red"

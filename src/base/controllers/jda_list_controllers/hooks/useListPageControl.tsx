@@ -1,15 +1,32 @@
-import {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
-export function useListPageControl(totalItems: number, initPageSize?: number) {
+export type IJDAPageControl = {
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setItemPerPage: (_itemPerPage: number) => void;
+  setTotalPage: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export type IJDAPaging = {
+  currentPage: number;
+  pageSize: number;
+  totalPage: number;
+  setItemPerPage: (itemPerPage: number) => void;
+  nextPage: () => void;
+  backPage: () => void;
+  goToPage: (page: number) => void;
+  goToFirstPage: () => void;
+  gotoLastPage: () => void;
+};
+
+export function usePageControl(): {
+  paging: IJDAPaging;
+  pageControl: IJDAPageControl;
+} {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(initPageSize || 10);
+  const [pageSize, setPageSize] = useState<number>(10);
 
-  useEffect(() => {
-    setPageSize(initPageSize || 10);
-    setTotalPage(Math.ceil(totalItems / (initPageSize || 10)));
-  }, [totalItems, initPageSize]);
-
+  //api for wrappedComponent
   const nextPage = useCallback(() => {
     setCurrentPage(Math.min(totalPage, currentPage + 1));
   }, [totalPage, currentPage]);
@@ -39,22 +56,26 @@ export function useListPageControl(totalItems: number, initPageSize?: number) {
     setCurrentPage(totalPage);
   }, [totalPage]);
 
-  const setItemPerPage = useCallback(
-    (_itemPerPage: number) => {
-      setPageSize(Math.max(totalPage, 1));
-    },
-    [totalPage],
-  );
+  const setItemPerPage = useCallback((itemPerPage: number) => {
+    setPageSize(Math.max(itemPerPage, 1));
+  }, []);
 
   return {
-    currentPage,
-    pageSize,
-    totalPage,
-    setItemPerPage,
-    nextPage,
-    backPage,
-    goToPage,
-    goToFirstPage,
-    gotoLastPage,
+    paging: {
+      currentPage,
+      pageSize,
+      totalPage,
+      setItemPerPage,
+      nextPage,
+      backPage,
+      goToPage,
+      goToFirstPage,
+      gotoLastPage,
+    },
+    pageControl: {
+      setCurrentPage,
+      setItemPerPage,
+      setTotalPage,
+    },
   };
 }

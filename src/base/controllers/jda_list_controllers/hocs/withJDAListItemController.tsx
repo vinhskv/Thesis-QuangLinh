@@ -1,31 +1,34 @@
 import React, {ComponentType} from 'react';
-import {
-  DefaultListItemAction,
-  IListActionContext,
-} from '../contexts/ListActionContext';
+import {JDAListContext} from '../contexts/ListContext';
 
-export interface IJDAListItemControllerProps<T, ActionTypes> {
-  item: T;
-  onItemAction: (actionType: ActionTypes, payload?: any) => void;
+export interface IJDABasicListItemAction {
+  onEdit: () => void;
+  onDelete: () => void;
+  onShowDetail: () => void;
 }
-// HOC == high oder component
+
+export interface IJDAListItemControllerProps<T>
+  extends IJDABasicListItemAction {
+  item: T;
+  itemIndex: number;
+}
 
 export function withJDAListItemController<
   T,
-  ActionTypes = DefaultListItemAction,
-  P extends IJDAListItemControllerProps<
-    T,
-    ActionTypes
-  > = IJDAListItemControllerProps<T, ActionTypes>,
->(
-  Component: ComponentType<P>,
-  Context: React.Context<IListActionContext<T, ActionTypes>>,
-) {
-  return (props: Omit<P, 'onItemAction'>) => {
+  P extends IJDAListItemControllerProps<T>,
+>(Component: ComponentType<P>) {
+  return (props: Omit<P, keyof IJDABasicListItemAction>) => {
     return (
-      <Context.Consumer>
-        {v => <Component {...(props as P)} {...v} />}
-      </Context.Consumer>
+      <JDAListContext.Consumer>
+        {v => (
+          <Component
+            {...(props as P)}
+            onDelete={() => v.onDelete(props.itemIndex)}
+            onEdit={() => v.onEdit(props.itemIndex)}
+            onShowDetail={() => v.onShowDetail(props.itemIndex)}
+          />
+        )}
+      </JDAListContext.Consumer>
     );
   };
 }

@@ -1,65 +1,59 @@
-import React, {ComponentType, useState} from 'react';
+import React, {ComponentType, forwardRef, useImperativeHandle} from 'react';
+import {JDAListContext} from '../contexts/ListContext';
 import {
-  DefaultListItemAction,
-  IListActionContext,
-} from '../contexts/ListActionContext';
+  IJDAListItemActionsProps,
+  useItemActions,
+} from '../hooks/useItemsActions';
 import {useListCheckControl} from '../hooks/useListCheckControl';
-import {
-  UseListItemControlType,
-  useListItemsControl,
-} from '../hooks/useListItemsControl';
-import {useListPageControl} from '../hooks/useListPageControl';
+import {IJDAItemControl, useItemsControl} from '../hooks/useListItemsControl';
+import {IJDAPageControl, usePageControl} from '../hooks/useListPageControl';
 
-export interface IJDAListControllerProps<T, ActionTypes>
-  extends IListActionContext<T, ActionTypes> {
-  initPageSize?: number;
-  totalItem: number;
-  itemsControl: UseListItemControlType<T>;
-  pageControl: ReturnType<typeof useListPageControl>;
+interface IJDAListAPI {
+  itemsControl: ReturnType<typeof useItemsControl>;
+  paging: ReturnType<typeof usePageControl>;
   listCheckControl: ReturnType<typeof useListCheckControl>;
+}
+
+export interface IJDAListControllerProps<T>
+  extends IJDAListAPI,
+    IJDAListItemActionsProps<T> {
+  onRefresh: () => void;
+  onAddItem: () => void;
+  onChangePage: (page: number) => void;
+  onChangePageSize: (pageSize: number) => void;
+}
+
+export interface IJDAListRef<T> {
+  itemsControl: IJDAItemControl<T>;
+  pageControl: IJDAPageControl;
 }
 
 export function withJDAListController<
   T,
-  ActionTypes = DefaultListItemAction,
-  P extends IJDAListControllerProps<T, ActionTypes> = IJDAListControllerProps<
-    T,
-    ActionTypes
-  >,
->(
-  resourceName: string,
-  idField: keyof T,
-  Component: ComponentType<P>,
-  context: React.Context<IListActionContext<T, ActionTypes>>,
-) {
-  return (
-    props: Omit<
-      P,
-      'pageControl' | 'listCheckControl' | 'totalItem' | 'itemsControl'
-    >,
-  ) => {
-    const [totalItem, setTotalItem] = useState<number>(0);
-    const pageControl = useListPageControl(totalItem, props.initPageSize);
-    const itemsControl = useListItemsControl<T>(
-      resourceName,
-      pageControl.currentPage,
-      pageControl.pageSize,
-      setTotalItem,
-    );
-    const listCheckControl = useListCheckControl<T>(
-      idField,
-      itemsControl.items,
-    );
-    const ContextProvider = context.Provider;
-    return (
-      <ContextProvider value={{onItemAction: props.onItemAction}}>
-        <Component
-          {...(props as P)}
-          pageControl={pageControl}
-          listCheckControl={listCheckControl}
-          itemsControl={itemsControl}
-        />
-      </ContextProvider>
-    );
-  };
+  P extends IJDAListControllerProps<T> = IJDAListControllerProps<T>,
+>(itemPrimaryKey: keyof T, Component: ComponentType<P>) {
+  return forwardRef<IJDAListRef<T>, Omit<P, keyof IJDAListAPI>>(
+    (props, ref) => {
+      const {paging, pageControl} = usePageControl();
+      const {items, itemsControl} = useItemsControl<T>(itemPrimaryKey);
+      const listCheckControl = useListCheckControl<T>(itemPrimaryKey, items);
+      const itemActionsHandler = useItemActions(items, {...props});
+
+      // export api via ref for control from ParrentComponent
+      useImperativeHandle(ref, () => ({
+        itemsControl,
+        pageControl,
+      }));
+      return (
+        <JDAListContext.Provider value={itemActionsHandler}>
+          <Component
+            {...(props as P)}
+            items
+            paging={paging}
+            listCheckControl={listCheckControl}
+          />
+        </JDAListContext.Provider>
+      );
+    },
+  );
 }

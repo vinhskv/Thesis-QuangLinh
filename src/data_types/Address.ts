@@ -6,8 +6,8 @@ export interface Address {
   student?: Student;
 }
 
-export const AddressKeyField: keyof Address = 'id';
-export const AddressResource: string = 'addresses';
+export const AddressPrimaryKey: keyof Address = 'id';
+export const AddressApiResource: string = 'addresses';
 export const AddressFieldLabel: Record<keyof Address, string> = {
   id: 'ID',
   name: 'City name',

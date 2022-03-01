@@ -91,11 +91,19 @@ export function useAPI<T, POST_T = T>(
   );
   const deleteById = useCallback(
     async (id: string | number) => {
-      const res = await axios.delete<T, AxiosResponse<T>>(
-        `/${routeName}/${id}`,
-        axiosConfigs,
-      );
-      return res.data;
+      try {
+        const res = await axios.delete<T, AxiosResponse<T>>(
+          `/${routeName}/${id}`,
+          axiosConfigs,
+        );
+        console.log(res.data);
+        return successWithData('Deleted');
+      } catch (error) {
+        console.log(error);
+        return failWithError({
+          code: 100,
+        });
+      }
     },
     [routeName],
   );
