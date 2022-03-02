@@ -28,9 +28,18 @@ export const AddressBasicListItem = withJDAListItemController<
   ListItemProps
 >(JDABasicListItem);
 
-type ListProps = IJDABasicListProps<Address, ListItemProps>;
-export const AddressBasicList = withJDAListController<Address, ListProps>(
+type ListProps = IJDABasicListProps<Address>;
+export const AddressBasicList = withJDAListController<
+  Address,
+  ListItemProps,
+  ListProps
+>(
   JDABasicList,
+  AddressBasicListItem,
+  {
+    icon: 'home',
+    title: address => `${address.name}`,
+  },
   AddressPrimaryKey,
 );
 
@@ -39,10 +48,10 @@ export const AddressBasicForm = withJDAFormControler<Address, FormProps>(
   JDABasicForm,
 );
 
-type ModuleProps = IJDABasicModuleProps<Address, ListProps, FormProps>;
 export const AddressBasicModule = withModuleController<
   Address,
+  ListItemProps,
   ListProps,
   FormProps,
-  ModuleProps
+  IJDABasicModuleProps
 >(JDABasicModule, AddressBasicList, AddressBasicForm, AddressApiResource);

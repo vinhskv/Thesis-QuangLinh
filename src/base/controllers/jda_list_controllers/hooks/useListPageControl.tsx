@@ -1,12 +1,12 @@
 import React, {useCallback, useState} from 'react';
 
-export type IJDAPageControl = {
+export interface IJDAPageControl {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setItemPerPage: (_itemPerPage: number) => void;
   setTotalPage: React.Dispatch<React.SetStateAction<number>>;
-};
+}
 
-export type IJDAPaging = {
+export interface IJDAPaging {
   currentPage: number;
   pageSize: number;
   totalPage: number;
@@ -16,7 +16,7 @@ export type IJDAPaging = {
   goToPage: (page: number) => void;
   goToFirstPage: () => void;
   gotoLastPage: () => void;
-};
+}
 
 export function usePageControl(): {
   paging: IJDAPaging;

@@ -4,18 +4,30 @@ import {
   IJDAListItemActionsProps,
   useItemActions,
 } from '../hooks/useItemsActions';
-import {useListCheckControl} from '../hooks/useListCheckControl';
+import {
+  JDAListCheckControl,
+  useListCheckControl,
+} from '../hooks/useListCheckControl';
 import {IJDAItemControl, useItemsControl} from '../hooks/useListItemsControl';
-import {IJDAPageControl, usePageControl} from '../hooks/useListPageControl';
+import {
+  IJDAPageControl,
+  IJDAPaging,
+  usePageControl,
+} from '../hooks/useListPageControl';
+import {
+  IJDAListItemControllerProps,
+  JDAControlledListItemComponent,
+} from './withJDAListItemController';
 
-interface IJDAListAPI {
-  itemsControl: ReturnType<typeof useItemsControl>;
-  paging: ReturnType<typeof usePageControl>;
-  listCheckControl: ReturnType<typeof useListCheckControl>;
+interface IJDAListAPI<T> {
+  // eslint-disable-next-line no-undef
+  itemComponents: JSX.Element[];
+  checkedItems: T[];
+  paging: IJDAPaging;
 }
 
 export interface IJDAListControllerProps<T>
-  extends IJDAListAPI,
+  extends IJDAListAPI<T>,
     IJDAListItemActionsProps<T> {
   onRefresh: () => void;
   onAddItem: () => void;
@@ -26,31 +38,48 @@ export interface IJDAListControllerProps<T>
 export interface IJDAListRef<T> {
   itemsControl: IJDAItemControl<T>;
   pageControl: IJDAPageControl;
+  checkControl: JDAListCheckControl;
 }
 
-export function withJDAListController<T, P extends IJDAListControllerProps<T>>(
-  Component: ComponentType<P>,
+export function withJDAListController<
+  T,
+  ItemProps extends IJDAListItemControllerProps<T>,
+  ListProps extends IJDAListControllerProps<T>,
+>(
+  Component: ComponentType<ListProps>,
+  ItemComponent: JDAControlledListItemComponent<T, ItemProps>,
+  ItemComponentProps: Omit<ItemProps, keyof IJDAListItemControllerProps<T>>,
   itemPrimaryKey: keyof T,
 ) {
-  return forwardRef<IJDAListRef<T>, Omit<P, keyof IJDAListAPI>>(
+  return forwardRef<IJDAListRef<T>, Omit<ListProps, keyof IJDAListAPI<T>>>(
     (props, ref) => {
       const {paging, pageControl} = usePageControl();
       const {items, itemsControl} = useItemsControl<T>(itemPrimaryKey);
-      const listCheckControl = useListCheckControl<T>(itemPrimaryKey, items);
+      const {checkedItems, checkControl} = useListCheckControl<T>(
+        itemPrimaryKey,
+        items,
+      );
       const itemActionsHandler = useItemActions(items, {...props});
 
       // export api via ref for control from ParrentComponent
       useImperativeHandle(ref, () => ({
         itemsControl,
         pageControl,
+        checkControl,
       }));
       return (
         <JDAListContext.Provider value={itemActionsHandler}>
           <Component
-            {...(props as P)}
-            items
+            {...(props as ListProps)}
+            itemComponents={items.map((item, index) => (
+              <ItemComponent
+                {...(ItemComponentProps as ItemProps)}
+                item={item}
+                itemIndex={index}
+              />
+            ))}
             paging={paging}
-            listCheckControl={listCheckControl}
+            checkedItems={checkedItems}
           />
         </JDAListContext.Provider>
       );
@@ -59,13 +88,28 @@ export function withJDAListController<T, P extends IJDAListControllerProps<T>>(
 }
 
 //Export componentType
-class TypeUltil<T, P extends IJDAListControllerProps<T>> {
+class TypeUltil<
+  T,
+  ItemProps extends IJDAListItemControllerProps<T>,
+  ListProps extends IJDAListControllerProps<T>,
+> {
   //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
-  controlled = (Component: ComponentType<P>, itemPrimaryKey: keyof T) =>
-    withJDAListController<T, P>(Component, itemPrimaryKey);
+  controlled = (
+    Component: ComponentType<ListProps>,
+    ItemComponent: JDAControlledListItemComponent<T, ItemProps>,
+    ItemComponentProps: Omit<ItemProps, keyof IJDAListItemControllerProps<T>>,
+    itemPrimaryKey: keyof T,
+  ) =>
+    withJDAListController<T, ItemProps, ListProps>(
+      Component,
+      ItemComponent,
+      ItemComponentProps,
+      itemPrimaryKey,
+    );
 }
 
 export type JDAControlledListComponent<
   T,
-  P extends IJDAListControllerProps<T>,
-> = ReturnType<TypeUltil<T, P>['controlled']>;
+  ItemProps extends IJDAListItemControllerProps<T>,
+  ListProps extends IJDAListControllerProps<T>,
+> = ReturnType<TypeUltil<T, ItemProps, ListProps>['controlled']>;

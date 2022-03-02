@@ -10,39 +10,30 @@ import {
   IJDAListRef,
   JDAControlledListComponent,
 } from '../jda_list_controllers/hocs/withJDAListController';
+import {IJDAListItemControllerProps} from '../jda_list_controllers/hocs/withJDAListItemController';
 
-export interface IJDAModuleAPI<
-  T,
-  ListProps extends IJDAListControllerProps<T>,
-  FormProps extends IJDAFormControlerProps<T>,
-> {
-  ListView: ComponentType<JDAControlledListComponent<T, ListProps>>;
-  FormView: ComponentType<JDAControlledFormComponent<T, FormProps>>;
+export interface IJDAModuleAPI {
+  ListView: React.ReactNode;
+  FormView: React.ReactNode;
   listRouteName: string;
   formRouteName: string;
 }
 
-export interface IJDAModuleControllerProps<
-  T,
-  ListProps extends IJDAListControllerProps<T>,
-  FormProps extends IJDAFormControlerProps<T>,
-> extends IJDAModuleAPI<T, ListProps, FormProps> {
-  listControlProps: JDAControlledListComponent<T, ListProps>;
-  formControlProps: JDAControlledFormComponent<T, FormProps>;
-}
+export interface IJDAModuleControllerProps extends IJDAModuleAPI {} // reversed for other logic
 
 export function withModuleController<
   T,
+  ListItemProps extends IJDAListItemControllerProps<T>,
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
-  P extends IJDAModuleControllerProps<T, ListProps, FormProps>,
+  P extends IJDAModuleControllerProps,
 >(
   Component: ComponentType<P>,
-  ListView: ComponentType<JDAControlledListComponent<T, ListProps>>,
-  FormView: ComponentType<JDAControlledFormComponent<T, FormProps>>,
+  ListView: JDAControlledListComponent<T, ListItemProps, ListProps>,
+  FormView: JDAControlledFormComponent<T, FormProps>,
   apiResouce: string,
 ) {
-  return (props: Omit<P, keyof IJDAModuleAPI<T, ListProps, FormProps>>) => {
+  return (props: Omit<P, keyof IJDAModuleAPI>) => {
     const [formMode, setFormMode] = useState<'create' | 'update'>('create');
     const api = useAPI<T>(apiResouce);
     const listRef = useRef<IJDAListRef<T>>();
@@ -74,6 +65,8 @@ export function withModuleController<
         if (res.success) {
           const {content, pageCount, currentPage} = res.payload;
           if (content) {
+            console.log('++++++REF++++++', listRef.current);
+
             listRef.current?.itemsControl.resetItems(content);
           }
           if (pageCount) {
@@ -86,37 +79,30 @@ export function withModuleController<
       },
       [api],
     );
-    const handleRefresh = handleChangePage(0);
+    const handleRefresh = () => handleChangePage(0);
     const handleChangePageSize = useCallback((_pageSize: number) => {}, []);
     const handleShowDetail = useCallback((_item: T) => {}, []);
 
     ///////// Render
-    const ListView2 = () => {
-      return (
-        <ListView
-          {...props.listControlProps}
-          ref={listRef}
-          onAddItem={handleAddItem}
-          onShowDetail={handleShowDetail}
-          onEditItem={handleEditItem}
-          onRefresh={handleRefresh}
-          onDeleteItems={handleDeleteItems}
-          onChangePage={handleChangePage}
-          onChangePageSize={handleChangePageSize}
-        />
-      );
-    };
-    const FormView2 = () => {
-      return (
-        <FormView {...props.formControlProps} onSubmit={handleFormSubmit} />
-      );
-    };
     return (
       <Component
         {...(props as P)}
-        ListView={ListView2}
+        ListView={
+          <ListView
+            {...({
+              ref: listRef,
+              onAddItem: handleAddItem,
+              onShowDetail: handleShowDetail,
+              onEditItem: handleEditItem,
+              onRefresh: handleRefresh,
+              onDeleteItems: handleDeleteItems,
+              onChangePage: handleChangePage,
+              onChangePageSize: handleChangePageSize,
+            } as any)}
+          />
+        }
         listRouteName={`List_${apiResouce}`}
-        FormView={FormView2}
+        FormView={<FormView {...({onSubmit: handleFormSubmit} as any)} />}
         formRouteName={`Form_${apiResouce}`}
       />
     );

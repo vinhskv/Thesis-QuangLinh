@@ -1,25 +1,47 @@
-import {createJDAList} from '../../base/creators/createJDAList';
+import {withJDAFormControler} from '../../base/controllers/jda_form_controllers/withFormController';
+import {withJDAListController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListController';
+import {withJDAListItemController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
+import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
+import JDABasicForm, {
+  IJDABasicFormProps,
+} from '../../base/views/jda_form/JDAForm';
+import JDABasicList, {
+  IJDABasicListProps,
+} from '../../base/views/jda_list/JDABasicList';
+import {
+  IJDABasicListItemProps,
+  JDABasicListItem,
+} from '../../base/views/jda_list/JDABasicListItem';
+import {
+  IJDABasicModuleProps,
+  JDABasicModule,
+} from '../../base/views/jda_module/JDABasicModule';
 import {
   Enrolment,
-  EnrolmentPrimaryKey,
   EnrolmentApiResource,
+  EnrolmentPrimaryKey,
 } from '../../data_types/Enrolment';
 
-const {
-  withListController,
-  withListItemController,
-  getListControllerPropsType,
-  getListItemControllerPropsType,
-} = createJDAList<Enrolment>(EnrolmentApiResource, EnrolmentPrimaryKey);
+type ListItemProps = IJDABasicListItemProps<Enrolment>;
+export const EnrolmentBasicListItem = withJDAListItemController<
+  Enrolment,
+  ListItemProps
+>(JDABasicListItem);
 
-export type EnrolmentListControllerProps = ReturnType<
-  typeof getListControllerPropsType
->;
+type ListProps = IJDABasicListProps<Enrolment, ListItemProps>;
+export const EnrolmentBasicList = withJDAListController<Enrolment, ListProps>(
+  JDABasicList,
+  EnrolmentPrimaryKey,
+);
 
-export type EnrolmentListItemControllerProps = ReturnType<
-  typeof getListItemControllerPropsType
->;
+type FormProps = IJDABasicFormProps<Enrolment>;
+export const EnrolmentBasicForm = withJDAFormControler<Enrolment, FormProps>(
+  JDABasicForm,
+);
 
-export const withEnrolmentListController = withListController;
-
-export const withEnrolmentListItemController = withListItemController;
+export const EnrolmentBasicModule = withModuleController<
+  Enrolment,
+  ListProps,
+  FormProps,
+  IJDABasicModuleProps
+>(JDABasicModule, EnrolmentBasicList, EnrolmentBasicForm, EnrolmentApiResource);

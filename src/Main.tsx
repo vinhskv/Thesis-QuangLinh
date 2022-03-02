@@ -1,15 +1,6 @@
 import * as React from 'react';
 import JDADrawer from './base/views/jda_drawer/JDADrawer';
-import {
-  AddressBasicList,
-  AddressBasicModule,
-  AddressBasicForm,
-} from './modules/addresses';
-import {AddressFormConfig} from './modules/addresses/AddressFormConfig';
-import CourseModule from './modules/courses/CourseModule';
-import EnrolmentModule from './modules/enrolments/EnrolmentModule';
-import StudentModule from './modules/students/StudentModule';
-import StudentClassModule from './modules/student_classes/StudentClassModule';
+import {AddressBasicListItem, AddressBasicModule} from './modules/addresses';
 
 export default class MainScreen extends React.Component {
   public render() {
@@ -17,32 +8,37 @@ export default class MainScreen extends React.Component {
       <JDADrawer
         initialRoute={'Addresses'}
         routes={[
-          {component: <StudentModule />, name: 'Student'},
           {
-            component: (
-              <AddressBasicModule
-                ListView={AddressBasicList}
-                listControlProps={{}}
-                FormView={AddressBasicForm}
-                formControlProps={{
-                  formConfig: AddressFormConfig,
-                }}
-              />
-            ),
+            component: <AddressBasicModule />,
             name: 'Addresses',
           },
           {
-            component: <EnrolmentModule />,
-            name: 'Enrolments',
+            component: (
+              <AddressBasicListItem
+                title={a => a.name}
+                icon={'home'}
+                item={{id: '1', name: 'Linh'}}
+                itemIndex={0}
+              />
+            ),
+            name: 'TEST',
           },
-          {
-            component: <CourseModule />,
-            name: 'Courses',
-          },
-          {
-            component: <StudentClassModule />,
-            name: 'Student Class',
-          },
+          // {
+          //   component: <StudentBasicModule />,
+          //   name: 'Student',
+          // },
+          // {
+          //   component: <EnrolmentBasicModule />,
+          //   name: 'Enrolments',
+          // },
+          // {
+          //   component: <CourseModuleBasicModule />,
+          //   name: 'Courses',
+          // },
+          // {
+          //   component: <StudentClassBasicModule />,
+          //   name: 'Student Class',
+          // },
         ]}
       />
     );

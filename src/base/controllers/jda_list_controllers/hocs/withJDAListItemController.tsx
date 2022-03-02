@@ -32,3 +32,15 @@ export function withJDAListItemController<
     );
   };
 }
+
+//Export componentType
+class TypeUltil<T, P extends IJDAListItemControllerProps<T>> {
+  //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
+  controlled = (Component: ComponentType<P>) =>
+    withJDAListItemController<T, P>(Component);
+}
+
+export type JDAControlledListItemComponent<
+  T,
+  P extends IJDAListItemControllerProps<T>,
+> = ReturnType<TypeUltil<T, P>['controlled']>;

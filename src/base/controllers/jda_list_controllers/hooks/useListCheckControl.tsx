@@ -35,9 +35,18 @@ export function useListCheckControl<T>(keyField: string | keyof T, items: T[]) {
   }, []);
   return {
     checkedItems,
-    check,
-    checkAll,
-    unCheck,
-    unCheckAll,
+    checkControl: {
+      check,
+      checkAll,
+      unCheck,
+      unCheckAll,
+    },
   };
+}
+
+export interface JDAListCheckControl {
+  check: (id: string | number) => void;
+  checkAll: () => void;
+  unCheck: (id: string | number) => void;
+  unCheckAll: () => void;
 }

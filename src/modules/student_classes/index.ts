@@ -1,25 +1,53 @@
-import {createJDAList} from '../../base/creators/createJDAList';
+import {withJDAFormControler} from '../../base/controllers/jda_form_controllers/withFormController';
+import {withJDAListController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListController';
+import {withJDAListItemController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
+import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
+import JDABasicForm, {
+  IJDABasicFormProps,
+} from '../../base/views/jda_form/JDAForm';
+import JDABasicList, {
+  IJDABasicListProps,
+} from '../../base/views/jda_list/JDABasicList';
+import {
+  IJDABasicListItemProps,
+  JDABasicListItem,
+} from '../../base/views/jda_list/JDABasicListItem';
+import {
+  IJDABasicModuleProps,
+  JDABasicModule,
+} from '../../base/views/jda_module/JDABasicModule';
 import {
   StudentClass,
-  StudentClassPrimaryKey,
   StudentClassApiResource,
+  StudentClassPrimaryKey,
 } from '../../data_types/StudentClass';
 
-const {
-  withListController,
-  withListItemController,
-  getListControllerPropsType,
-  getListItemControllerPropsType,
-} = createJDAList<StudentClass>(StudentClassApiResource, StudentClassPrimaryKey);
+type ListItemProps = IJDABasicListItemProps<StudentClass>;
+export const StudentClassBasicListItem = withJDAListItemController<
+  StudentClass,
+  ListItemProps
+>(JDABasicListItem);
 
-export type StudentClassListControllerProps = ReturnType<
-  typeof getListControllerPropsType
->;
+type ListProps = IJDABasicListProps<StudentClass, ListItemProps>;
+export const StudentClassBasicList = withJDAListController<
+  StudentClass,
+  ListProps
+>(JDABasicList, StudentClassPrimaryKey);
 
-export type StudentClassListItemControllerProps = ReturnType<
-  typeof getListItemControllerPropsType
->;
+type FormProps = IJDABasicFormProps<StudentClass>;
+export const StudentClassBasicForm = withJDAFormControler<
+  StudentClass,
+  FormProps
+>(JDABasicForm);
 
-export const withStudentClassListController = withListController;
-
-export const withStudentClassListItemController = withListItemController;
+export const StudentClassBasicModule = withModuleController<
+  StudentClass,
+  ListProps,
+  FormProps,
+  IJDABasicModuleProps
+>(
+  JDABasicModule,
+  StudentClassBasicList,
+  StudentClassBasicForm,
+  StudentClassApiResource,
+);
