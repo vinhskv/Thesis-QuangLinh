@@ -5,11 +5,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {IJDAFormControlerProps} from '../../controllers/jda_form_controllers/withFormController';
 
-export interface IJDAFormProps<T> extends IJDAFormControlerProps<T> {
-  initialValue?: T;
-  // eslint-disable-next-line no-undef
-  children: JSX.Element[];
-  submitText?: string;
+export interface IJDABasicFormProps<T> extends IJDAFormControlerProps<T> {
+  formConfig: Record<keyof T, React.ReactNode>;
 }
 
 const styles = StyleSheet.create({
@@ -22,11 +19,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function JDAForm<T>(props: IJDAFormProps<T>) {
+export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
-        {props.children}
+        {Object.keys(props.formConfig).map(key => (
+          <React.Fragment key={key}>
+            {props.formConfig[key as keyof typeof props.formConfig]}
+          </React.Fragment>
+        ))}
         <Button style={styles.submit_button} onPress={props.submit}>
           Submit
         </Button>

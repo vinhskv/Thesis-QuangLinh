@@ -1,6 +1,11 @@
 import * as React from 'react';
 import JDADrawer from './base/views/jda_drawer/JDADrawer';
-import AddressModule from './modules/addresses/AddressModule';
+import {
+  AddressBasicList,
+  AddressBasicModule,
+  AddressBasicForm,
+} from './modules/addresses';
+import {AddressFormConfig} from './modules/addresses/AddressFormConfig';
 import CourseModule from './modules/courses/CourseModule';
 import EnrolmentModule from './modules/enrolments/EnrolmentModule';
 import StudentModule from './modules/students/StudentModule';
@@ -14,7 +19,16 @@ export default class MainScreen extends React.Component {
         routes={[
           {component: <StudentModule />, name: 'Student'},
           {
-            component: <AddressModule />,
+            component: (
+              <AddressBasicModule
+                ListView={AddressBasicList}
+                listControlProps={{}}
+                FormView={AddressBasicForm}
+                formControlProps={{
+                  formConfig: AddressFormConfig,
+                }}
+              />
+            ),
             name: 'Addresses',
           },
           {

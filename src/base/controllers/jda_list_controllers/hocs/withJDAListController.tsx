@@ -28,10 +28,10 @@ export interface IJDAListRef<T> {
   pageControl: IJDAPageControl;
 }
 
-export function withJDAListController<
-  T,
-  P extends IJDAListControllerProps<T> = IJDAListControllerProps<T>,
->(itemPrimaryKey: keyof T, Component: ComponentType<P>) {
+export function withJDAListController<T, P extends IJDAListControllerProps<T>>(
+  Component: ComponentType<P>,
+  itemPrimaryKey: keyof T,
+) {
   return forwardRef<IJDAListRef<T>, Omit<P, keyof IJDAListAPI>>(
     (props, ref) => {
       const {paging, pageControl} = usePageControl();
@@ -57,3 +57,15 @@ export function withJDAListController<
     },
   );
 }
+
+//Export componentType
+class TypeUltil<T, P extends IJDAListControllerProps<T>> {
+  //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
+  controlled = (Component: ComponentType<P>, itemPrimaryKey: keyof T) =>
+    withJDAListController<T, P>(Component, itemPrimaryKey);
+}
+
+export type JDAControlledListComponent<
+  T,
+  P extends IJDAListControllerProps<T>,
+> = ReturnType<TypeUltil<T, P>['controlled']>;

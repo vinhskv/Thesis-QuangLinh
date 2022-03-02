@@ -1,29 +1,34 @@
 import * as React from 'react';
 import {ComponentType, useCallback, useRef, useState} from 'react';
 import {useAPI} from '../jda_apis/useAPI';
-import {IJDAFormControlerProps} from '../jda_form_controllers/withFormController';
+import {
+  IJDAFormControlerProps,
+  JDAControlledFormComponent,
+} from '../jda_form_controllers/withFormController';
 import {
   IJDAListControllerProps,
   IJDAListRef,
+  JDAControlledListComponent,
 } from '../jda_list_controllers/hocs/withJDAListController';
 
-// export interface IJDAModuleAPI<
-//   T,
-//   ListProps extends IJDAListControllerProps<T>,
-//   FormProps extends IJDAFormControlerProps<T>,
-// > {
-
-// }
+export interface IJDAModuleAPI<
+  T,
+  ListProps extends IJDAListControllerProps<T>,
+  FormProps extends IJDAFormControlerProps<T>,
+> {
+  ListView: ComponentType<JDAControlledListComponent<T, ListProps>>;
+  FormView: ComponentType<JDAControlledFormComponent<T, FormProps>>;
+  listRouteName: string;
+  formRouteName: string;
+}
 
 export interface IJDAModuleControllerProps<
   T,
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
-> {
-  ListView: React.ComponentType<ListProps>;
-  FormView: React.ComponentType<FormProps>;
-  listControlProps: ListProps;
-  formControlProps: FormProps;
+> extends IJDAModuleAPI<T, ListProps, FormProps> {
+  listControlProps: JDAControlledListComponent<T, ListProps>;
+  formControlProps: JDAControlledFormComponent<T, FormProps>;
 }
 
 export function withModuleController<
@@ -31,10 +36,15 @@ export function withModuleController<
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
   P extends IJDAModuleControllerProps<T, ListProps, FormProps>,
->(Component: ComponentType<P>, routeName: string) {
-  return (props: P) => {
+>(
+  Component: ComponentType<P>,
+  ListView: ComponentType<JDAControlledListComponent<T, ListProps>>,
+  FormView: ComponentType<JDAControlledFormComponent<T, FormProps>>,
+  apiResouce: string,
+) {
+  return (props: Omit<P, keyof IJDAModuleAPI<T, ListProps, FormProps>>) => {
     const [formMode, setFormMode] = useState<'create' | 'update'>('create');
-    const api = useAPI<T>(routeName);
+    const api = useAPI<T>(apiResouce);
     const listRef = useRef<IJDAListRef<T>>();
 
     /////////// Connect List and Form to API
@@ -43,7 +53,6 @@ export function withModuleController<
         switch (formMode) {
           case 'create':
             break;
-
           case 'update':
             break;
         }
@@ -78,13 +87,13 @@ export function withModuleController<
       [api],
     );
     const handleRefresh = handleChangePage(0);
-    const handleChangePageSize = useCallback(() => {}, []);
+    const handleChangePageSize = useCallback((_pageSize: number) => {}, []);
     const handleShowDetail = useCallback((_item: T) => {}, []);
 
     ///////// Render
-    const ListView = () => {
+    const ListView2 = () => {
       return (
-        <props.ListView
+        <ListView
           {...props.listControlProps}
           ref={listRef}
           onAddItem={handleAddItem}
@@ -97,16 +106,19 @@ export function withModuleController<
         />
       );
     };
-    const FormView = () => {
+    const FormView2 = () => {
       return (
-        <props.FormView
-          {...props.formControlProps}
-          onSubmit={handleFormSubmit}
-        />
+        <FormView {...props.formControlProps} onSubmit={handleFormSubmit} />
       );
     };
     return (
-      <Component {...(props as P)} ListView={ListView} FormView={FormView} />
+      <Component
+        {...(props as P)}
+        ListView={ListView2}
+        listRouteName={`List_${apiResouce}`}
+        FormView={FormView2}
+        formRouteName={`Form_${apiResouce}`}
+      />
     );
   };
 }

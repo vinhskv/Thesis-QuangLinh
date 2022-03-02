@@ -1,9 +1,9 @@
 import {useCallback} from 'react';
 
 export interface IJDAListItemActionsProps<T> {
-  onShowDetail?: (item: T) => void;
-  onDeleteItems?: (items: T[]) => void;
-  onEditItem?: (item: T) => void;
+  onShowDetail?: (item: T) => Promise<void>;
+  onDeleteItems?: (items: T[]) => Promise<void>;
+  onEditItem?: (item: T) => Promise<void>;
 }
 
 export function useItemActions<T>(
