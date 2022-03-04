@@ -6,7 +6,10 @@ import {
   CourseModuleFieldLabel,
 } from '../../data_types/CourseModule';
 
-export const CourseFormConfig: Record<keyof CourseModule, React.ReactNode> = {
+export const CourseModuleFormConfig: Record<
+  keyof CourseModule,
+  React.ReactNode
+> = {
   id: <StringInput name="id" label={CourseModuleFieldLabel.id} />,
   name: <StringInput name="name" label={CourseModuleFieldLabel.name} />,
   code: <StringInput name="code" label={CourseModuleFieldLabel.code} />,

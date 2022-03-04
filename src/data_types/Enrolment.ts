@@ -11,6 +11,7 @@ export interface Enrolment {
 }
 export const EnrolmentPrimaryKey: keyof Enrolment = 'id';
 export const EnrolmentApiResource: string = 'enrolments';
+export const EnrolmentModuleName: string = 'Enrolments';
 export const EnrolmentFieldLabel: Record<keyof Enrolment, string> = {
   id: 'ID',
   student: 'Student',

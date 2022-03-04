@@ -4,7 +4,7 @@ import {withJDAListItemController} from '../../base/controllers/jda_list_control
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
-} from '../../base/views/jda_form/JDAForm';
+} from '../../base/views/jda_form/JDABasicForm';
 import JDABasicList, {
   IJDABasicListProps,
 } from '../../base/views/jda_list/JDABasicList';
@@ -21,6 +21,7 @@ import {
   StudentClassApiResource,
   StudentClassPrimaryKey,
 } from '../../data_types/StudentClass';
+import {StudentClassFormConfig} from './StudentClassFormConfig';
 
 type ListItemProps = IJDABasicListItemProps<StudentClass>;
 export const StudentClassBasicListItem = withJDAListItemController<
@@ -28,20 +29,30 @@ export const StudentClassBasicListItem = withJDAListItemController<
   ListItemProps
 >(JDABasicListItem);
 
-type ListProps = IJDABasicListProps<StudentClass, ListItemProps>;
+type ListProps = IJDABasicListProps<StudentClass>;
 export const StudentClassBasicList = withJDAListController<
   StudentClass,
+  ListItemProps,
   ListProps
->(JDABasicList, StudentClassPrimaryKey);
+>(
+  JDABasicList,
+  StudentClassBasicListItem,
+  {
+    icon: 'home',
+    title: studentClass => `${studentClass.name}`,
+  },
+  StudentClassPrimaryKey,
+);
 
 type FormProps = IJDABasicFormProps<StudentClass>;
 export const StudentClassBasicForm = withJDAFormControler<
   StudentClass,
   FormProps
->(JDABasicForm);
+>(JDABasicForm, StudentClassFormConfig);
 
 export const StudentClassBasicModule = withModuleController<
   StudentClass,
+  ListItemProps,
   ListProps,
   FormProps,
   IJDABasicModuleProps

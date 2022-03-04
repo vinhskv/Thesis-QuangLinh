@@ -1,14 +1,15 @@
 import {useCallback} from 'react';
 
 export interface IJDAListItemActionsProps<T> {
-  onShowDetail?: (item: T) => Promise<void>;
-  onDeleteItems?: (items: T[]) => Promise<void>;
+  onShowDetail?: (item: T[keyof T]) => Promise<void>;
+  onDeleteItems?: (items: T[keyof T][]) => Promise<void>;
   onEditItem?: (item: T) => Promise<void>;
 }
 
 export function useItemActions<T>(
   items: T[],
   handler: IJDAListItemActionsProps<T>,
+  primaryKey: keyof T,
 ) {
   const onEdit = useCallback(
     (index: number) => {
@@ -23,18 +24,18 @@ export function useItemActions<T>(
       console.log('delete', index);
 
       if (handler.onDeleteItems && items[index]) {
-        handler.onDeleteItems([items[index]]);
+        handler.onDeleteItems([items[index][primaryKey]]);
       }
     },
-    [items, handler],
+    [handler, items, primaryKey],
   );
   const onShowDetail = useCallback(
     (index: number) => {
       if (handler.onShowDetail && items[index]) {
-        handler.onShowDetail(items[index]);
+        handler.onShowDetail(items[index][primaryKey]);
       }
     },
-    [handler, items],
+    [handler, items, primaryKey],
   );
   return {onEdit, onDelete, onShowDetail};
 }

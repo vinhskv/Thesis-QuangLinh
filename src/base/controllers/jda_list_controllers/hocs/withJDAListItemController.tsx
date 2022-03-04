@@ -1,14 +1,13 @@
 import React, {ComponentType} from 'react';
 import {JDAListContext} from '../contexts/ListContext';
 
-export interface IJDABasicListItemAction {
+export interface IJDAListItemAPI {
   onEdit: () => void;
   onDelete: () => void;
   onShowDetail: () => void;
 }
 
-export interface IJDAListItemControllerProps<T>
-  extends IJDABasicListItemAction {
+export interface IJDAListItemControllerProps<T> extends IJDAListItemAPI {
   item: T;
   itemIndex: number;
 }
@@ -17,7 +16,7 @@ export function withJDAListItemController<
   T,
   P extends IJDAListItemControllerProps<T>,
 >(Component: ComponentType<P>) {
-  return (props: Omit<P, keyof IJDABasicListItemAction>) => {
+  return (props: Omit<P, keyof IJDAListItemAPI>) => {
     return (
       <JDAListContext.Consumer>
         {v => (

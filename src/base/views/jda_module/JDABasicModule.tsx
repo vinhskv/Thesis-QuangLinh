@@ -1,22 +1,37 @@
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
-import {IJDAModuleControllerProps} from '../../controllers/jda_module_controller/withModuleController';
-import {GroupScreen} from '../jda_group_screens/GroupScreens';
+import {
+  IJDAModuleControllerProps,
+  JDAModuleView,
+} from '../../controllers/jda_module_controller/withModuleController';
+import {push} from '../../RootNavigator';
 
-export interface IJDABasicModuleProps extends IJDAModuleControllerProps {}
-
+export interface IJDABasicModuleProps extends IJDAModuleControllerProps {
+  moduleName: string;
+}
+const Stack = createNativeStackNavigator();
 export function JDABasicModule(props: IJDABasicModuleProps) {
+  const routeMap = React.useMemo(
+    (): Record<JDAModuleView, string> => ({
+      [JDAModuleView.FORM]: 'Form',
+      [JDAModuleView.LIST]: 'List',
+    }),
+    [],
+  );
+  React.useEffect(() => {
+    console.log(props.currentView);
+    push(routeMap[props.currentView]);
+  }, [props.currentView, routeMap]);
   return (
-    <GroupScreen
-      subScreens={[
-        {
-          component: props.ListView,
-          name: props.listRouteName,
-        },
-        {
-          component: props.ListView,
-          name: props.formRouteName,
-        },
-      ]}
-    />
+    <Stack.Navigator initialRouteName="List">
+      <Stack.Screen
+        name="Form"
+        options={{
+          headerBackVisible: false,
+        }}>
+        {_v => props.FormView}
+      </Stack.Screen>
+      <Stack.Screen name="List">{_v => props.ListView}</Stack.Screen>
+    </Stack.Navigator>
   );
 }

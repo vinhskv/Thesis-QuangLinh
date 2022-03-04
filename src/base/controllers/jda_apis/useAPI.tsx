@@ -44,7 +44,7 @@ export function useAPI<T, POST_T = T>(
     [routeName, toPostObject],
   );
   const getById = useCallback(
-    async (id: string | number): Promise<IAPIReturn<T>> => {
+    async (id: T[keyof T]): Promise<IAPIReturn<T>> => {
       try {
         const result = await axios.get<T, AxiosResponse<T>>(
           `/${routeName}/${id}`,
@@ -79,7 +79,7 @@ export function useAPI<T, POST_T = T>(
     [routeName],
   );
   const updateById = useCallback(
-    async (id: string | number, data: Omit<T, 'id'>) => {
+    async (id: T[keyof T], data: Omit<T, 'id'>) => {
       const res = await axios.patch<T, AxiosResponse<T>>(
         `/${routeName}/${id}`,
         data,
@@ -90,7 +90,7 @@ export function useAPI<T, POST_T = T>(
     [routeName],
   );
   const deleteById = useCallback(
-    async (id: string | number) => {
+    async (id: T[keyof T]) => {
       try {
         const res = await axios.delete<T, AxiosResponse<T>>(
           `/${routeName}/${id}`,

@@ -1,4 +1,9 @@
-import React, {ComponentType, forwardRef, useImperativeHandle} from 'react';
+import React, {
+  ComponentType,
+  forwardRef,
+  useImperativeHandle,
+  useState,
+} from 'react';
 import {JDAListContext} from '../contexts/ListContext';
 import {
   IJDAListItemActionsProps,
@@ -24,6 +29,7 @@ interface IJDAListAPI<T> {
   itemComponents: JSX.Element[];
   checkedItems: T[];
   paging: IJDAPaging;
+  loading: boolean;
 }
 
 export interface IJDAListControllerProps<T>
@@ -39,6 +45,7 @@ export interface IJDAListRef<T> {
   itemsControl: IJDAItemControl<T>;
   pageControl: IJDAPageControl;
   checkControl: JDAListCheckControl;
+  setLoading: (state: boolean) => void;
 }
 
 export function withJDAListController<
@@ -53,24 +60,31 @@ export function withJDAListController<
 ) {
   return forwardRef<IJDAListRef<T>, Omit<ListProps, keyof IJDAListAPI<T>>>(
     (props, ref) => {
+      const [loading, setLoading] = useState(false);
       const {paging, pageControl} = usePageControl();
       const {items, itemsControl} = useItemsControl<T>(itemPrimaryKey);
       const {checkedItems, checkControl} = useListCheckControl<T>(
         itemPrimaryKey,
         items,
       );
-      const itemActionsHandler = useItemActions(items, {...props});
+      const itemActionsHandler = useItemActions(
+        items,
+        {...props},
+        itemPrimaryKey,
+      );
 
       // export api via ref for control from ParrentComponent
       useImperativeHandle(ref, () => ({
         itemsControl,
         pageControl,
         checkControl,
+        setLoading,
       }));
       return (
         <JDAListContext.Provider value={itemActionsHandler}>
           <Component
             {...(props as ListProps)}
+            loading={loading}
             itemComponents={items.map((item, index) => (
               <ItemComponent
                 {...(ItemComponentProps as ItemProps)}

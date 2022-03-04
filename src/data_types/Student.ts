@@ -24,6 +24,7 @@ export const StudentFieldLabel: Record<keyof Student, string> = {
   address: 'Address',
 };
 export const StudentApiResource: string = 'students';
+export const StudentModuleName: string = 'Students';
 
 export interface StudentPOST extends Omit<Student, 'id' | 'address'> {
   addressId: string;

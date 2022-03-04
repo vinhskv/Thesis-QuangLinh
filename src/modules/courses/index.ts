@@ -4,7 +4,7 @@ import {withJDAListItemController} from '../../base/controllers/jda_list_control
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
-} from '../../base/views/jda_form/JDAForm';
+} from '../../base/views/jda_form/JDABasicForm';
 import JDABasicList, {
   IJDABasicListProps,
 } from '../../base/views/jda_list/JDABasicList';
@@ -21,6 +21,7 @@ import {
   CourseModuleApiResource,
   CourseModulePrimaryKey,
 } from '../../data_types/CourseModule';
+import {CourseModuleFormConfig} from './CourseModuleFormConfig';
 
 type ListItemProps = IJDABasicListItemProps<CourseModule>;
 export const CourseModuleBasicListItem = withJDAListItemController<
@@ -28,20 +29,30 @@ export const CourseModuleBasicListItem = withJDAListItemController<
   ListItemProps
 >(JDABasicListItem);
 
-type ListProps = IJDABasicListProps<CourseModule, ListItemProps>;
+type ListProps = IJDABasicListProps<CourseModule>;
 export const CourseModuleBasicList = withJDAListController<
   CourseModule,
+  ListItemProps,
   ListProps
->(JDABasicList, CourseModulePrimaryKey);
+>(
+  JDABasicList,
+  CourseModuleBasicListItem,
+  {
+    icon: 'home',
+    title: course => `${course.name}`,
+  },
+  CourseModulePrimaryKey,
+);
 
 type FormProps = IJDABasicFormProps<CourseModule>;
 export const CourseModuleBasicForm = withJDAFormControler<
   CourseModule,
   FormProps
->(JDABasicForm);
+>(JDABasicForm, CourseModuleFormConfig);
 
 export const CourseModuleBasicModule = withModuleController<
   CourseModule,
+  ListItemProps,
   ListProps,
   FormProps,
   IJDABasicModuleProps

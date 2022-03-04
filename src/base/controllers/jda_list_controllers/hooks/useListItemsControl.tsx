@@ -15,7 +15,6 @@ export function useItemsControl<T>(itemPrimaryKey: keyof T): {
 
   // api for parent component, will forward by ref
   const resetItems = useCallback((newItems: T[]) => {
-    console.log('++++++++++++', newItems);
     setItems(newItems);
   }, []);
 
@@ -28,7 +27,7 @@ export function useItemsControl<T>(itemPrimaryKey: keyof T): {
   const deleteItems = useCallback(
     (removedItems: T[keyof T][]) => {
       setItems(old => {
-        return [...old].filter(t => removedItems.includes(t[itemPrimaryKey]));
+        return [...old].filter(t => !removedItems.includes(t[itemPrimaryKey]));
       });
     },
     [itemPrimaryKey],

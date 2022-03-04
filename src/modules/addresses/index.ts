@@ -4,7 +4,7 @@ import {withJDAListItemController} from '../../base/controllers/jda_list_control
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
-} from '../../base/views/jda_form/JDAForm';
+} from '../../base/views/jda_form/JDABasicForm';
 import JDABasicList, {
   IJDABasicListProps,
 } from '../../base/views/jda_list/JDABasicList';
@@ -21,6 +21,7 @@ import {
   AddressApiResource,
   AddressPrimaryKey,
 } from '../../data_types/Address';
+import {AddressFormConfig} from './AddressFormConfig';
 
 type ListItemProps = IJDABasicListItemProps<Address>;
 export const AddressBasicListItem = withJDAListItemController<
@@ -46,6 +47,7 @@ export const AddressBasicList = withJDAListController<
 type FormProps = IJDABasicFormProps<Address>;
 export const AddressBasicForm = withJDAFormControler<Address, FormProps>(
   JDABasicForm,
+  AddressFormConfig,
 );
 
 export const AddressBasicModule = withModuleController<

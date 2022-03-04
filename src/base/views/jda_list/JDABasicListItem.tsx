@@ -16,12 +16,20 @@ export function JDABasicListItem<T>(props: IJDABasicListItemProps<T>) {
       onPress={props.onShowDetail}
       title={() => <Text>{props.title(props.item)}</Text>}
       right={p => (
-        <IconButton
-          onPress={props.onDelete}
-          icon={'delete'}
-          {...p}
-          color="red"
-        />
+        <>
+          <IconButton
+            onPress={props.onEdit}
+            icon={'circle-edit-outline'}
+            {...p}
+            color="grey"
+          />
+          <IconButton
+            onPress={props.onDelete}
+            icon={'delete'}
+            {...p}
+            color="red"
+          />
+        </>
       )}
     />
   );
