@@ -1,16 +1,19 @@
-import React from 'react';
+import {JDAControlledFormInputComponent} from '../../base/controllers/jda_form_controllers/withFormInputController';
 import AddressInput from '../../data_inputs/AddressInput';
 import DateInput from '../../data_inputs/basic_inputs/DateInput';
 import NumberInput from '../../data_inputs/basic_inputs/NumberInput';
 import StringInput from '../../data_inputs/basic_inputs/StringInput';
 import {GenderInput} from '../../data_inputs/StudentInput';
-import {Student, StudentFieldLabel} from '../../data_types/Student';
+import {Student} from '../../data_types/Student';
 
-export const StudentFormConfig: Record<keyof Student, React.ReactNode> = {
-  id: <NumberInput name="id" label={StudentFieldLabel.id} />,
-  name: <StringInput name="name" label={StudentFieldLabel.name} />,
-  gender: <GenderInput name="gender" label={StudentFieldLabel.gender} />,
-  email: <StringInput name="email" label={StudentFieldLabel.email} />,
-  address: <AddressInput name="address" label={StudentFieldLabel.address} />,
-  dob: <DateInput name="dob" label={StudentFieldLabel.dob} />,
+export const StudentFormConfig: Record<
+  keyof Student,
+  JDAControlledFormInputComponent<Student, any>
+> = {
+  id: NumberInput,
+  name: StringInput,
+  gender: GenderInput,
+  email: StringInput,
+  address: AddressInput,
+  dob: DateInput,
 };

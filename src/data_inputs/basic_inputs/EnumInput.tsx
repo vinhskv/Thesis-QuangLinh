@@ -16,6 +16,7 @@ export default function EnumInput(props: IEnumInputProps) {
     (_props: IJDAFormInputControllerProps<Enum>) => {
       return (
         <Select
+          disabled={_props.disabled}
           multiSelect={false}
           label={_props.label}
           value={_props.field.value}

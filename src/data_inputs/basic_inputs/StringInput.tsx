@@ -11,6 +11,7 @@ export interface IJDAStringInputProps
 function StringInput(props: IJDAStringInputProps) {
   return (
     <Input
+      disabled={props.disabled}
       value={props.field.value}
       label={props.label}
       onChangeText={props.field.onChange}

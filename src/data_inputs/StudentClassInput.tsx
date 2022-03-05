@@ -32,6 +32,7 @@ function StudentClassInput(props: IStudentClassInputProps) {
     ad ? `# ${ad.id} ${ad.name}` : '';
   return (
     <Autocomplete
+      disabled={props.disabled}
       label={props.label}
       value={studentClassValue(props.field.value)}
       onSelect={index => props.field.onChange(options[index])}

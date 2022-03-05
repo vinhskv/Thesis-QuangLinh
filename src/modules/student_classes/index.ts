@@ -19,6 +19,7 @@ import {
 import {
   StudentClass,
   StudentClassApiResource,
+  StudentClassFieldLabel,
   StudentClassPrimaryKey,
 } from '../../data_types/StudentClass';
 import {StudentClassFormConfig} from './StudentClassFormConfig';
@@ -48,7 +49,12 @@ type FormProps = IJDABasicFormProps<StudentClass>;
 export const StudentClassBasicForm = withJDAFormControler<
   StudentClass,
   FormProps
->(JDABasicForm, StudentClassFormConfig);
+>(
+  JDABasicForm,
+  StudentClassFormConfig,
+  StudentClassFieldLabel,
+  StudentClassPrimaryKey,
+);
 
 export const StudentClassBasicModule = withModuleController<
   StudentClass,

@@ -18,6 +18,7 @@ export interface IJDAFormInputAPI<T> {
 export interface IJDAFormInputControllerProps<T> extends IJDAFormInputAPI<T> {
   name: string;
   label: string;
+  disabled?: boolean;
 }
 
 export function withJDAFormInputController<
@@ -44,3 +45,16 @@ export function withJDAFormInputController<
     );
   };
 }
+
+//Export componentType
+class TypeUltil<T, P extends IJDAFormInputControllerProps<T>> {
+  //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
+
+  controlled = (Component: ComponentType<P>) =>
+    withJDAFormInputController<T, P>(Component);
+}
+
+export type JDAControlledFormInputComponent<
+  T,
+  P extends IJDAFormInputControllerProps<T>,
+> = ReturnType<TypeUltil<T, P>['controlled']>;

@@ -19,6 +19,7 @@ import {
 import {
   Address,
   AddressApiResource,
+  AddressFieldLabel,
   AddressPrimaryKey,
 } from '../../data_types/Address';
 import {AddressFormConfig} from './AddressFormConfig';
@@ -49,6 +50,8 @@ type FormProps = IJDABasicFormProps<Address>;
 export const AddressBasicForm = withJDAFormControler<Address, FormProps>(
   JDABasicForm,
   AddressFormConfig,
+  AddressFieldLabel,
+  AddressPrimaryKey,
 );
 
 export const AddressBasicModule = withModuleController<

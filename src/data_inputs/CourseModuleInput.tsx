@@ -32,6 +32,7 @@ function CourseModuleInput(props: ICourseModuleInputProps) {
     cousemodule ? `# ${cousemodule.id} ${cousemodule.name}` : '';
   return (
     <Autocomplete
+      disabled={props.disabled}
       label={props.label}
       value={cousemoduleValue(props.field.value)}
       onSelect={index => props.field.onChange(options[index])}

@@ -19,6 +19,7 @@ import {
 import {
   Enrolment,
   EnrolmentApiResource,
+  EnrolmentFieldLabel,
   EnrolmentPrimaryKey,
 } from '../../data_types/Enrolment';
 import {EnrolmentFormConfig} from './EnrolmentFormConfig';
@@ -48,6 +49,8 @@ type FormProps = IJDABasicFormProps<Enrolment>;
 export const EnrolmentBasicForm = withJDAFormControler<Enrolment, FormProps>(
   JDABasicForm,
   EnrolmentFormConfig,
+  EnrolmentFieldLabel,
+  EnrolmentPrimaryKey,
 );
 
 export const EnrolmentBasicModule = withModuleController<

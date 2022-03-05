@@ -1,7 +1,5 @@
-import {Button} from '@ui-kitten/components';
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList, StyleSheet} from 'react-native';
 import {FAB} from 'react-native-paper';
 // import {
 //   DefaultListAction,
@@ -16,14 +14,8 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
   return (
     <>
       <FlatList
-        refreshing={true}
-        ListHeaderComponent={
-          <Button size={'small'} onPress={props.onRefresh}>
-            Refresh
-          </Button>
-        }
+        refreshing={props.loading}
         data={props.itemComponents}
-        keyExtractor={(_t, i) => String(i)}
         onRefresh={props.onRefresh}
         renderItem={({item}) => item}
       />

@@ -11,6 +11,7 @@ export interface IJDANumberInputProps
 function NumberInput(props: IJDANumberInputProps) {
   return (
     <Input
+      disabled={props.disabled}
       value={String(props.field.value || '')}
       label={props.label}
       onChangeText={t => props.field.onChange(parseInt(t, 10))}

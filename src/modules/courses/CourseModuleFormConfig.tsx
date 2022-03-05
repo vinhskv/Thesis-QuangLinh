@@ -1,20 +1,15 @@
-import React from 'react';
-import StringInput from '../../data_inputs/basic_inputs/StringInput';
+import {JDAControlledFormInputComponent} from '../../base/controllers/jda_form_controllers/withFormInputController';
 import NumberInput from '../../data_inputs/basic_inputs/NumberInput';
-import {
-  CourseModule,
-  CourseModuleFieldLabel,
-} from '../../data_types/CourseModule';
+import StringInput from '../../data_inputs/basic_inputs/StringInput';
+import {CourseModule} from '../../data_types/CourseModule';
 
 export const CourseModuleFormConfig: Record<
   keyof CourseModule,
-  React.ReactNode
+  JDAControlledFormInputComponent<CourseModule, any>
 > = {
-  id: <NumberInput name="id" label={CourseModuleFieldLabel.id} />,
-  name: <StringInput name="name" label={CourseModuleFieldLabel.name} />,
-  code: <StringInput name="code" label={CourseModuleFieldLabel.code} />,
-  semester: (
-    <NumberInput name="semester" label={CourseModuleFieldLabel.semester} />
-  ),
-  credits: <NumberInput name="code" label={CourseModuleFieldLabel.credits} />,
+  id: NumberInput,
+  name: StringInput,
+  code: StringInput,
+  semester: NumberInput,
+  credits: NumberInput,
 };

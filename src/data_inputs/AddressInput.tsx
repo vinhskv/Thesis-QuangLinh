@@ -31,6 +31,7 @@ function AddressInput(props: IAddressInputProps) {
   const addressValue = (ad?: Address) => (ad ? `# ${ad.id} ${ad.name}` : '');
   return (
     <Autocomplete
+      disabled={props.disabled}
       label={props.label}
       value={addressValue(props.field.value)}
       onSelect={index => props.field.onChange(options[index])}
