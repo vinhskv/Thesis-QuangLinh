@@ -6,7 +6,7 @@ export enum Gender {
 }
 
 export interface Student {
-  id: string;
+  id: number;
   name: string;
   gender: Gender;
   dob: Date;
@@ -27,7 +27,7 @@ export const StudentApiResource: string = 'students';
 export const StudentModuleName: string = 'Students';
 
 export interface StudentPOST extends Omit<Student, 'id' | 'address'> {
-  addressId: string;
+  addressId: number;
 }
 
 export function toStudentPOST(s: Student): StudentPOST {

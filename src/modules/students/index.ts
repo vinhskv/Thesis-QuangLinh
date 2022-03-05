@@ -38,7 +38,7 @@ export const StudentBasicList = withJDAListController<
   JDABasicList,
   StudentBasicListItem,
   {
-    icon: 'profile',
+    icon: 'account',
     title: student => `${student.name}`,
   },
   StudentPrimaryKey,
@@ -56,4 +56,10 @@ export const StudentBasicModule = withModuleController<
   ListProps,
   FormProps,
   IJDABasicModuleProps
->(JDABasicModule, StudentBasicList, StudentBasicForm, StudentApiResource);
+>(
+  JDABasicModule,
+  StudentBasicList,
+  StudentBasicForm,
+  StudentApiResource,
+  StudentPrimaryKey,
+);

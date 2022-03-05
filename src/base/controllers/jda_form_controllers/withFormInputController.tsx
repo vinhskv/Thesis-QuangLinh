@@ -6,9 +6,7 @@ import {
   UseFormStateReturn,
 } from 'react-hook-form';
 
-export interface IJDAFormInputControllerProps<T> {
-  name: string;
-  label: string;
+export interface IJDAFormInputAPI<T> {
   field: {
     onChange: (value: T) => void;
     value: T;
@@ -17,11 +15,16 @@ export interface IJDAFormInputControllerProps<T> {
   formState: UseFormStateReturn<T>;
 }
 
+export interface IJDAFormInputControllerProps<T> extends IJDAFormInputAPI<T> {
+  name: string;
+  label: string;
+}
+
 export function withJDAFormInputController<
   T,
   P extends IJDAFormInputControllerProps<T>,
 >(Component: ComponentType<P>) {
-  return (props: Omit<P, 'field' | 'fieldState' | 'formState'>) => {
+  return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
     const {control} = useFormContext();
     return (
       <Controller

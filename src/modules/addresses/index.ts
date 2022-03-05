@@ -40,6 +40,7 @@ export const AddressBasicList = withJDAListController<
   {
     icon: 'home',
     title: address => `${address.name}`,
+    subTitle: address => `#${address.id}`,
   },
   AddressPrimaryKey,
 );
@@ -56,4 +57,10 @@ export const AddressBasicModule = withModuleController<
   ListProps,
   FormProps,
   IJDABasicModuleProps
->(JDABasicModule, AddressBasicList, AddressBasicForm, AddressApiResource);
+>(
+  JDABasicModule,
+  AddressBasicList,
+  AddressBasicForm,
+  AddressApiResource,
+  AddressPrimaryKey,
+);

@@ -1,6 +1,7 @@
-import {Button, ButtonGroup, Layout} from '@ui-kitten/components';
+import {useFocusEffect} from '@react-navigation/native';
+import {Button, Layout} from '@ui-kitten/components';
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
+import {BackHandler, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {IJDAFormControlerProps} from '../../controllers/jda_form_controllers/withFormController';
@@ -16,13 +17,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   footer: {
-    margin: 10,
+    marginVertical: 10,
     flexDirection: 'row',
     alignContent: 'center',
+    justifyContent: 'flex-end',
   },
 });
 
 export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        if (props.cancel) {
+          props.cancel();
+        }
+        return true;
+      };
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [props]),
+  );
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
@@ -32,12 +47,12 @@ export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
           </React.Fragment>
         ))}
         <Layout style={styles.footer}>
-          <ButtonGroup>
-            <Button status={'danger'} onPress={props.cancel}>
-              Cancel
-            </Button>
-            <Button onPress={props.submit}>Submit</Button>
-          </ButtonGroup>
+          <Button size={'small'} status={'danger'} onPress={props.cancel}>
+            Cancel
+          </Button>
+          <Button size={'small'} onPress={props.submit}>
+            Submit
+          </Button>
         </Layout>
       </ScrollView>
     </SafeAreaView>

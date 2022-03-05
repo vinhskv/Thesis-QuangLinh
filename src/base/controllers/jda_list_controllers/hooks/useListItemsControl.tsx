@@ -5,6 +5,7 @@ export type IJDAItemControl<T> = {
   addItems: (newItems: T[]) => void;
   deleteItems: (removedItems: T[keyof T][]) => void;
   updateItem: (updatedItem: T) => void;
+  getItemByIndex: (index: number) => T;
 };
 
 export function useItemsControl<T>(itemPrimaryKey: keyof T): {
@@ -17,6 +18,13 @@ export function useItemsControl<T>(itemPrimaryKey: keyof T): {
   const resetItems = useCallback((newItems: T[]) => {
     setItems(newItems);
   }, []);
+
+  const getItemByIndex = useCallback(
+    (index: number) => {
+      return items[index];
+    },
+    [items],
+  );
 
   const addItems = useCallback((newItems: T[]) => {
     setItems(old => {
@@ -51,5 +59,14 @@ export function useItemsControl<T>(itemPrimaryKey: keyof T): {
     [itemPrimaryKey],
   );
 
-  return {items, itemsControl: {resetItems, addItems, deleteItems, updateItem}};
+  return {
+    items,
+    itemsControl: {
+      getItemByIndex,
+      resetItems,
+      addItems,
+      deleteItems,
+      updateItem,
+    },
+  };
 }

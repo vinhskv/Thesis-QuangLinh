@@ -1,7 +1,7 @@
 import {useCallback} from 'react';
 
 export interface IJDAListItemActionsProps<T> {
-  onShowDetail?: (item: T[keyof T]) => Promise<void>;
+  onShowDetail?: (item: T) => void;
   onDeleteItems?: (items: T[keyof T][]) => Promise<void>;
   onEditItem?: (item: T) => Promise<void>;
 }
@@ -32,10 +32,10 @@ export function useItemActions<T>(
   const onShowDetail = useCallback(
     (index: number) => {
       if (handler.onShowDetail && items[index]) {
-        handler.onShowDetail(items[index][primaryKey]);
+        handler.onShowDetail(items[index]);
       }
     },
-    [handler, items, primaryKey],
+    [handler, items],
   );
   return {onEdit, onDelete, onShowDetail};
 }

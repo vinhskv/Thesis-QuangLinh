@@ -4,7 +4,7 @@ import {
   IJDAModuleControllerProps,
   JDAModuleView,
 } from '../../controllers/jda_module_controller/withModuleController';
-import {push} from '../../RootNavigator';
+import {popToTop, push} from '../../RootNavigator';
 
 export interface IJDABasicModuleProps extends IJDAModuleControllerProps {
   moduleName: string;
@@ -18,12 +18,20 @@ export function JDABasicModule(props: IJDABasicModuleProps) {
     }),
     [],
   );
+
   React.useEffect(() => {
-    console.log(props.currentView);
-    push(routeMap[props.currentView]);
+    if (props.currentView === JDAModuleView.LIST) {
+      popToTop();
+    } else {
+      push(routeMap[props.currentView]);
+    }
   }, [props.currentView, routeMap]);
+
   return (
     <Stack.Navigator initialRouteName="List">
+      <Stack.Group screenOptions={{presentation: 'fullScreenModal'}}>
+        <Stack.Screen name="List">{_v => props.ListView}</Stack.Screen>
+      </Stack.Group>
       <Stack.Screen
         name="Form"
         options={{
@@ -31,7 +39,6 @@ export function JDABasicModule(props: IJDABasicModuleProps) {
         }}>
         {_v => props.FormView}
       </Stack.Screen>
-      <Stack.Screen name="List">{_v => props.ListView}</Stack.Screen>
     </Stack.Navigator>
   );
 }

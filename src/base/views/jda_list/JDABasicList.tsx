@@ -17,7 +17,11 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
     <>
       <FlatList
         refreshing={true}
-        ListHeaderComponent={<Button onPress={props.onRefresh}>Refresh</Button>}
+        ListHeaderComponent={
+          <Button size={'small'} onPress={props.onRefresh}>
+            Refresh
+          </Button>
+        }
         data={props.itemComponents}
         keyExtractor={(_t, i) => String(i)}
         onRefresh={props.onRefresh}

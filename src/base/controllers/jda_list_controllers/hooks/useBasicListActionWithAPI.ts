@@ -4,14 +4,14 @@ import {
   DefaultListAction,
   DefaultListItemAction,
 } from '../contexts/ListContext';
-import {UseListItemControlType} from './useListItemsControl';
+import {IJDAItemControl} from './useListItemsControl';
 
 export function useBasicListActionWithAPI<
   ItemType,
   ListActionTypes = DefaultListAction,
   ListItemActionTypes = DefaultListItemAction<ItemType>,
 >(
-  itemsViewControl: UseListItemControlType<ItemType>,
+  itemsViewControl: IJDAItemControl<ItemType>,
   keyField: keyof ItemType,
   routeName: string,
 ) {

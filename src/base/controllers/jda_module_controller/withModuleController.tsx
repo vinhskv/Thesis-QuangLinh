@@ -20,8 +20,6 @@ export interface IJDAModuleAPI {
   currentView: JDAModuleView;
   ListView: React.ReactNode;
   FormView: React.ReactNode;
-  listRouteName: string;
-  formRouteName: string;
 }
 
 export interface IJDAModuleControllerProps extends IJDAModuleAPI {} // reversed for other logic
@@ -37,30 +35,41 @@ export function withModuleController<
   ListView: JDAControlledListComponent<T, ListItemProps, ListProps>,
   FormView: JDAControlledFormComponent<T, FormProps>,
   apiResouce: string,
+  primaryKey: keyof T,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI>) => {
     const [currentView, setCurrentView] = useState<JDAModuleView>(
       JDAModuleView.LIST,
     );
-    const [formMode, setFormMode] = useState<JDAFormMode>(
-      JDAFormMode.READ_ONLY,
-    );
+    const [formMode, setFormMode] = useState<JDAFormMode>(JDAFormMode.CREATE);
+    const [formValue, setFormValue] = useState<T | undefined>();
     const api = useAPI<T>(apiResouce);
     const listRef = useRef<IJDAListRef<T>>();
 
     /////////// Connect List and Form to API
     const handleFormSubmit = useCallback(
-      async (_submitedItem: T) => {
-        console.log(_submitedItem);
+      async (submitedItem: T) => {
+        console.log('52', formMode, submitedItem);
         switch (formMode) {
-          case JDAFormMode.EDIT:
+          case JDAFormMode.EDIT: {
+            const res = await api.updateById(
+              submitedItem[primaryKey],
+              submitedItem,
+            );
+            if (res.success) {
+              setCurrentView(JDAModuleView.LIST);
+              listRef.current?.itemsControl.updateItem(res.payload);
+            }
             break;
-          case JDAFormMode.CREATE:
-            const res = await api.create(_submitedItem);
+          }
+          case JDAFormMode.CREATE: {
+            console.log('here');
+            const res = await api.create(submitedItem);
+            console.log('Create result :', res);
             setCurrentView(JDAModuleView.LIST);
             listRef.current?.itemsControl.addItems([res]);
-            console.log(res);
             break;
+          }
           case JDAFormMode.READ_ONLY:
             break;
         }
@@ -68,13 +77,17 @@ export function withModuleController<
       [api, formMode],
     );
     const handleAddItem = useCallback(() => {
-      setFormMode(JDAFormMode.CREATE);
       setCurrentView(JDAModuleView.FORM);
+      setFormMode(JDAFormMode.CREATE);
+      setFormValue(undefined);
     }, []);
 
-    const handleEditItem = useCallback((_item: T) => {
-      setCurrentView(JDAModuleView.FORM);
-      setFormMode(JDAFormMode.EDIT);
+    const handleEditItem = useCallback((itemToEdit: T) => {
+      if (itemToEdit) {
+        setCurrentView(JDAModuleView.FORM);
+        setFormMode(JDAFormMode.EDIT);
+        setFormValue(itemToEdit);
+      }
     }, []);
 
     const handleDeleteItems = useCallback(
@@ -108,7 +121,18 @@ export function withModuleController<
     );
     const handleRefresh = () => handleChangePage(0);
     const handleChangePageSize = useCallback((_pageSize: number) => {}, []);
-    const handleShowDetail = useCallback((_item: T) => {}, []);
+    const handleShowDetail = useCallback((item: T) => {
+      // console.log('show detail', item);
+
+      // const itemToShow = listRef.current?.itemsControl.getItemByIndex(index);
+      // console.log(itemToShow);
+
+      // if (itemToShow) {
+      setCurrentView(JDAModuleView.FORM);
+      setFormMode(JDAFormMode.READ_ONLY);
+      setFormValue(item);
+      // }
+    }, []);
     const handleFormCancel = useCallback(() => {
       setCurrentView(JDAModuleView.LIST);
     }, []);
@@ -134,15 +158,15 @@ export function withModuleController<
             {...({} as any)}
           />
         }
-        listRouteName={'List'}
         FormView={
           <FormView
+            initValue={formValue}
+            mode={formMode}
             onCancel={handleFormCancel}
             onSubmit={handleFormSubmit}
             {...({} as any)}
           />
         }
-        formRouteName={'Form'}
       />
     );
   };

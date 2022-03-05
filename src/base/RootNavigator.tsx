@@ -18,3 +18,9 @@ export function push(name: string, params?: any[]) {
     navigationRef.dispatch(StackActions.push(name, params));
   }
 }
+
+export function popToTop() {
+  if (navigationRef.isReady() && navigationRef.canGoBack()) {
+    navigationRef.dispatch(StackActions.popToTop());
+  }
+}

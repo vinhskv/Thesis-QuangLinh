@@ -6,7 +6,7 @@ import {Enrolment, EnrolmentFieldLabel} from '../../data_types/Enrolment';
 import NumberInput from '../../data_inputs/basic_inputs/NumberInput';
 
 export const EnrolmentFormConfig: Record<keyof Enrolment, React.ReactNode> = {
-  id: <StringInput name="id" label={EnrolmentFieldLabel.id} />,
+  id: <NumberInput name="id" label={EnrolmentFieldLabel.id} />,
   student: <StudentInput name="student" label={EnrolmentFieldLabel.student} />,
   courseModule: (
     <CourseModuleInput

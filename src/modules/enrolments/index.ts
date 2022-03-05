@@ -38,7 +38,7 @@ export const EnrolmentBasicList = withJDAListController<
   JDABasicList,
   EnrolmentBasicListItem,
   {
-    icon: 'home',
+    icon: 'account-badge',
     title: enrolment => `${enrolment.id}`,
   },
   EnrolmentPrimaryKey,
@@ -56,4 +56,10 @@ export const EnrolmentBasicModule = withModuleController<
   ListProps,
   FormProps,
   IJDABasicModuleProps
->(JDABasicModule, EnrolmentBasicList, EnrolmentBasicForm, EnrolmentApiResource);
+>(
+  JDABasicModule,
+  EnrolmentBasicList,
+  EnrolmentBasicForm,
+  EnrolmentApiResource,
+  EnrolmentPrimaryKey,
+);

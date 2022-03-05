@@ -10,7 +10,7 @@ export const CourseModuleFormConfig: Record<
   keyof CourseModule,
   React.ReactNode
 > = {
-  id: <StringInput name="id" label={CourseModuleFieldLabel.id} />,
+  id: <NumberInput name="id" label={CourseModuleFieldLabel.id} />,
   name: <StringInput name="name" label={CourseModuleFieldLabel.name} />,
   code: <StringInput name="code" label={CourseModuleFieldLabel.code} />,
   semester: (

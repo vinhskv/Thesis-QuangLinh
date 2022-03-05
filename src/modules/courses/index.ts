@@ -38,7 +38,7 @@ export const CourseModuleBasicList = withJDAListController<
   JDABasicList,
   CourseModuleBasicListItem,
   {
-    icon: 'home',
+    icon: 'book-open',
     title: course => `${course.name}`,
   },
   CourseModulePrimaryKey,
@@ -61,4 +61,5 @@ export const CourseModuleBasicModule = withModuleController<
   CourseModuleBasicList,
   CourseModuleBasicForm,
   CourseModuleApiResource,
+  CourseModulePrimaryKey,
 );

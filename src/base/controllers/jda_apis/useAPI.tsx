@@ -34,6 +34,8 @@ export function useAPI<T, POST_T = T>(
 ) {
   const create = useCallback(
     async (data: T) => {
+      console.log('send create request to server', data);
+
       const res = await axios.post<POST_T, AxiosResponse<T>>(
         `/${routeName}`,
         toPostObject ? toPostObject(data) : data,
@@ -61,16 +63,14 @@ export function useAPI<T, POST_T = T>(
   );
   const getByPage = useCallback(
     async (_pageNumber: number): Promise<IAPIReturn<IAPIGetListReturn<T>>> => {
-      console.log(routeName);
       try {
         const res = await axios.get<T, AxiosResponse<IAPIGetListReturn<T>>>(
           `/${routeName}`,
           axiosConfigs,
         );
-        console.log(res.data);
         return successWithData(res.data);
       } catch (error) {
-        console.log(error);
+        console.log('get by page error', error);
         return failWithError({
           code: 100,
         });
@@ -85,21 +85,20 @@ export function useAPI<T, POST_T = T>(
         data,
         axiosConfigs,
       );
-      return res.data;
+      return successWithData(res.data);
     },
     [routeName],
   );
   const deleteById = useCallback(
     async (id: T[keyof T]) => {
       try {
-        const res = await axios.delete<T, AxiosResponse<T>>(
+        await axios.delete<T, AxiosResponse<T>>(
           `/${routeName}/${id}`,
           axiosConfigs,
         );
-        console.log(res.data);
         return successWithData('Deleted');
       } catch (error) {
-        console.log(error);
+        console.log('delete error', error);
         return failWithError({
           code: 100,
         });
