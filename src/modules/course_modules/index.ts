@@ -21,7 +21,7 @@ import {
   CourseModuleApiResource,
   CourseModuleFieldLabel,
   CourseModulePrimaryKey,
-} from '../../data_types/CourseModule';
+} from '../../data_types/CourseModule/CourseModule';
 import {CourseModuleFormConfig} from './CourseModuleFormConfig';
 
 type ListItemProps = IJDABasicListItemProps<CourseModule>;

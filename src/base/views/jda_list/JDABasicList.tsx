@@ -1,6 +1,6 @@
+import {Button, Icon} from '@ui-kitten/components';
 import * as React from 'react';
-import {FlatList, StyleSheet} from 'react-native';
-import {FAB} from 'react-native-paper';
+import {FlatList, StyleSheet, View} from 'react-native';
 // import {
 //   DefaultListAction,
 //   DefaultListItemAction,
@@ -12,23 +12,27 @@ export interface IJDABasicListProps<T> extends IJDAListControllerProps<T> {}
 
 export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
   return (
-    <>
+    <View>
       <FlatList
         refreshing={props.loading}
         data={props.itemComponents}
         onRefresh={props.onRefresh}
         renderItem={({item}) => item}
       />
-      <FAB icon={'plus'} style={styles.fab} onPress={props.onAddItem} />
-    </>
+      <Button
+        accessoryLeft={<Icon name="plus" />}
+        style={styles.fab}
+        onPress={props.onAddItem}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
+    margin: 5,
+    width: 16,
+    height: 16,
+    alignSelf: 'flex-end',
   },
 });

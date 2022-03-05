@@ -16,14 +16,3 @@ export const CourseModuleFieldLabel: Record<keyof CourseModule, string> = {
   semester: 'Semester',
   credits: 'Credits',
 };
-
-export interface CompulsoryModule extends CourseModule {}
-
-export interface ElectiveModule extends CourseModule {
-  deptName: string;
-}
-
-export const ElectiveModuleFieldLabel: Record<keyof ElectiveModule, string> = {
-  deptName: 'deptName',
-  ...CourseModuleFieldLabel,
-};

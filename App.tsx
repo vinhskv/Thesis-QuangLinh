@@ -20,6 +20,12 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {navigationRef} from './src/base/RootNavigator';
 
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+]);
+
 const App = () => {
   return (
     <NavigationContainer ref={navigationRef}>

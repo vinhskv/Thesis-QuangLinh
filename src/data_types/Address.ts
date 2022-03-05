@@ -14,3 +14,4 @@ export const AddressFieldLabel: Record<keyof Address, string> = {
   name: 'City name',
   student: 'Student',
 };
+//TODO create Module info object and share to all controller

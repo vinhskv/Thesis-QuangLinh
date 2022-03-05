@@ -1,7 +1,7 @@
 import {useFocusEffect} from '@react-navigation/native';
-import {Button, Layout} from '@ui-kitten/components';
+import {Button, Layout, Text} from '@ui-kitten/components';
 import * as React from 'react';
-import {BackHandler, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {BackHandler, ScrollView, StyleSheet} from 'react-native';
 import {
   IJDAFormControlerProps,
   JDAFormMode,
@@ -46,22 +46,21 @@ export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
     }, [props]),
   );
   return (
-    <SafeAreaView>
-      <ScrollView style={styles.container}>
-        {props.formInputs.map((item, index) => (
-          <React.Fragment key={index}>{item}</React.Fragment>
-        ))}
-        <Layout style={styles.footer}>
-          {props.mode !== JDAFormMode.READ_ONLY && (
-            <Button size={'small'} status={'danger'} onPress={props.cancel}>
-              Cancel
-            </Button>
-          )}
-          <Button size={'small'} onPress={props.submit}>
-            {SubmitText[props.mode]}
+    <ScrollView style={styles.container}>
+      <Text>Form</Text>
+      {props.formInputs.map((item, index) => (
+        <React.Fragment key={index}>{item}</React.Fragment>
+      ))}
+      <Layout style={styles.footer}>
+        {props.mode !== JDAFormMode.READ_ONLY && (
+          <Button size={'small'} status={'danger'} onPress={props.cancel}>
+            Cancel
           </Button>
-        </Layout>
-      </ScrollView>
-    </SafeAreaView>
+        )}
+        <Button size={'small'} onPress={props.submit}>
+          {SubmitText[props.mode]}
+        </Button>
+      </Layout>
+    </ScrollView>
   );
 }

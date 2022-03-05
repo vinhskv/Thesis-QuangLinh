@@ -7,7 +7,7 @@ import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
 } from '../base/controllers/jda_form_controllers/withFormInputController';
-import {CourseModule} from '../data_types/CourseModule';
+import {CourseModule} from '../data_types/CourseModule/CourseModule';
 
 export interface ICourseModuleInputProps
   extends IJDAFormInputControllerProps<CourseModule> {}

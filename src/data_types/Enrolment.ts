@@ -1,4 +1,4 @@
-import {CourseModule} from './CourseModule';
+import {CourseModule} from './CourseModule/CourseModule';
 import {Student} from './Student';
 
 export interface Enrolment {

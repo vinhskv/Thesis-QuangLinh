@@ -172,3 +172,38 @@ export function withModuleController<
     );
   };
 }
+
+//Export componentType
+class TypeUltil<
+  T,
+  ListItemProps extends IJDAListItemControllerProps<T>,
+  ListProps extends IJDAListControllerProps<T>,
+  FormProps extends IJDAFormControlerProps<T>,
+  P extends IJDAModuleControllerProps,
+> {
+  //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
+  controlled = (
+    Component: ComponentType<P>,
+    ListView: JDAControlledListComponent<T, ListItemProps, ListProps>,
+    FormView: JDAControlledFormComponent<T, FormProps>,
+    apiResouce: string,
+    primaryKey: keyof T,
+  ) =>
+    withModuleController<T, ListItemProps, ListProps, FormProps, P>(
+      Component,
+      ListView,
+      FormView,
+      apiResouce,
+      primaryKey,
+    );
+}
+
+export type JDAControlledModuleComponent<
+  T,
+  ListItemProps extends IJDAListItemControllerProps<T>,
+  ListProps extends IJDAListControllerProps<T>,
+  FormProps extends IJDAFormControlerProps<T>,
+  P extends IJDAModuleControllerProps,
+> = ReturnType<
+  TypeUltil<T, ListItemProps, ListProps, FormProps, P>['controlled']
+>;
