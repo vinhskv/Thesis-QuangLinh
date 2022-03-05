@@ -25,6 +25,12 @@ const styles = StyleSheet.create({
   },
 });
 
+const SubmitText = {
+  [JDAFormMode.CREATE]: 'Create',
+  [JDAFormMode.EDIT]: 'Update',
+  [JDAFormMode.READ_ONLY]: 'Close',
+};
+
 export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
   useFocusEffect(
     React.useCallback(() => {
@@ -45,16 +51,16 @@ export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
         {props.formInputs.map((item, index) => (
           <React.Fragment key={index}>{item}</React.Fragment>
         ))}
-        {props.mode !== JDAFormMode.READ_ONLY && (
-          <Layout style={styles.footer}>
+        <Layout style={styles.footer}>
+          {props.mode !== JDAFormMode.READ_ONLY && (
             <Button size={'small'} status={'danger'} onPress={props.cancel}>
               Cancel
             </Button>
-            <Button size={'small'} onPress={props.submit}>
-              {props.mode === JDAFormMode.CREATE ? 'Create' : 'Update'}
-            </Button>
-          </Layout>
-        )}
+          )}
+          <Button size={'small'} onPress={props.submit}>
+            {SubmitText[props.mode]}
+          </Button>
+        </Layout>
       </ScrollView>
     </SafeAreaView>
   );

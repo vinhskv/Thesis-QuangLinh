@@ -19,7 +19,6 @@ import {
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {navigationRef} from './src/base/RootNavigator';
-// import 'react-native-gesture-handler';
 
 const App = () => {
   return (

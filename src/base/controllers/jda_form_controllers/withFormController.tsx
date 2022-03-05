@@ -1,4 +1,4 @@
-import React, {ComponentType, useCallback} from 'react';
+import React, {ComponentType, useCallback, useEffect} from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {JDAControlledFormInputComponent} from './withFormInputController';
 
@@ -32,7 +32,14 @@ export function withJDAFormControler<T, P extends IJDAFormControlerProps<T>>(
   primaryKey: keyof T,
 ) {
   return (props: Omit<P, keyof IJDAFormAPI>) => {
-    const form = useForm<T>({defaultValues: props.initValue as any});
+    const form = useForm<T>();
+    useEffect(() => {
+      console.log('+++++++++++++++', props.initValue);
+
+      if (props.initValue) {
+        form.reset(props.initValue as any);
+      }
+    }, [form, props.initValue]);
     // useImperativeHandle(ref, () => ({
     //   setMode: mode => {
     //     console.log('change form ===========', mode);

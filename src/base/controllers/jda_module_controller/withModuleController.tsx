@@ -71,6 +71,7 @@ export function withModuleController<
             break;
           }
           case JDAFormMode.READ_ONLY:
+            setCurrentView(JDAModuleView.LIST);
             break;
         }
       },

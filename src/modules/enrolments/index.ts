@@ -39,8 +39,11 @@ export const EnrolmentBasicList = withJDAListController<
   JDABasicList,
   EnrolmentBasicListItem,
   {
-    icon: 'account-badge',
-    title: enrolment => `${enrolment.id}`,
+    icon: 'ballot-outline',
+    title: enrolment =>
+      `#${enrolment.id} | ${enrolment.courseModule?.name || ''}`,
+    subTitle: enrolment =>
+      `#${enrolment.student?.id}-${enrolment.student?.name} | ${enrolment.finalGrade}`,
   },
   EnrolmentPrimaryKey,
 );

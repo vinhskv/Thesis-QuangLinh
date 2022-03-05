@@ -41,6 +41,8 @@ export const StudentBasicList = withJDAListController<
   {
     icon: 'account',
     title: student => `${student.name}`,
+    subTitle: student =>
+      `#${student.id} | ${student.dob} | ${student.address.name}`,
   },
   StudentPrimaryKey,
 );

@@ -10,12 +10,8 @@ export interface IDateInputProps extends IJDAFormInputControllerProps<Date> {}
 
 function DateInput(props: IDateInputProps) {
   const date = useMemo(() => {
-    try {
-      const value = new Date(props.field.value);
-      return value;
-    } catch (error) {
-      return undefined;
-    }
+    const value = new Date(props.field.value);
+    return isNaN(value.getTime()) ? undefined : value;
   }, [props.field.value]);
   return (
     <Datepicker
