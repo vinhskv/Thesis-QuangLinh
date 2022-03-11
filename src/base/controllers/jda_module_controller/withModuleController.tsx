@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {ComponentType, useCallback, useEffect, useRef, useState} from 'react';
+import {JDAModuleView, ModuleConfig} from '.';
 import {useAPI} from '../jda_apis/useAPI';
 import {
   IJDAFormControlerProps,
@@ -12,10 +13,6 @@ import {
   JDAControlledListComponent,
 } from '../jda_list_controllers/hocs/withJDAListController';
 import {IJDAListItemControllerProps} from '../jda_list_controllers/hocs/withJDAListItemController';
-export enum JDAModuleView {
-  LIST,
-  FORM,
-}
 export interface IJDAModuleAPI {
   currentView: JDAModuleView;
   ListView: React.ReactNode;
@@ -34,8 +31,7 @@ export function withModuleController<
   Component: ComponentType<P>,
   ListView: JDAControlledListComponent<T, ListItemProps, ListProps>,
   FormView: JDAControlledFormComponent<T, FormProps>,
-  apiResouce: string,
-  primaryKey: keyof T,
+  moduleConfig: ModuleConfig<T>,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI>) => {
     const [currentView, setCurrentView] = useState<JDAModuleView>(
@@ -43,7 +39,7 @@ export function withModuleController<
     );
     const [formMode, setFormMode] = useState<JDAFormMode>(JDAFormMode.CREATE);
     const [formValue, setFormValue] = useState<T | undefined>();
-    const api = useAPI<T>(apiResouce);
+    const api = useAPI<T>(moduleConfig.apiResource);
     const listRef = useRef<IJDAListRef<T>>();
 
     /////////// Connect List and Form to API
@@ -53,7 +49,7 @@ export function withModuleController<
         switch (formMode) {
           case JDAFormMode.EDIT: {
             const res = await api.updateById(
-              submitedItem[primaryKey],
+              submitedItem[moduleConfig.primaryKey],
               submitedItem,
             );
             if (res.success) {
@@ -186,15 +182,13 @@ class TypeUltil<
     Component: ComponentType<P>,
     ListView: JDAControlledListComponent<T, ListItemProps, ListProps>,
     FormView: JDAControlledFormComponent<T, FormProps>,
-    apiResouce: string,
-    primaryKey: keyof T,
+    moduleConfig: ModuleConfig<T>,
   ) =>
     withModuleController<T, ListItemProps, ListProps, FormProps, P>(
       Component,
       ListView,
       FormView,
-      apiResouce,
-      primaryKey,
+      moduleConfig,
     );
 }
 

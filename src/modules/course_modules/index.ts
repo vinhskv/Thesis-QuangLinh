@@ -1,10 +1,7 @@
-import {withJDAFormControler} from '../../base/controllers/jda_form_controllers/withFormController';
 import {withJDAListController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListController';
 import {withJDAListItemController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
-import JDABasicForm, {
-  IJDABasicFormProps,
-} from '../../base/views/jda_form/JDABasicForm';
+import {withJDAMultiFormController} from '../../base/controllers/jda_multi_form_controller/withMultiFormControler';
 import JDABasicList, {
   IJDABasicListProps,
 } from '../../base/views/jda_list/JDABasicList';
@@ -17,12 +14,16 @@ import {
   JDABasicModule,
 } from '../../base/views/jda_module/JDABasicModule';
 import {
+  IJDABasicGenenricFormProps,
+  JDABasicMultiForm,
+} from '../../base/views/jda_multi_form/JDABasicMultiForm';
+import {
   CourseModule,
-  CourseModuleApiResource,
-  CourseModuleFieldLabel,
   CourseModulePrimaryKey,
 } from '../../data_types/CourseModule/CourseModule';
-import {CourseModuleFormConfig} from './CourseModuleFormConfig';
+import {CompulsoryModuleBasicForm} from './compulsory_modules';
+import {CourseModuleModuleConfig} from './CourseModule';
+import {ElectiveModuleBasicForm} from './elective_modules';
 
 type ListItemProps = IJDABasicListItemProps<CourseModule>;
 export const CourseModuleBasicListItem = withJDAListItemController<
@@ -45,15 +46,19 @@ export const CourseModuleBasicList = withJDAListController<
   CourseModulePrimaryKey,
 );
 
-type FormProps = IJDABasicFormProps<CourseModule>;
-export const CourseModuleBasicForm = withJDAFormControler<
-  CourseModule,
-  FormProps
->(
-  JDABasicForm,
-  CourseModuleFormConfig,
-  CourseModuleFieldLabel,
-  CourseModulePrimaryKey,
+type FormProps = IJDABasicGenenricFormProps;
+export const CourseModuleBasicForm = withJDAMultiFormController(
+  JDABasicMultiForm,
+  [
+    {
+      type: 'compulsory',
+      formComponent: CompulsoryModuleBasicForm,
+    },
+    {
+      type: 'elective',
+      formComponent: ElectiveModuleBasicForm,
+    },
+  ],
 );
 
 export const CourseModuleBasicModule = withModuleController<
@@ -66,6 +71,5 @@ export const CourseModuleBasicModule = withModuleController<
   JDABasicModule,
   CourseModuleBasicList,
   CourseModuleBasicForm,
-  CourseModuleApiResource,
-  CourseModulePrimaryKey,
+  CourseModuleModuleConfig,
 );

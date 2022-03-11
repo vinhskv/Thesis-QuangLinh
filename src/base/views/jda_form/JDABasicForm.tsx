@@ -1,5 +1,5 @@
 import {useFocusEffect} from '@react-navigation/native';
-import {Button, Layout, Text} from '@ui-kitten/components';
+import {Button, Layout} from '@ui-kitten/components';
 import * as React from 'react';
 import {BackHandler, ScrollView, StyleSheet} from 'react-native';
 import {
@@ -47,7 +47,6 @@ export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
   );
   return (
     <ScrollView style={styles.container}>
-      <Text>Form</Text>
       {props.formInputs.map((item, index) => (
         <React.Fragment key={index}>{item}</React.Fragment>
       ))}

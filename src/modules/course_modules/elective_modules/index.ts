@@ -1,6 +1,7 @@
 import {withJDAFormControler} from '../../../base/controllers/jda_form_controllers/withFormController';
 import {withJDAListController} from '../../../base/controllers/jda_list_controllers/hocs/withJDAListController';
 import {withJDAListItemController} from '../../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
+import {ModuleConfig} from '../../../base/controllers/jda_module_controller';
 import {withModuleController} from '../../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
@@ -18,12 +19,20 @@ import {
 } from '../../../base/views/jda_module/JDABasicModule';
 import {
   ElectiveModule,
-  ElectiveModulePrimaryKey,
   ElectiveModuleFieldLabel,
-  ElectiveModuleApiResource,
+  ElectiveModulePrimaryKey,
 } from '../../../data_types/CourseModule/ElectiveModule';
+import {CourseModuleModuleConfig} from '../CourseModule';
 import {ElectiveModuleFormConfig} from './ElectiveModuleFormConfig';
-
+export const ElectiveModuleModuleConfig: ModuleConfig<ElectiveModule> = {
+  primaryKey: 'id',
+  apiResource: 'course-modules',
+  moduleName: 'Course Module',
+  fieldLabel: {
+    ...CourseModuleModuleConfig.fieldLabel,
+    deptName: 'Dept name',
+  },
+};
 type ListItemProps = IJDABasicListItemProps<ElectiveModule>;
 export const ElectiveModuleBasicListItem = withJDAListItemController<
   ElectiveModule,
@@ -66,6 +75,5 @@ export const ElectiveModuleBasicModule = withModuleController<
   JDABasicModule,
   ElectiveModuleBasicList,
   ElectiveModuleBasicForm,
-  ElectiveModuleApiResource,
-  ElectiveModulePrimaryKey,
+  ElectiveModuleModuleConfig,
 );

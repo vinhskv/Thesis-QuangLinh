@@ -1,9 +1,8 @@
+import {Text} from '@ui-kitten/components';
 import * as React from 'react';
-import {Modal, SafeAreaView} from 'react-native';
-import {
-  IJDAModuleControllerProps,
-  JDAModuleView,
-} from '../../controllers/jda_module_controller/withModuleController';
+import {Modal, SafeAreaView, StyleSheet} from 'react-native';
+import {JDAModuleView} from '../../controllers/jda_module_controller';
+import {IJDAModuleControllerProps} from '../../controllers/jda_module_controller/withModuleController';
 
 export interface IJDABasicModuleProps extends IJDAModuleControllerProps {
   moduleName: string;
@@ -19,8 +18,16 @@ export function JDABasicModule(props: IJDABasicModuleProps) {
         onRequestClose={() => {}}
         // transparent={true}
         animationType={'slide'}>
+        <Text style={styles.formTitle}>Form: {props.moduleName}</Text>
         {props.FormView}
       </Modal>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  formTitle: {
+    textAlign: 'center',
+    fontSize: 20,
+  },
+});

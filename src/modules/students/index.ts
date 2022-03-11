@@ -1,6 +1,7 @@
 import {withJDAFormControler} from '../../base/controllers/jda_form_controllers/withFormController';
 import {withJDAListController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListController';
 import {withJDAListItemController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
+import {ModuleConfig} from '../../base/controllers/jda_module_controller';
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
@@ -18,12 +19,23 @@ import {
 } from '../../base/views/jda_module/JDABasicModule';
 import {
   Student,
-  StudentApiResource,
   StudentFieldLabel,
   StudentPrimaryKey,
 } from '../../data_types/Student';
 import {StudentFormConfig} from './StudentFormConfig';
-
+export const StudentModuleConfig: ModuleConfig<Student> = {
+  primaryKey: 'id',
+  apiResource: 'students',
+  moduleName: 'Students',
+  fieldLabel: {
+    id: 'ID',
+    name: 'Name',
+    gender: 'Gender',
+    dob: 'Date of birth',
+    email: 'Email',
+    address: 'Address',
+  },
+};
 type ListItemProps = IJDABasicListItemProps<Student>;
 export const StudentBasicListItem = withJDAListItemController<
   Student,
@@ -61,10 +73,4 @@ export const StudentBasicModule = withModuleController<
   ListProps,
   FormProps,
   IJDABasicModuleProps
->(
-  JDABasicModule,
-  StudentBasicList,
-  StudentBasicForm,
-  StudentApiResource,
-  StudentPrimaryKey,
-);
+>(JDABasicModule, StudentBasicList, StudentBasicForm, StudentModuleConfig);

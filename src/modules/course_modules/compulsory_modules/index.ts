@@ -1,6 +1,7 @@
 import {withJDAFormControler} from '../../../base/controllers/jda_form_controllers/withFormController';
 import {withJDAListController} from '../../../base/controllers/jda_list_controllers/hocs/withJDAListController';
 import {withJDAListItemController} from '../../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
+import {ModuleConfig} from '../../../base/controllers/jda_module_controller';
 import {withModuleController} from '../../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
@@ -18,13 +19,20 @@ import {
 } from '../../../base/views/jda_module/JDABasicModule';
 import {
   CompulsoryModule,
-  CompulsoryModulePrimaryKey,
   CompulsoryModuleFieldLabel,
-  CompulsoryModuleApiResource,
+  CompulsoryModulePrimaryKey,
 } from '../../../data_types/CourseModule/CompulsoryModule';
-
+import {CourseModuleModuleConfig} from '../CourseModule';
 import {CompulsoryModuleFormConfig} from './CompulsoryModuleFormConfig';
 
+export const CompulsoryModuleModuleConfig: ModuleConfig<CompulsoryModule> = {
+  primaryKey: 'id',
+  apiResource: 'course-modules',
+  moduleName: 'Course Module',
+  fieldLabel: {
+    ...CourseModuleModuleConfig.fieldLabel,
+  },
+};
 type ListItemProps = IJDABasicListItemProps<CompulsoryModule>;
 export const CompulsoryModuleBasicListItem = withJDAListItemController<
   CompulsoryModule,
@@ -67,6 +75,5 @@ export const CompulsoryModuleBasicModule = withModuleController<
   JDABasicModule,
   CompulsoryModuleBasicList,
   CompulsoryModuleBasicForm,
-  CompulsoryModuleApiResource,
-  CompulsoryModulePrimaryKey,
+  CompulsoryModuleModuleConfig,
 );
