@@ -1,16 +1,16 @@
-import {Button, Divider, Icon, List, ListItem} from '@ui-kitten/components';
+import {Divider, Icon, List, ListItem} from '@ui-kitten/components';
 import * as React from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import {IJDAInput} from '.';
+import {JDAButtonInput} from './JDAButtonInput';
 
-export interface IJDASelectProps<T> {
-  label: string;
+export interface IJDASelectInputProps<T> extends IJDAInput<T> {
+  label?: string;
   values: T[];
-  labelRender: (v: T) => string;
-  value: T;
-  onChange: (v: T) => void;
+  valueRender: (v: T) => string;
 }
 
-export function JDASelect<T>(props: IJDASelectProps<T>) {
+export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
   const ref = React.useRef<RBSheet>();
   return (
     <>
@@ -23,9 +23,12 @@ export function JDASelect<T>(props: IJDASelectProps<T>) {
           }}
           label={props.label}
         /> */}
-      <Button onPress={() => ref.current?.open()}>
-        {`Type: ${props.labelRender(props.value)}`}
-      </Button>
+      <JDAButtonInput
+        disabled={props.disabled}
+        onPress={() => ref.current?.open()}
+        label={props.label}
+        value={props.valueRender(props.value || props.values[0])}
+      />
       <RBSheet
         ref={ref as any}
         // height={300}
@@ -36,11 +39,13 @@ export function JDASelect<T>(props: IJDASelectProps<T>) {
           renderItem={({item}) => (
             <ListItem
               onPress={() => {
-                props.onChange(item);
+                if (props.onChange) {
+                  props.onChange(item);
+                }
                 ref.current?.close();
               }}
               accessoryLeft={p => <Icon {...p} name="droplet-outline" />}
-              title={props.labelRender(item)}
+              title={props.valueRender(item)}
             />
           )}
         />

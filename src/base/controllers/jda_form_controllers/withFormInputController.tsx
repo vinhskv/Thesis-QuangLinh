@@ -2,6 +2,7 @@ import React, {ComponentType} from 'react';
 import {
   Controller,
   ControllerFieldState,
+  Path,
   useFormContext,
   UseFormStateReturn,
 } from 'react-hook-form';
@@ -16,7 +17,7 @@ export interface IJDAFormInputAPI<T> {
 }
 
 export interface IJDAFormInputControllerProps<T> extends IJDAFormInputAPI<T> {
-  name: string;
+  name: Path<T>;
   label: string;
   disabled?: boolean;
 }
@@ -24,15 +25,19 @@ export interface IJDAFormInputControllerProps<T> extends IJDAFormInputAPI<T> {
 export function withJDAFormInputController<
   T,
   P extends IJDAFormInputControllerProps<T>,
->(Component: ComponentType<P>) {
+>(
+  Component: ComponentType<P>,
+  componentProps?: Omit<P, keyof IJDAFormInputControllerProps<T>>,
+) {
   return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
-    const {control} = useFormContext();
+    const {control} = useFormContext<T>();
     return (
       <Controller
         name={props.name}
         control={control}
         render={item => (
           <Component
+            {...componentProps}
             {...(props as P)}
             {...item}
             field={{

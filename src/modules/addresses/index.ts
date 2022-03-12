@@ -1,7 +1,6 @@
 import {withJDAFormControler} from '../../base/controllers/jda_form_controllers/withFormController';
 import {withJDAListController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListController';
 import {withJDAListItemController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
-import {ModuleConfig} from '../../base/controllers/jda_module_controller';
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
@@ -23,16 +22,8 @@ import {
   AddressPrimaryKey,
 } from '../../data_types/Address';
 import {AddressFormConfig} from './AddressFormConfig';
-export const AddressModuleConfig: ModuleConfig<Address> = {
-  primaryKey: 'id',
-  apiResource: 'addresses',
-  moduleName: 'Addresses',
-  fieldLabel: {
-    id: 'ID',
-    name: 'City name',
-    student: 'Student',
-  },
-};
+import {AddressModuleConfig} from './config';
+
 type ListItemProps = IJDABasicListItemProps<Address>;
 export const AddressBasicListItem = withJDAListItemController<
   Address,

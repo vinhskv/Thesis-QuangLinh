@@ -1,6 +1,7 @@
 import React, {ComponentType, useCallback, useEffect} from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {JDAControlledFormInputComponent} from './withFormInputController';
+import {JDAControlledFormMultiInputComponent} from './withMultilFormInputController';
 
 export enum JDAFormMode {
   CREATE,
@@ -18,6 +19,12 @@ export interface IJDAFormAPI {
   formInputs: React.ReactNode[];
 }
 
+export type JDAFormConfig<T> = Record<
+  keyof T,
+  | JDAControlledFormInputComponent<T, any>
+  | JDAControlledFormMultiInputComponent<T, any, any>
+>;
+
 export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
   onSubmit: (value: T) => void;
   onCancel?: () => void;
@@ -27,29 +34,18 @@ export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
 
 export function withJDAFormControler<T, P extends IJDAFormControlerProps<T>>(
   Component: ComponentType<P>,
-  formConfig: Record<keyof T, JDAControlledFormInputComponent<T, any>>,
+  formConfig: JDAFormConfig<T>,
   labelConfig: Record<keyof T, string>,
   primaryKey: keyof T,
 ) {
   return (props: Omit<P, keyof IJDAFormAPI>) => {
     const form = useForm<T>();
     useEffect(() => {
-      console.log('+++++++++++++++', props.initValue);
-
       if (props.initValue) {
         form.reset(props.initValue as any);
       }
     }, [form, props.initValue]);
-    // useImperativeHandle(ref, () => ({
-    //   setMode: mode => {
-    //     console.log('change form ===========', mode);
-    //     setFormMode(mode);
-    //   },
-    //   setFormValue: value => {
-    //     console.log('setform value', value);
-    //     form.reset(value as any);
-    //   },
-    // }));
+
     const handleSubmit = useCallback(
       (data: T) => {
         console.log(data);
@@ -60,10 +56,8 @@ export function withJDAFormControler<T, P extends IJDAFormControlerProps<T>>(
 
     const checkDisabled = useCallback(
       (key: keyof T) => {
-        if (props.mode === JDAFormMode.READ_ONLY) {
-          return true;
-        } else if (
-          props.mode === JDAFormMode.EDIT &&
+        if (
+          props.mode === JDAFormMode.READ_ONLY ||
           String(key) === String(primaryKey)
         ) {
           return true;

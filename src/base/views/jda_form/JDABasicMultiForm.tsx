@@ -1,8 +1,8 @@
+import _ from 'lodash';
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {IJDAMultiFormControllerProps} from '../../controllers/jda_multi_form_controller/withMultiFormControler';
-import {JDASelect} from '../jda_inputs/JDASelect';
-
+import {IJDAMultiFormControllerProps} from '../../controllers/jda_form_controllers/withMultiFormControler';
+import {JDASelectInput} from '../jda_inputs/JDASelectInput';
 export interface IJDABasicGenenricFormProps
   extends IJDAMultiFormControllerProps {}
 
@@ -10,10 +10,10 @@ export function JDABasicMultiForm(props: IJDABasicGenenricFormProps) {
   return (
     <View style={styles.container}>
       <View style={styles.select}>
-        <JDASelect<string>
+        <JDASelectInput<string>
           label="Type"
           values={props.formTypes}
-          labelRender={v => v}
+          valueRender={v => _.upperFirst(v)}
           value={props.formType}
           onChange={props.onChangeFormType}
         />

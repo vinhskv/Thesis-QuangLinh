@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   container: {
-    padding: 10,
+    paddingHorizontal: 10,
     backgroundColor: 'white',
   },
   footer: {

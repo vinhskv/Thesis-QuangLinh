@@ -4,7 +4,7 @@ import {
   IJDAFormAPI,
   IJDAFormControlerProps,
   JDAControlledFormComponent,
-} from '../jda_form_controllers/withFormController';
+} from './withFormController';
 
 interface IJDAGenericFormAPI<T> extends IJDAFormAPI {
   formType: string;

@@ -1,7 +1,6 @@
 import {withJDAFormControler} from '../../base/controllers/jda_form_controllers/withFormController';
 import {withJDAListController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListController';
 import {withJDAListItemController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
-import {ModuleConfig} from '../../base/controllers/jda_module_controller';
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
@@ -22,20 +21,9 @@ import {
   EnrolmentFieldLabel,
   EnrolmentPrimaryKey,
 } from '../../data_types/Enrolment';
+import {EnrolmentModuleConfig} from './config';
 import {EnrolmentFormConfig} from './EnrolmentFormConfig';
-export const EnrolmentModuleConfig: ModuleConfig<Enrolment> = {
-  primaryKey: 'id',
-  apiResource: 'enrolments',
-  moduleName: 'Enrolments',
-  fieldLabel: {
-    id: 'ID',
-    student: 'Student',
-    courseModule: 'Course module',
-    internalMark: 'Internal mark',
-    examMark: 'Exam mark',
-    finalGrade: 'Final grade',
-  },
-};
+
 type ListItemProps = IJDABasicListItemProps<Enrolment>;
 export const EnrolmentBasicListItem = withJDAListItemController<
   Enrolment,

@@ -1,7 +1,6 @@
 import {withJDAFormControler} from '../../base/controllers/jda_form_controllers/withFormController';
 import {withJDAListController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListController';
 import {withJDAListItemController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
-import {ModuleConfig} from '../../base/controllers/jda_module_controller';
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
 import JDABasicForm, {
   IJDABasicFormProps,
@@ -22,20 +21,9 @@ import {
   StudentFieldLabel,
   StudentPrimaryKey,
 } from '../../data_types/Student';
+import {StudentModuleConfig} from './config';
 import {StudentFormConfig} from './StudentFormConfig';
-export const StudentModuleConfig: ModuleConfig<Student> = {
-  primaryKey: 'id',
-  apiResource: 'students',
-  moduleName: 'Students',
-  fieldLabel: {
-    id: 'ID',
-    name: 'Name',
-    gender: 'Gender',
-    dob: 'Date of birth',
-    email: 'Email',
-    address: 'Address',
-  },
-};
+
 type ListItemProps = IJDABasicListItemProps<Student>;
 export const StudentBasicListItem = withJDAListItemController<
   Student,
@@ -54,7 +42,7 @@ export const StudentBasicList = withJDAListController<
     icon: 'account',
     title: student => `${student.name}`,
     subTitle: student =>
-      `#${student.id} | ${student.dob} | ${student.address.name}`,
+      `#${student.id} | ${student.dob} | ${student.address?.name || ''}`,
   },
   StudentPrimaryKey,
 );

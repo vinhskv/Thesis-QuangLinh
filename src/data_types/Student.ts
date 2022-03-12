@@ -11,7 +11,7 @@ export interface Student {
   gender: Gender;
   dob: Date;
   email: string;
-  address: Address;
+  address?: Address;
 }
 export const StudentPrimaryKey: keyof Student = 'id';
 
@@ -27,12 +27,12 @@ export const StudentApiResource: string = 'students';
 export const StudentModuleName: string = 'Students';
 
 export interface StudentPOST extends Omit<Student, 'id' | 'address'> {
-  addressId: number;
+  addressId?: number;
 }
 
 export function toStudentPOST(s: Student): StudentPOST {
   return {
     ...s,
-    addressId: s.address.id,
+    addressId: s.address?.id,
   };
 }

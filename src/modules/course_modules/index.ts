@@ -1,7 +1,11 @@
+import {withJDAMultiFormController} from '../../base/controllers/jda_form_controllers/withMultiFormControler';
 import {withJDAListController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListController';
 import {withJDAListItemController} from '../../base/controllers/jda_list_controllers/hocs/withJDAListItemController';
 import {withModuleController} from '../../base/controllers/jda_module_controller/withModuleController';
-import {withJDAMultiFormController} from '../../base/controllers/jda_multi_form_controller/withMultiFormControler';
+import {
+  IJDABasicGenenricFormProps,
+  JDABasicMultiForm,
+} from '../../base/views/jda_form/JDABasicMultiForm';
 import JDABasicList, {
   IJDABasicListProps,
 } from '../../base/views/jda_list/JDABasicList';
@@ -14,15 +18,11 @@ import {
   JDABasicModule,
 } from '../../base/views/jda_module/JDABasicModule';
 import {
-  IJDABasicGenenricFormProps,
-  JDABasicMultiForm,
-} from '../../base/views/jda_multi_form/JDABasicMultiForm';
-import {
   CourseModule,
   CourseModulePrimaryKey,
 } from '../../data_types/CourseModule/CourseModule';
 import {CompulsoryModuleBasicForm} from './compulsory_modules';
-import {CourseModuleModuleConfig} from './CourseModule';
+import {CourseModuleModuleConfig} from './config';
 import {ElectiveModuleBasicForm} from './elective_modules';
 
 type ListItemProps = IJDABasicListItemProps<CourseModule>;
