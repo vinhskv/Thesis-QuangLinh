@@ -17,33 +17,30 @@ import {
   IJDABasicModuleProps,
   JDABasicModule,
 } from '../../base/views/jda_module/JDABasicModule';
-import {
-  CourseModule,
-  CourseModulePrimaryKey,
-} from '../../data_types/CourseModule/CourseModule';
+import {ICourseModule} from '../../data_types/CourseModule';
 import {CompulsoryModuleBasicForm} from './compulsory_modules';
 import {CourseModuleModuleConfig} from './config';
 import {ElectiveModuleBasicForm} from './elective_modules';
 
-type ListItemProps = IJDABasicListItemProps<CourseModule>;
+type ListItemProps = IJDABasicListItemProps<ICourseModule>;
 export const CourseModuleBasicListItem = withJDAListItemController<
-  CourseModule,
+  ICourseModule,
   ListItemProps
 >(JDABasicListItem);
 
-type ListProps = IJDABasicListProps<CourseModule>;
+type ListProps = IJDABasicListProps<ICourseModule>;
 export const CourseModuleBasicList = withJDAListController<
-  CourseModule,
+  ICourseModule,
   ListItemProps,
   ListProps
 >(
   JDABasicList,
   CourseModuleBasicListItem,
   {
-    icon: 'book-open',
+    icon: 'book-open-outline',
     title: course => `${course.name}`,
   },
-  CourseModulePrimaryKey,
+  CourseModuleModuleConfig,
 );
 
 type FormProps = IJDABasicGenenricFormProps;
@@ -62,11 +59,11 @@ export const CourseModuleBasicForm = withJDAMultiFormController(
 );
 
 export const CourseModuleBasicModule = withModuleController<
-  CourseModule,
+  ICourseModule,
   ListItemProps,
   ListProps,
   FormProps,
-  IJDABasicModuleProps
+  IJDABasicModuleProps<ICourseModule>
 >(
   JDABasicModule,
   CourseModuleBasicList,

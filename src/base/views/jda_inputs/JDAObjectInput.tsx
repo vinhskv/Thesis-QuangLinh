@@ -17,8 +17,8 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
   const ref = React.useRef<RBSheet>();
   const api = useAPI<T>(props.apiResource);
   const [options, setOptions] = React.useState<T[]>([]);
-  const [keyword, setKeyword] = React.useState('');
-  const searchValue = useDebounce<string>(keyword, 500);
+  const [keyword, setKeyword] = React.useState<string | undefined>('');
+  const searchValue = useDebounce<string | undefined>(keyword, 500);
   const search = React.useCallback(async () => {
     const address = await api.getByPage(0);
     if (address.success && address.payload.content) {

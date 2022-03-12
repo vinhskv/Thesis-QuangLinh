@@ -16,11 +16,7 @@ import {
   IJDABasicModuleProps,
   JDABasicModule,
 } from '../../base/views/jda_module/JDABasicModule';
-import {
-  Address,
-  AddressFieldLabel,
-  AddressPrimaryKey,
-} from '../../data_types/Address';
+import {Address} from '../../data_types/Address';
 import {AddressFormConfig, AddressModuleConfig} from './config';
 
 type ListItemProps = IJDABasicListItemProps<Address>;
@@ -38,19 +34,18 @@ export const AddressBasicList = withJDAListController<
   JDABasicList,
   AddressBasicListItem,
   {
-    icon: 'home',
+    icon: 'home-outline',
     title: address => `${address.name}`,
     subTitle: address => `#${address.id}`,
   },
-  AddressPrimaryKey,
+  AddressModuleConfig,
 );
 
 type FormProps = IJDABasicFormProps<Address>;
 export const AddressBasicForm = withJDAFormControler<Address, FormProps>(
   JDABasicForm,
   AddressFormConfig,
-  AddressFieldLabel,
-  AddressPrimaryKey,
+  AddressModuleConfig,
 );
 
 export const AddressBasicModule = withModuleController<
@@ -58,5 +53,5 @@ export const AddressBasicModule = withModuleController<
   ListItemProps,
   ListProps,
   FormProps,
-  IJDABasicModuleProps
+  IJDABasicModuleProps<Address>
 >(JDABasicModule, AddressBasicList, AddressBasicForm, AddressModuleConfig);

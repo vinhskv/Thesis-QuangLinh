@@ -1,22 +1,11 @@
-import {CourseModule} from './CourseModule/CourseModule';
-import {Student} from './Student';
+import {ICourseModule} from './CourseModule';
+import {IStudent} from './Student';
 
-export interface Enrolment {
+export interface IEnrolment {
   id: number;
-  student?: Student;
-  courseModule?: CourseModule;
+  student?: IStudent;
+  courseModule?: ICourseModule;
   internalMark: number;
   examMark: number;
   finalGrade: string;
 }
-export const EnrolmentPrimaryKey: keyof Enrolment = 'id';
-export const EnrolmentApiResource: string = 'enrolments';
-export const EnrolmentModuleName: string = 'Enrolments';
-export const EnrolmentFieldLabel: Record<keyof Enrolment, string> = {
-  id: 'ID',
-  student: 'Student',
-  courseModule: 'Course module',
-  internalMark: 'Internal mark',
-  examMark: 'Exam mark',
-  finalGrade: 'Final grade',
-};

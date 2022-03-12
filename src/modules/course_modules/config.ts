@@ -1,9 +1,9 @@
 import {JDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
 import {ModuleConfig} from '../../base/controllers/jda_module_controller';
-import {CourseModule} from '../../data_types/CourseModule/CourseModule';
+import {ICourseModule} from '../../data_types/CourseModule';
 import {FormNumberInput, FormStringInput} from '../FormInputs';
 
-export const CourseModuleModuleConfig: ModuleConfig<CourseModule> = {
+export const CourseModuleModuleConfig: ModuleConfig<ICourseModule> = {
   primaryKey: 'id',
   apiResource: 'course-modules',
   moduleName: 'Course Module',
@@ -17,7 +17,7 @@ export const CourseModuleModuleConfig: ModuleConfig<CourseModule> = {
   quickRender: v => (v ? `${v.name}` : ''),
 };
 
-export const CourseModuleFormConfig: JDAFormConfig<CourseModule> = {
+export const CourseModuleFormConfig: JDAFormConfig<ICourseModule> = {
   id: FormNumberInput,
   name: FormStringInput,
   code: FormStringInput,

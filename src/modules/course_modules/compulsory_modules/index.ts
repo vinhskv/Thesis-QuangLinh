@@ -16,54 +16,45 @@ import {
   IJDABasicModuleProps,
   JDABasicModule,
 } from '../../../base/views/jda_module/JDABasicModule';
-import {
-  CompulsoryModule,
-  CompulsoryModuleFieldLabel,
-  CompulsoryModulePrimaryKey,
-} from '../../../data_types/CourseModule/CompulsoryModule';
+import {ICompulsoryModule} from '../../../data_types/CompulsoryModule';
 import {
   CompulsoryModuleFormConfig,
   CompulsoryModuleModuleConfig,
 } from './config';
 
-type ListItemProps = IJDABasicListItemProps<CompulsoryModule>;
+type ListItemProps = IJDABasicListItemProps<ICompulsoryModule>;
 export const CompulsoryModuleBasicListItem = withJDAListItemController<
-  CompulsoryModule,
+  ICompulsoryModule,
   ListItemProps
 >(JDABasicListItem);
 
-type ListProps = IJDABasicListProps<CompulsoryModule>;
+type ListProps = IJDABasicListProps<ICompulsoryModule>;
 export const CompulsoryModuleBasicList = withJDAListController<
-  CompulsoryModule,
+  ICompulsoryModule,
   ListItemProps,
   ListProps
 >(
   JDABasicList,
   CompulsoryModuleBasicListItem,
   {
-    icon: 'book-open',
+    icon: 'book-open-outline',
     title: course => `${course.name}`,
   },
-  CompulsoryModulePrimaryKey,
+  CompulsoryModuleModuleConfig,
 );
 
-type FormProps = IJDABasicFormProps<CompulsoryModule>;
+type FormProps = IJDABasicFormProps<ICompulsoryModule>;
 export const CompulsoryModuleBasicForm = withJDAFormControler<
-  CompulsoryModule,
+  ICompulsoryModule,
   FormProps
->(
-  JDABasicForm,
-  CompulsoryModuleFormConfig,
-  CompulsoryModuleFieldLabel,
-  CompulsoryModulePrimaryKey,
-);
+>(JDABasicForm, CompulsoryModuleFormConfig, CompulsoryModuleModuleConfig);
 
 export const CompulsoryModuleBasicModule = withModuleController<
-  CompulsoryModule,
+  ICompulsoryModule,
   ListItemProps,
   ListProps,
   FormProps,
-  IJDABasicModuleProps
+  IJDABasicModuleProps<ICompulsoryModule>
 >(
   JDABasicModule,
   CompulsoryModuleBasicList,

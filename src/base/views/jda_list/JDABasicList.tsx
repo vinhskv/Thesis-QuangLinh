@@ -1,6 +1,6 @@
-import {Button, Icon} from '@ui-kitten/components';
+import {Button, Divider, Icon, List} from '@ui-kitten/components';
 import * as React from 'react';
-import {FlatList, Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 // import {
 //   DefaultListAction,
 //   DefaultListItemAction,
@@ -12,7 +12,16 @@ export interface IJDABasicListProps<T> extends IJDAListControllerProps<T> {}
 export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
   return (
     <View>
-      <FlatList
+      <List
+        ListHeaderComponent={
+          <Button
+            size={'small'}
+            accessoryLeft={<Icon name="plus" />}
+            style={styles.fab}
+            onPress={props.onAddItem}>
+            Add
+          </Button>
+        }
         refreshing={props.loading}
         data={props.itemComponents}
         onRefresh={props.onRefresh}
@@ -22,12 +31,8 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
             source={require('./nodata-found.png')}
           />
         }
+        ItemSeparatorComponent={Divider}
         renderItem={({item}) => item}
-      />
-      <Button
-        accessoryLeft={<Icon name="plus" />}
-        style={styles.fab}
-        onPress={props.onAddItem}
       />
     </View>
   );
@@ -36,8 +41,6 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
 const styles = StyleSheet.create({
   fab: {
     margin: 5,
-    width: 16,
-    height: 16,
     alignSelf: 'flex-end',
   },
   emptyImage: {

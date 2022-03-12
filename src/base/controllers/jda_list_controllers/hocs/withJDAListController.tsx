@@ -4,6 +4,7 @@ import React, {
   useImperativeHandle,
   useState,
 } from 'react';
+import {ModuleConfig} from '../../jda_module_controller';
 import {JDAListContext} from '../contexts/ListContext';
 import {
   IJDAListItemActionsProps,
@@ -56,21 +57,21 @@ export function withJDAListController<
   Component: ComponentType<ListProps>,
   ItemComponent: JDAControlledListItemComponent<T, ItemProps>,
   ItemComponentProps: Omit<ItemProps, keyof IJDAListItemControllerProps<T>>,
-  itemPrimaryKey: keyof T,
+  moduleConfig: ModuleConfig<T>,
 ) {
   return forwardRef<IJDAListRef<T>, Omit<ListProps, keyof IJDAListAPI<T>>>(
     (props, ref) => {
       const [loading, setLoading] = useState(false);
       const {paging, pageControl} = usePageControl();
-      const {items, itemsControl} = useItemsControl<T>(itemPrimaryKey);
+      const {items, itemsControl} = useItemsControl<T>(moduleConfig.primaryKey);
       const {checkedItems, checkControl} = useListCheckControl<T>(
-        itemPrimaryKey,
+        moduleConfig.primaryKey,
         items,
       );
       const itemActionsHandler = useItemActions(
         items,
         {...props},
-        itemPrimaryKey,
+        moduleConfig.primaryKey,
       );
 
       // export api via ref for control from ParrentComponent
@@ -112,13 +113,13 @@ class TypeUltil<
     Component: ComponentType<ListProps>,
     ItemComponent: JDAControlledListItemComponent<T, ItemProps>,
     ItemComponentProps: Omit<ItemProps, keyof IJDAListItemControllerProps<T>>,
-    itemPrimaryKey: keyof T,
+    moduleConfig: ModuleConfig<T>,
   ) =>
     withJDAListController<T, ItemProps, ListProps>(
       Component,
       ItemComponent,
       ItemComponentProps,
-      itemPrimaryKey,
+      moduleConfig,
     );
 }
 

@@ -1,39 +1,47 @@
+import {Button, Icon, ListItem} from '@ui-kitten/components';
 import * as React from 'react';
-import {IconButton, List, Text} from 'react-native-paper';
-import {IconSource} from 'react-native-paper/lib/typescript/components/Icon';
+import {StyleSheet} from 'react-native';
 import {IJDAListItemControllerProps} from '../../controllers/jda_list_controllers/hocs/withJDAListItemController';
 
 export interface IJDABasicListItemProps<T>
   extends IJDAListItemControllerProps<T> {
-  icon: IconSource;
+  icon: any;
   title: (item: T) => string;
   subTitle?: (item: T) => string;
 }
 export function JDABasicListItem<T>(props: IJDABasicListItemProps<T>) {
   return (
-    <List.Item
-      left={p => <List.Icon {...p} icon={props.icon} />}
+    <ListItem
+      accessoryLeft={p => <Icon {...p} name={props.icon} />}
       onPress={props.onShowDetail}
-      title={() => <Text>{props.title(props.item)}</Text>}
-      description={() =>
-        props.subTitle ? <Text>{props.subTitle(props.item)}</Text> : undefined
-      }
-      right={p => (
+      title={props.title(props.item)}
+      description={props.subTitle ? props.subTitle(props.item) : undefined}
+      accessoryRight={_p => (
         <>
-          <IconButton
+          <Button
+            style={styles.button}
+            appearance={'ghost'}
+            status="basic"
+            accessoryRight={<Icon name="edit-2-outline" />}
             onPress={props.onEdit}
-            icon={'circle-edit-outline'}
-            {...p}
-            color="grey"
           />
-          <IconButton
+          <Button
+            style={styles.button}
+            appearance={'ghost'}
+            status="danger"
+            accessoryRight={<Icon name="trash-2-outline" />}
             onPress={props.onDelete}
-            icon={'delete'}
-            {...p}
-            color="red"
           />
         </>
       )}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    margin: 0,
+    padding: 0,
+    width: 10,
+  },
+});

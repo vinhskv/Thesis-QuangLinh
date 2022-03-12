@@ -16,51 +16,46 @@ import {
   IJDABasicModuleProps,
   JDABasicModule,
 } from '../../base/views/jda_module/JDABasicModule';
-import {
-  Enrolment,
-  EnrolmentFieldLabel,
-  EnrolmentPrimaryKey,
-} from '../../data_types/Enrolment';
+import {IEnrolment} from '../../data_types/Enrolment';
 import {EnrolmentFormConfig, EnrolmentModuleConfig} from './config';
 
-type ListItemProps = IJDABasicListItemProps<Enrolment>;
+type ListItemProps = IJDABasicListItemProps<IEnrolment>;
 export const EnrolmentBasicListItem = withJDAListItemController<
-  Enrolment,
+  IEnrolment,
   ListItemProps
 >(JDABasicListItem);
 
-type ListProps = IJDABasicListProps<Enrolment>;
+type ListProps = IJDABasicListProps<IEnrolment>;
 export const EnrolmentBasicList = withJDAListController<
-  Enrolment,
+  IEnrolment,
   ListItemProps,
   ListProps
 >(
   JDABasicList,
   EnrolmentBasicListItem,
   {
-    icon: 'ballot-outline',
+    icon: 'layers-outline',
     title: enrolment =>
       `#${enrolment.id} | ${enrolment.courseModule?.name || ''}`,
     subTitle: enrolment =>
       `#${enrolment.student?.id}-${enrolment.student?.name} | ${enrolment.finalGrade}`,
   },
-  EnrolmentPrimaryKey,
+  EnrolmentModuleConfig,
 );
 
-type FormProps = IJDABasicFormProps<Enrolment>;
-export const EnrolmentBasicForm = withJDAFormControler<Enrolment, FormProps>(
+type FormProps = IJDABasicFormProps<IEnrolment>;
+export const EnrolmentBasicForm = withJDAFormControler<IEnrolment, FormProps>(
   JDABasicForm,
   EnrolmentFormConfig,
-  EnrolmentFieldLabel,
-  EnrolmentPrimaryKey,
+  EnrolmentModuleConfig,
 );
 
 export const EnrolmentBasicModule = withModuleController<
-  Enrolment,
+  IEnrolment,
   ListItemProps,
   ListProps,
   FormProps,
-  IJDABasicModuleProps
+  IJDABasicModuleProps<IEnrolment>
 >(
   JDABasicModule,
   EnrolmentBasicList,

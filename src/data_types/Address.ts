@@ -1,17 +1,15 @@
-import {Student} from './Student';
+import {IStudent} from './Student';
 
-export interface Address {
+export interface IAddress {
   id: number;
   name: string;
-  student?: Student;
+  student?: IStudent;
 }
 
-export const AddressPrimaryKey: keyof Address = 'id';
-export const AddressApiResource: string = 'addresses';
-export const AddressModuleName: string = 'Addresses';
-export const AddressFieldLabel: Record<keyof Address, string> = {
-  id: 'ID',
-  name: 'City name',
-  student: 'Student',
-};
-//TODO create Module info object and share to all controller
+export class Address implements IAddress {
+  constructor(
+    public id: number,
+    public name: string,
+    public student?: IStudent,
+  ) {}
+}

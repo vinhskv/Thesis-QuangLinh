@@ -13,27 +13,28 @@ import {
   JDAControlledListComponent,
 } from '../jda_list_controllers/hocs/withJDAListController';
 import {IJDAListItemControllerProps} from '../jda_list_controllers/hocs/withJDAListItemController';
-export interface IJDAModuleAPI {
+export interface IJDAModuleAPI<T> {
   currentView: JDAModuleView;
   ListView: React.ReactNode;
   FormView: React.ReactNode;
+  moduleConfig: ModuleConfig<T>;
 }
 
-export interface IJDAModuleControllerProps extends IJDAModuleAPI {} // reversed for other logic
+export interface IJDAModuleControllerProps<T> extends IJDAModuleAPI<T> {} // reversed for other logic
 
 export function withModuleController<
   T,
   ListItemProps extends IJDAListItemControllerProps<T>,
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
-  P extends IJDAModuleControllerProps,
+  P extends IJDAModuleControllerProps<T>,
 >(
   Component: ComponentType<P>,
   ListView: JDAControlledListComponent<T, ListItemProps, ListProps>,
   FormView: JDAControlledFormComponent<T, FormProps>,
   moduleConfig: ModuleConfig<T>,
 ) {
-  return (props: Omit<P, keyof IJDAModuleAPI>) => {
+  return (props: Omit<P, keyof IJDAModuleAPI<T>>) => {
     const [currentView, setCurrentView] = useState<JDAModuleView>(
       JDAModuleView.LIST,
     );
@@ -141,6 +142,7 @@ export function withModuleController<
     return (
       <Component
         {...(props as P)}
+        moduleConfig={moduleConfig}
         currentView={currentView}
         ListView={
           <ListView
@@ -175,7 +177,7 @@ class TypeUltil<
   ListItemProps extends IJDAListItemControllerProps<T>,
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
-  P extends IJDAModuleControllerProps,
+  P extends IJDAModuleControllerProps<T>,
 > {
   //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
   controlled = (
@@ -197,7 +199,7 @@ export type JDAControlledModuleComponent<
   ListItemProps extends IJDAListItemControllerProps<T>,
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
-  P extends IJDAModuleControllerProps,
+  P extends IJDAModuleControllerProps<T>,
 > = ReturnType<
   TypeUltil<T, ListItemProps, ListProps, FormProps, P>['controlled']
 >;

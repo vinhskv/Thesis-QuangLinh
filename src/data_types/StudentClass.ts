@@ -1,16 +1,7 @@
-import {Student} from './Student';
+import {IStudent} from './Student';
 
-export interface StudentClass {
+export interface IStudentClass {
   id: number;
   name: string;
-  students: Student[];
+  students: IStudent[];
 }
-export const StudentClassPrimaryKey: keyof StudentClass = 'id';
-export const StudentClassApiResource: string = 'student-classes';
-export const StudentClassModuleName: string = 'Student - Class';
-
-export const StudentClassFieldLabel: Record<keyof StudentClass, string> = {
-  id: 'ID',
-  name: 'Name',
-  students: 'Students',
-};

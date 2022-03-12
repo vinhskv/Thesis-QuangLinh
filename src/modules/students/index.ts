@@ -16,48 +16,43 @@ import {
   IJDABasicModuleProps,
   JDABasicModule,
 } from '../../base/views/jda_module/JDABasicModule';
-import {
-  Student,
-  StudentFieldLabel,
-  StudentPrimaryKey,
-} from '../../data_types/Student';
+import {IStudent} from '../../data_types/Student';
 import {StudentFormConfig, StudentModuleConfig} from './config';
 
-type ListItemProps = IJDABasicListItemProps<Student>;
+type ListItemProps = IJDABasicListItemProps<IStudent>;
 export const StudentBasicListItem = withJDAListItemController<
-  Student,
+  IStudent,
   ListItemProps
 >(JDABasicListItem);
 
-type ListProps = IJDABasicListProps<Student>;
+type ListProps = IJDABasicListProps<IStudent>;
 export const StudentBasicList = withJDAListController<
-  Student,
+  IStudent,
   ListItemProps,
   ListProps
 >(
   JDABasicList,
   StudentBasicListItem,
   {
-    icon: 'account',
+    icon: 'person-outline',
     title: student => `${student.name}`,
     subTitle: student =>
       `#${student.id} | ${student.dob} | ${student.address?.name || ''}`,
   },
-  StudentPrimaryKey,
+  StudentModuleConfig,
 );
 
-type FormProps = IJDABasicFormProps<Student>;
-export const StudentBasicForm = withJDAFormControler<Student, FormProps>(
+type FormProps = IJDABasicFormProps<IStudent>;
+export const StudentBasicForm = withJDAFormControler<IStudent, FormProps>(
   JDABasicForm,
   StudentFormConfig,
-  StudentFieldLabel,
-  StudentPrimaryKey,
+  StudentModuleConfig,
 );
 
 export const StudentModule = withModuleController<
-  Student,
+  IStudent,
   ListItemProps,
   ListProps,
   FormProps,
-  IJDABasicModuleProps
+  IJDABasicModuleProps<IStudent>
 >(JDABasicModule, StudentBasicList, StudentBasicForm, StudentModuleConfig);

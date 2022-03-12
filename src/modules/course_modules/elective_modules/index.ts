@@ -16,51 +16,42 @@ import {
   IJDABasicModuleProps,
   JDABasicModule,
 } from '../../../base/views/jda_module/JDABasicModule';
-import {
-  ElectiveModule,
-  ElectiveModuleFieldLabel,
-  ElectiveModulePrimaryKey,
-} from '../../../data_types/CourseModule/ElectiveModule';
+import {IElectiveModule} from '../../../data_types/ElectiveModule';
 import {ElectiveModuleFormConfig, ElectiveModuleModuleConfig} from './config';
 
-type ListItemProps = IJDABasicListItemProps<ElectiveModule>;
+type ListItemProps = IJDABasicListItemProps<IElectiveModule>;
 export const ElectiveModuleBasicListItem = withJDAListItemController<
-  ElectiveModule,
+  IElectiveModule,
   ListItemProps
 >(JDABasicListItem);
 
-type ListProps = IJDABasicListProps<ElectiveModule>;
+type ListProps = IJDABasicListProps<IElectiveModule>;
 export const ElectiveModuleBasicList = withJDAListController<
-  ElectiveModule,
+  IElectiveModule,
   ListItemProps,
   ListProps
 >(
   JDABasicList,
   ElectiveModuleBasicListItem,
   {
-    icon: 'book-open',
+    icon: 'book-open-outline',
     title: course => `${course.name}`,
   },
-  ElectiveModulePrimaryKey,
+  ElectiveModuleModuleConfig,
 );
 
-type FormProps = IJDABasicFormProps<ElectiveModule>;
+type FormProps = IJDABasicFormProps<IElectiveModule>;
 export const ElectiveModuleBasicForm = withJDAFormControler<
-  ElectiveModule,
+  IElectiveModule,
   FormProps
->(
-  JDABasicForm,
-  ElectiveModuleFormConfig,
-  ElectiveModuleFieldLabel,
-  ElectiveModulePrimaryKey,
-);
+>(JDABasicForm, ElectiveModuleFormConfig, ElectiveModuleModuleConfig);
 
 export const ElectiveModuleBasicModule = withModuleController<
-  ElectiveModule,
+  IElectiveModule,
   ListItemProps,
   ListProps,
   FormProps,
-  IJDABasicModuleProps
+  IJDABasicModuleProps<IElectiveModule>
 >(
   JDABasicModule,
   ElectiveModuleBasicList,
