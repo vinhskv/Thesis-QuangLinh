@@ -16,9 +16,11 @@ export interface IJDAButtonInputProps
 export function MyButtonInput(props: IJDAButtonInputProps) {
   return (
     <>
-      <Text style={props.eva?.style ? props.eva.style.label : {}}>
-        {props.label}
-      </Text>
+      {props.label && (
+        <Text style={props.eva?.style ? props.eva.style.label : {}}>
+          {props.label}
+        </Text>
+      )}
       <Button
         size={'medium'}
         style={props.eva?.style ? props.eva.style.buttonLikeInput : {}}
@@ -35,6 +37,7 @@ export const JDAButtonInput = withStyles(MyButtonInput, theme => ({
   buttonLikeInput: {
     justifyContent: 'flex-start',
     fontWeight: 'normal',
+    margin: 0,
   },
   label: {
     fontSize: 12,

@@ -1,7 +1,7 @@
 import React, {ComponentType, useCallback, useEffect} from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {JDAControlledFormInputComponent} from './withFormInputController';
-import {JDAControlledFormMultiInputComponent} from './withMultilFormInputController';
+import {JDAControlledFormMultiInputComponent} from './withFormMultiInputController';
 
 export enum JDAFormMode {
   CREATE,

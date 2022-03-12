@@ -19,7 +19,7 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
         ListEmptyComponent={
           <Image
             style={styles.emptyImage}
-            source={require('../../resources/nodata-found.png')}
+            source={require('./nodata-found.png')}
           />
         }
         renderItem={({item}) => item}

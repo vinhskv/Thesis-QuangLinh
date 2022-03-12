@@ -16,7 +16,7 @@ export const StudentClassModuleConfig: ModuleConfig<StudentClass> = {
     name: 'Name',
     students: 'Students',
   },
-  quickRender: (v?: StudentClass) => (v ? `${v.name}` : ''),
+  quickRender: v => (v ? `${v.name}` : ''),
 };
 
 export const StudentClassFormConfig: JDAFormConfig<StudentClass> = {
