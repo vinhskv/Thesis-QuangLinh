@@ -1,6 +1,5 @@
 import {JDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
 import {ModuleConfig} from '../../base/controllers/jda_module_controller';
-import NumberInput from '../../data_inputs/basic_inputs/NumberInput';
 import {Enrolment} from '../../data_types/Enrolment';
 import {
   FormCourseModuleInput,
@@ -26,7 +25,7 @@ export const EnrolmentModuleConfig: ModuleConfig<Enrolment> = {
 };
 
 export const EnrolmentFormConfig: JDAFormConfig<Enrolment> = {
-  id: NumberInput,
+  id: FormNumberInput,
   student: FormStudentInput,
   courseModule: FormCourseModuleInput,
   internalMark: FormNumberInput,

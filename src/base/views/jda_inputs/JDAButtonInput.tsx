@@ -34,6 +34,7 @@ export function MyButtonInput(props: IJDAButtonInputProps) {
 export const JDAButtonInput = withStyles(MyButtonInput, theme => ({
   buttonLikeInput: {
     justifyContent: 'flex-start',
+    fontWeight: 'normal',
   },
   label: {
     fontSize: 12,

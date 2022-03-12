@@ -21,8 +21,7 @@ import {
   StudentFieldLabel,
   StudentPrimaryKey,
 } from '../../data_types/Student';
-import {StudentModuleConfig} from './config';
-import {StudentFormConfig} from './StudentFormConfig';
+import {StudentFormConfig, StudentModuleConfig} from './config';
 
 type ListItemProps = IJDABasicListItemProps<Student>;
 export const StudentBasicListItem = withJDAListItemController<
@@ -55,7 +54,7 @@ export const StudentBasicForm = withJDAFormControler<Student, FormProps>(
   StudentPrimaryKey,
 );
 
-export const StudentBasicModule = withModuleController<
+export const StudentModule = withModuleController<
   Student,
   ListItemProps,
   ListProps,

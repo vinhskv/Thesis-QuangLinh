@@ -21,8 +21,7 @@ import {
   ElectiveModuleFieldLabel,
   ElectiveModulePrimaryKey,
 } from '../../../data_types/CourseModule/ElectiveModule';
-import {ElectiveModuleModuleConfig} from './config';
-import {ElectiveModuleFormConfig} from './ElectiveModuleFormConfig';
+import {ElectiveModuleFormConfig, ElectiveModuleModuleConfig} from './config';
 
 type ListItemProps = IJDABasicListItemProps<ElectiveModule>;
 export const ElectiveModuleBasicListItem = withJDAListItemController<

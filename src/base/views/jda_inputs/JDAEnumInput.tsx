@@ -14,6 +14,7 @@ export function JDAEnumInput<T>(props: IEnumInputProps<T>) {
       onChange={props.onChange}
       value={props.value}
       label={props.label}
+      disabled={props.disabled}
       valueRender={v => String(v)}
     />
   );

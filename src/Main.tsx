@@ -8,7 +8,7 @@ import {StudentClassModuleName} from './data_types/StudentClass';
 import {AddressBasicModule} from './modules/addresses';
 import {CourseModuleBasicModule} from './modules/course_modules';
 import {EnrolmentBasicModule} from './modules/enrolments';
-import {StudentBasicModule} from './modules/students';
+import {StudentModule} from './modules/students';
 import {StudentClassBasicModule} from './modules/student_classes';
 
 export default class MainScreen extends React.Component {
@@ -22,7 +22,7 @@ export default class MainScreen extends React.Component {
             name: AddressModuleName,
           },
           {
-            component: <StudentBasicModule moduleName={StudentModuleName} />,
+            component: <StudentModule moduleName={StudentModuleName} />,
             name: StudentModuleName,
           },
           {

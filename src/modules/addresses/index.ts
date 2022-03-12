@@ -21,8 +21,7 @@ import {
   AddressFieldLabel,
   AddressPrimaryKey,
 } from '../../data_types/Address';
-import {AddressFormConfig} from './AddressFormConfig';
-import {AddressModuleConfig} from './config';
+import {AddressFormConfig, AddressModuleConfig} from './config';
 
 type ListItemProps = IJDABasicListItemProps<Address>;
 export const AddressBasicListItem = withJDAListItemController<

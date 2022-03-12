@@ -14,15 +14,6 @@ export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
   const ref = React.useRef<RBSheet>();
   return (
     <>
-      {/* <View style={styles.container}> */}
-      {/* <Select
-          value={props.labelRender(props.value)}
-          onPress={() => {
-            console.log('Tapped');
-            ref.current?.open();
-          }}
-          label={props.label}
-        /> */}
       <JDAButtonInput
         disabled={props.disabled}
         onPress={() => ref.current?.open()}

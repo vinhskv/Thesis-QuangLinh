@@ -21,8 +21,7 @@ import {
   StudentClassFieldLabel,
   StudentClassPrimaryKey,
 } from '../../data_types/StudentClass';
-import {StudentClassModuleConfig} from './config';
-import {StudentClassFormConfig} from './StudentClassFormConfig';
+import {StudentClassFormConfig, StudentClassModuleConfig} from './config';
 
 type ListItemProps = IJDABasicListItemProps<StudentClass>;
 export const StudentClassBasicListItem = withJDAListItemController<

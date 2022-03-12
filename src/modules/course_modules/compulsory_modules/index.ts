@@ -21,8 +21,10 @@ import {
   CompulsoryModuleFieldLabel,
   CompulsoryModulePrimaryKey,
 } from '../../../data_types/CourseModule/CompulsoryModule';
-import {CompulsoryModuleFormConfig} from './CompulsoryModuleFormConfig';
-import {CompulsoryModuleModuleConfig} from './config';
+import {
+  CompulsoryModuleFormConfig,
+  CompulsoryModuleModuleConfig,
+} from './config';
 
 type ListItemProps = IJDABasicListItemProps<CompulsoryModule>;
 export const CompulsoryModuleBasicListItem = withJDAListItemController<

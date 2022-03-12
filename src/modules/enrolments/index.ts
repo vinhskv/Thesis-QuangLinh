@@ -21,8 +21,7 @@ import {
   EnrolmentFieldLabel,
   EnrolmentPrimaryKey,
 } from '../../data_types/Enrolment';
-import {EnrolmentModuleConfig} from './config';
-import {EnrolmentFormConfig} from './EnrolmentFormConfig';
+import {EnrolmentFormConfig, EnrolmentModuleConfig} from './config';
 
 type ListItemProps = IJDABasicListItemProps<Enrolment>;
 export const EnrolmentBasicListItem = withJDAListItemController<

@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@babel/preset-typescript": "^7.16.7",
     "@eva-design/eva": "^2.1.1",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/drawer": "^6.1.8",
