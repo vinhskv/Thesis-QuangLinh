@@ -1,13 +1,14 @@
-import {JDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
-import {ModuleConfig} from '../../base/controllers/jda_module_controller';
-import {IStudentClass} from '../../data_types/StudentClass';
+import {IJDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
+import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/withModuleController';
+import {IJDAListConfig} from '../../base/creators/createListComponents';
+import {StudentClass} from '../../data_types/StudentClass';
 import {
   FormMultiStudentInput,
   FormNumberInput,
   FormStringInput,
 } from '../FormInputs';
 
-export const StudentClassModuleConfig: ModuleConfig<IStudentClass> = {
+export const StudentClassModuleConfig: IJDAModuleConfig<StudentClass> = {
   primaryKey: 'id',
   apiResource: 'student-classes',
   moduleName: 'Classes',
@@ -19,8 +20,16 @@ export const StudentClassModuleConfig: ModuleConfig<IStudentClass> = {
   quickRender: v => (v ? `${v.name}` : ''),
 };
 
-export const StudentClassFormConfig: JDAFormConfig<IStudentClass> = {
+export const StudentClassFormConfig: IJDAFormConfig<StudentClass> = {
   id: FormNumberInput,
   name: FormStringInput,
   students: FormMultiStudentInput,
+};
+
+export const StudentClassListConfig: IJDAListConfig<StudentClass> = {
+  listItemProps: {
+    icon: 'people-outline',
+    title: studentClass => `${studentClass.name}`,
+  },
+  listProps: {},
 };

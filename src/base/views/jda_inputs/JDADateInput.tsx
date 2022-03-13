@@ -19,13 +19,6 @@ export function JDADateInput(props: IJDADateInputProps) {
   const ref = React.useRef<RBSheet>();
   const [tempDate, setTempDate] = useState<Date>();
   return (
-    // <Datepicker
-    //   disabled={props.disabled}
-    //   label={props.label}
-    //   date={date}
-    //   renderToHardwareTextureAndroid={true}
-    //   onSelect={props.onChange}
-    // />
     <>
       <JDAButtonInput
         disabled={props.disabled}
@@ -33,15 +26,6 @@ export function JDADateInput(props: IJDADateInputProps) {
         value={date?.toLocaleDateString()}
         onPress={() => ref.current?.open()}
       />
-      {/* <DatePicker
-        // modal
-        mode="date"
-        open={open}
-        date={date || new Date()}
-        // onConfirm={d => {
-        //   if (props.onChange) props.onChange(d);
-        // }}
-      /> */}
       <RBSheet
         ref={ref as any}
         // height={300}

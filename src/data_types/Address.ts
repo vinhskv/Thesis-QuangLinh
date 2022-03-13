@@ -1,15 +1,7 @@
-import {IStudent} from './Student';
+// import {Student} from './Student';
 
-export interface IAddress {
+export interface Address {
   id: number;
   name: string;
-  student?: IStudent;
-}
-
-export class Address implements IAddress {
-  constructor(
-    public id: number,
-    public name: string,
-    public student?: IStudent,
-  ) {}
+  // student?: Student;
 }

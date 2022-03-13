@@ -1,5 +1,5 @@
-import {ICourseModule} from './CourseModule';
+import {CourseModule} from './CourseModule';
 
-export interface IElectiveModule extends ICourseModule {
+export interface ElectiveModule extends CourseModule {
   deptName: string;
 }

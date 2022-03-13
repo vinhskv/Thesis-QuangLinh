@@ -1,23 +1,19 @@
-import {
-  Button,
-  Icon,
-  Text,
-  ThemedComponentProps,
-  withStyles,
-} from '@ui-kitten/components';
+import {Button, Icon, Text, useTheme} from '@ui-kitten/components';
 import * as React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {IJDAFormMultiInputControllerProps} from '../../controllers/jda_form_controllers/withFormMultiInputController';
 
-export interface IJDAMultiFormInputProps<T>
-  extends ThemedComponentProps,
-    IJDAFormMultiInputControllerProps<T> {}
+export interface IJDAFormMultiInputProps<T>
+  extends IJDAFormMultiInputControllerProps<T> {}
 
-export function _JDAFormMutilInput<T>(props: IJDAMultiFormInputProps<T>) {
+export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
+  const theme = useTheme();
   return (
     <>
       {props.label && (
-        <Text style={props.eva?.style?.label || {}}>{props.label}</Text>
+        <Text style={[styles.label, {color: theme['color-basic-600']}]}>
+          {props.label}
+        </Text>
       )}
       {!props.disabled && (
         <Button size={'tiny'} onPress={() => props.append({})}>
@@ -25,11 +21,11 @@ export function _JDAFormMutilInput<T>(props: IJDAMultiFormInputProps<T>) {
         </Button>
       )}
       {props.formItems.map((item, index) => (
-        <View style={props.eva?.style?.row || {}}>
-          <View style={props.eva?.style?.expanded || {}}>{item}</View>
+        <View style={styles.row}>
+          <View style={styles.expanded}>{item}</View>
           {!props.disabled && (
             <Button
-              style={props.eva?.style?.delete_btn || {}}
+              style={styles.delete_btn}
               size={'medium'}
               appearance={'ghost'}
               status="danger"
@@ -43,10 +39,9 @@ export function _JDAFormMutilInput<T>(props: IJDAMultiFormInputProps<T>) {
   );
 }
 
-export const JDAFormMutilInput = withStyles(_JDAFormMutilInput, theme => ({
+const styles = StyleSheet.create({
   label: {
     fontSize: 12,
-    color: theme['color-basic-600'],
     fontWeight: 'bold',
   },
   list: {},
@@ -63,4 +58,4 @@ export const JDAFormMutilInput = withStyles(_JDAFormMutilInput, theme => ({
     padding: 0,
     width: 30,
   },
-}));
+});

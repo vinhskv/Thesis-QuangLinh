@@ -1,3 +1,3 @@
-import {ICourseModule} from './CourseModule';
+import {CourseModule} from './CourseModule';
 
-export interface ICompulsoryModule extends ICourseModule {}
+export interface CompulsoryModule extends CourseModule {}

@@ -15,13 +15,17 @@ export interface IJDAListItemControllerProps<T> extends IJDAListItemAPI {
 export function withJDAListItemController<
   T,
   P extends IJDAListItemControllerProps<T>,
->(Component: ComponentType<P>) {
+>(
+  Component: ComponentType<P>,
+  customProps: Omit<P, keyof IJDAListItemControllerProps<T>>,
+) {
   return (props: Omit<P, keyof IJDAListItemAPI>) => {
     return (
       <JDAListContext.Consumer>
         {v => (
           <Component
             {...(props as P)}
+            {...customProps}
             onDelete={() => v.onDelete(props.itemIndex)}
             onEdit={() => v.onEdit(props.itemIndex)}
             onShowDetail={() => v.onShowDetail(props.itemIndex)}
@@ -34,9 +38,11 @@ export function withJDAListItemController<
 
 //Export componentType
 class TypeUltil<T, P extends IJDAListItemControllerProps<T>> {
-  //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
-  controlled = (Component: ComponentType<P>) =>
-    withJDAListItemController<T, P>(Component);
+  //TODO if you change parammeter of withJDAListItemController function, you must change parameters of controlled function below
+  controlled = (
+    Component: ComponentType<P>,
+    customProps: Omit<P, keyof IJDAListItemControllerProps<T>>,
+  ) => withJDAListItemController<T, P>(Component, customProps);
 }
 
 export type JDAControlledListItemComponent<

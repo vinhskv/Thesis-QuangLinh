@@ -2,7 +2,7 @@ import {
   createEnumInput,
   createFormDataInput,
   createModuleInput,
-} from '../base/creators/createDataInput';
+} from '../base/creators/createInputComponents';
 import {JDADateInput} from '../base/views/jda_inputs/JDADateInput';
 import {JDANumberInput} from '../base/views/jda_inputs/JDANumberInput';
 import {JDAStringInput} from '../base/views/jda_inputs/JDAStringInput';

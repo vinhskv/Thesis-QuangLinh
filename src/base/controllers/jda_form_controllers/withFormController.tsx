@@ -1,6 +1,6 @@
 import React, {ComponentType, useCallback, useEffect} from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
-import {ModuleConfig} from '../jda_module_controller';
+import {IJDAModuleConfig} from '../jda_module_controller/withModuleController';
 import {JDAControlledFormInputComponent} from './withFormInputController';
 import {JDAControlledFormMultiInputComponent} from './withFormMultiInputController';
 
@@ -20,7 +20,7 @@ export interface IJDAFormAPI {
   formInputs: React.ReactNode[];
 }
 
-export type JDAFormConfig<T> = Record<
+export type IJDAFormConfig<T> = Record<
   keyof T,
   | JDAControlledFormInputComponent<T, any>
   | JDAControlledFormMultiInputComponent<T, any, any>
@@ -35,8 +35,8 @@ export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
 
 export function withJDAFormControler<T, P extends IJDAFormControlerProps<T>>(
   Component: ComponentType<P>,
-  formConfig: JDAFormConfig<T>,
-  moduleConfig: ModuleConfig<T>,
+  formConfig: IJDAFormConfig<T>,
+  moduleConfig: IJDAModuleConfig<T>,
 ) {
   return (props: Omit<P, keyof IJDAFormAPI>) => {
     const form = useForm<T>();
@@ -99,7 +99,7 @@ class TypeUltil<T, P extends IJDAFormControlerProps<T>> {
   controlled = (
     Component: ComponentType<P>,
     formConfig: Record<keyof T, JDAControlledFormInputComponent<T, any>>,
-    moduleConfig: ModuleConfig<T>,
+    moduleConfig: IJDAModuleConfig<T>,
   ) => withJDAFormControler<T, P>(Component, formConfig, moduleConfig);
 }
 

@@ -1,10 +1,12 @@
 import * as React from 'react';
 import JDADrawer from './base/views/jda_drawer/JDADrawer';
-import {AddressBasicModule} from './modules/addresses';
-import {CourseModuleBasicModule} from './modules/course_modules';
-import {EnrolmentBasicModule} from './modules/enrolments';
-import {StudentModule} from './modules/students';
-import {StudentClassBasicModule} from './modules/student_classes';
+import {
+  AddressModule,
+  StudentModule,
+  EnrolmentModule,
+  CourseModuleModule,
+  StudentClassModule,
+} from './modules/Modules';
 
 export default class MainScreen extends React.Component {
   public render() {
@@ -13,7 +15,7 @@ export default class MainScreen extends React.Component {
         initialRoute={'Addresses'}
         routes={[
           {
-            component: <AddressBasicModule />,
+            component: <AddressModule />,
             name: 'Addresses',
           },
           {
@@ -21,15 +23,15 @@ export default class MainScreen extends React.Component {
             name: 'Students',
           },
           {
-            component: <EnrolmentBasicModule />,
+            component: <EnrolmentModule />,
             name: 'Enrolments',
           },
           {
-            component: <CourseModuleBasicModule />,
-            name: 'Course Modules',
+            component: <CourseModuleModule />,
+            name: 'Courses',
           },
           {
-            component: <StudentClassBasicModule />,
+            component: <StudentClassModule />,
             name: 'Classes',
           },
         ]}

@@ -10,6 +10,17 @@ const axiosConfigs: AxiosRequestConfig = {
   withCredentials: true,
 };
 
+export interface IAPIConfig<
+  GET_T,
+  POST_T = GET_T,
+  PUT_T = POST_T,
+  PATCH_T = POST_T,
+> {
+  toPOST?: (object: GET_T) => POST_T;
+  toPUT?: (object: GET_T) => PUT_T;
+  toPATCH?: (object: GET_T) => PATCH_T;
+}
+
 function successWithData<T>(data: T): IAPIReturn<T> {
   return {
     success: true,
@@ -28,27 +39,26 @@ function failWithError<T>(err: IAPIError): IAPIReturn<T> {
   };
 }
 
-export function useAPI<T, POST_T = T>(
+export function useAPI<GET_T, POST_T = GET_T, PUT_T = POST_T, PATCH_T = POST_T>(
   routeName: string,
-  toPostObject?: (source: T) => POST_T,
+  apiConfig?: IAPIConfig<GET_T, POST_T, PUT_T, PATCH_T>,
 ) {
   const create = useCallback(
-    async (data: T) => {
+    async (data: GET_T) => {
       console.log('send create request to server', data);
-
-      const res = await axios.post<POST_T, AxiosResponse<T>>(
+      const res = await axios.post<POST_T, AxiosResponse<GET_T>>(
         `/${routeName}`,
-        toPostObject ? toPostObject(data) : data,
+        apiConfig?.toPOST ? apiConfig.toPOST(data) : data,
         axiosConfigs,
       );
       return res.data;
     },
-    [routeName, toPostObject],
+    [apiConfig, routeName],
   );
   const getById = useCallback(
-    async (id: T[keyof T]): Promise<IAPIReturn<T>> => {
+    async (id: GET_T[keyof GET_T]): Promise<IAPIReturn<GET_T>> => {
       try {
-        const result = await axios.get<T, AxiosResponse<T>>(
+        const result = await axios.get<GET_T, AxiosResponse<GET_T>>(
           `/${routeName}/${id}`,
           axiosConfigs,
         );
@@ -62,12 +72,14 @@ export function useAPI<T, POST_T = T>(
     [routeName],
   );
   const getByPage = useCallback(
-    async (_pageNumber: number): Promise<IAPIReturn<IAPIGetListReturn<T>>> => {
+    async (
+      _pageNumber: number,
+    ): Promise<IAPIReturn<IAPIGetListReturn<GET_T>>> => {
       try {
-        const res = await axios.get<T, AxiosResponse<IAPIGetListReturn<T>>>(
-          `/${routeName}`,
-          axiosConfigs,
-        );
+        const res = await axios.get<
+          GET_T,
+          AxiosResponse<IAPIGetListReturn<GET_T>>
+        >(`/${routeName}`, axiosConfigs);
         return successWithData(res.data);
       } catch (error) {
         console.log('get by page error', error);
@@ -79,20 +91,20 @@ export function useAPI<T, POST_T = T>(
     [routeName],
   );
   const updateById = useCallback(
-    async (id: T[keyof T], data: Omit<T, 'id'>) => {
-      const res = await axios.patch<T, AxiosResponse<T>>(
+    async (id: GET_T[keyof GET_T], data: GET_T) => {
+      const res = await axios.patch<PUT_T, AxiosResponse<GET_T>>(
         `/${routeName}/${id}`,
-        data,
+        apiConfig?.toPATCH ? apiConfig.toPATCH(data) : data,
         axiosConfigs,
       );
       return successWithData(res.data);
     },
-    [routeName],
+    [apiConfig, routeName],
   );
   const deleteById = useCallback(
-    async (id: T[keyof T]) => {
+    async (id: GET_T[keyof GET_T]) => {
       try {
-        await axios.delete<T, AxiosResponse<T>>(
+        await axios.delete<GET_T, AxiosResponse<GET_T>>(
           `/${routeName}/${id}`,
           axiosConfigs,
         );

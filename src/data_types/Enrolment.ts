@@ -1,10 +1,10 @@
-import {ICourseModule} from './CourseModule';
-import {IStudent} from './Student';
+import {CourseModule} from './CourseModule';
+import {Student} from './Student';
 
-export interface IEnrolment {
+export interface Enrolment {
   id: number;
-  student?: IStudent;
-  courseModule?: ICourseModule;
+  student?: Student;
+  courseModule?: CourseModule;
   internalMark: number;
   examMark: number;
   finalGrade: string;

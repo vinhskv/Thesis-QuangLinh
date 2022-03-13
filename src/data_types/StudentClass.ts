@@ -1,7 +1,7 @@
-import {IStudent} from './Student';
+import {Student} from './Student';
 
-export interface IStudentClass {
+export interface StudentClass {
   id: number;
   name: string;
-  students: IStudent[];
+  students: Student[];
 }

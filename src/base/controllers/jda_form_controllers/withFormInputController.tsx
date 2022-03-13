@@ -9,7 +9,7 @@ import {
 
 export interface IJDAFormInputAPI<T> {
   field: {
-    onChange: (value: T) => void;
+    onChange: (value?: T) => void;
     value: T;
   };
   fieldState: ControllerFieldState;
