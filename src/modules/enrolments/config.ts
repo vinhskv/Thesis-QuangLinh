@@ -14,7 +14,7 @@ export const EnrolmentModuleConfig: ModuleConfig<IEnrolment> = {
   moduleName: 'Enrolments',
   fieldLabel: {
     id: 'ID',
-    student: 'Enrolment',
+    student: 'Student',
     courseModule: 'Course module',
     internalMark: 'Internal mark',
     examMark: 'Exam mark',
