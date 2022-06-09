@@ -3,21 +3,28 @@ import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/wit
 import {IJDAListConfig} from '../../base/creators/createListComponents';
 import {StudentClass} from '../../data_types/StudentClass';
 import {
-  FormMultiStudentInput,
-  FormNumberInput,
-  FormStringInput,
+    FormNumberInput,
+    FormStringInput,
+    FormMultiStudentInput,
 } from '../FormInputs';
 
 export const StudentClassModuleConfig: IJDAModuleConfig<StudentClass> = {
   primaryKey: 'id',
   apiResource: 'student-classes',
-  moduleName: 'Classes',
+  moduleName: 'Student Classes',
   fieldLabel: {
-    id: 'ID',
+    id: 'Id',
     name: 'Name',
     students: 'Students',
   },
-  quickRender: v => (v ? `${v.name}` : ''),
+  quickRender: studentclass => (studentclass ? ` ${ studentclass.id } | ${ studentclass.name } |` : ''),
+  apiConfig:{
+      toPOST:(studentclass)=>{
+        return {
+          ...studentclass,
+        }
+      }
+  }
 };
 
 export const StudentClassFormConfig: IJDAFormConfig<StudentClass> = {
@@ -28,8 +35,8 @@ export const StudentClassFormConfig: IJDAFormConfig<StudentClass> = {
 
 export const StudentClassListConfig: IJDAListConfig<StudentClass> = {
   listItemProps: {
-    icon: 'people-outline',
-    title: studentClass => `${studentClass.name}`,
+    icon: 'person-outline',
+    title: studentclass => ` ${ studentclass.id } | ${ studentclass.name } |`,
   },
   listProps: {},
 };

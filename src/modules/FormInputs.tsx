@@ -6,14 +6,17 @@ import {
 import {JDADateInput} from '../base/views/jda_inputs/JDADateInput';
 import {JDANumberInput} from '../base/views/jda_inputs/JDANumberInput';
 import {JDAStringInput} from '../base/views/jda_inputs/JDAStringInput';
-import {Gender} from '../data_types/Student';
-import {AddressModuleConfig} from './addresses/config';
-import {CompulsoryModuleModuleConfig} from './course_modules/compulsory_modules/config';
-import {CourseModuleModuleConfig} from './course_modules/config';
-import {ElectiveModuleModuleConfig} from './course_modules/elective_modules/config';
-import {EnrolmentModuleConfig} from './enrolments/config';
-import {StudentModuleConfig} from './students/config';
-import {StudentClassModuleConfig} from './student_classes/config';
+
+import {Gender} from '../data_types/Gender';
+
+
+import {StudentClassModuleConfig} from './studentclass/ModuleConfig';
+import {AddressModuleConfig} from './address/ModuleConfig';
+import {CourseModuleModuleConfig} from './coursemodule/ModuleConfig';
+import {EnrolmentModuleConfig} from './enrolment/ModuleConfig';
+import {StudentModuleConfig} from './student/ModuleConfig';
+
+
 // Basic form input components
 export const {
   FormInput: FormStringInput,
@@ -28,53 +31,39 @@ export const {
   FormMultiInput: FormMultiNumberInput,
 } = createFormDataInput(JDANumberInput);
 
-// Enum form input components
 
+// Enum form input components
 export const {
   Input: GenderInput,
   FormInput: FormGenderInput,
   FormMultiInput: FormMultiGenderInput,
 } = createEnumInput(Gender);
 
+
 // Module form input components
+export const {
+  Input: StudentClassInput,
+  FormInput: FormStudentClassInput,
+  FormMultiInput: FormMultiStudentClassInput,
+} = createModuleInput(StudentClassModuleConfig);
+export const {
+  Input: AddressInput,
+  FormInput: FormAddressInput,
+  FormMultiInput: FormMultiAddressInput,
+} = createModuleInput(AddressModuleConfig);
+export const {
+  Input: CourseModuleInput,
+  FormInput: FormCourseModuleInput,
+  FormMultiInput: FormMultiCourseModuleInput,
+} = createModuleInput(CourseModuleModuleConfig);
+export const {
+  Input: EnrolmentInput,
+  FormInput: FormEnrolmentInput,
+  FormMultiInput: FormMultiEnrolmentInput,
+} = createModuleInput(EnrolmentModuleConfig);
 export const {
   Input: StudentInput,
   FormInput: FormStudentInput,
   FormMultiInput: FormMultiStudentInput,
 } = createModuleInput(StudentModuleConfig);
 
-export const {
-  Input: AddressInput,
-  FormInput: FormAddressInput,
-  FormMultiInput: FormMultiAddressInput,
-} = createModuleInput(AddressModuleConfig);
-
-export const {
-  Input: CourseModuleInput,
-  FormInput: FormCourseModuleInput,
-  FormMultiInput: FormMultiCourseModuleInput,
-} = createModuleInput(CourseModuleModuleConfig);
-
-export const {
-  Input: ElectiveModuleInput,
-  FormInput: FormElectiveModuleInput,
-  FormMultiInput: FormMultiElectiveModuleInput,
-} = createModuleInput(ElectiveModuleModuleConfig);
-
-export const {
-  Input: CompulsoryModuleInput,
-  FormInput: FormCompulsoryModuleInput,
-  FormMultiInput: FormMultiCompulsoryModuleInput,
-} = createModuleInput(CompulsoryModuleModuleConfig);
-
-export const {
-  Input: EnrolmentInput,
-  FormInput: FormEnrolmentInput,
-  FormMultiInput: FormMultiEnrolmentInput,
-} = createModuleInput(EnrolmentModuleConfig);
-
-export const {
-  Input: StudentClassInput,
-  FormInput: FormStudentClassInput,
-  FormMultiInput: FormMultiStudentClassInput,
-} = createModuleInput(StudentClassModuleConfig);

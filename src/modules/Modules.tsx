@@ -1,34 +1,50 @@
 import {createModuleComponents} from '../base/creators/createModuleComponents';
+
+import {StudentClass} from '../data_types/StudentClass';
 import {Address} from '../data_types/Address';
 import {CourseModule} from '../data_types/CourseModule';
 import {Enrolment} from '../data_types/Enrolment';
 import {Student} from '../data_types/Student';
-import {StudentClass} from '../data_types/StudentClass';
+
+
+import {
+  StudentClassFormConfig,
+  StudentClassListConfig,
+  StudentClassModuleConfig,
+} from './studentclass/ModuleConfig';
 import {
   AddressFormConfig,
   AddressListConfig,
   AddressModuleConfig,
-} from './addresses/config';
+} from './address/ModuleConfig';
 import {
-  CourseModuleModuleConfig,
   CourseModuleFormConfig,
   CourseModuleListConfig,
-} from './course_modules/config';
+  CourseModuleModuleConfig,
+} from './coursemodule/ModuleConfig';
 import {
-  EnrolmentModuleConfig,
-  EnrolmentListConfig,
   EnrolmentFormConfig,
-} from './enrolments/config';
+  EnrolmentListConfig,
+  EnrolmentModuleConfig,
+} from './enrolment/ModuleConfig';
 import {
-  StudentModuleConfig,
   StudentFormConfig,
   StudentListConfig,
-} from './students/config';
-import {
+  StudentModuleConfig,
+} from './student/ModuleConfig';
+
+
+
+export const {
+  Module: StudentClassModule,
+  List: StudentClassList,
+  ListItem: StudentClassListItem,
+  Form: StudentClassForm,
+} = createModuleComponents<StudentClass>(
   StudentClassModuleConfig,
   StudentClassListConfig,
   StudentClassFormConfig,
-} from './student_classes/config';
+);
 
 export const {
   Module: AddressModule,
@@ -42,25 +58,14 @@ export const {
 );
 
 export const {
-  Module: StudentModule,
-  List: StudentList,
-  ListItem: StudentListItem,
-  Form: StudentForm,
-} = createModuleComponents<Student>(
-  StudentModuleConfig,
-  StudentListConfig,
-  StudentFormConfig,
-);
-
-export const {
-  Module: StudentClassModule,
-  List: StudentClassList,
-  ListItem: StudentClassListItem,
-  Form: StudentClassForm,
-} = createModuleComponents<StudentClass>(
-  StudentClassModuleConfig,
-  StudentClassListConfig,
-  StudentClassFormConfig,
+  Module: CourseModuleModule,
+  List: CourseModuleList,
+  ListItem: CourseModuleListItem,
+  Form: CourseModuleForm,
+} = createModuleComponents<CourseModule>(
+  CourseModuleModuleConfig,
+  CourseModuleListConfig,
+  CourseModuleFormConfig,
 );
 
 export const {
@@ -75,12 +80,13 @@ export const {
 );
 
 export const {
-  Module: CourseModuleModule,
-  List: CourseModuleList,
-  ListItem: CourseModuleListItem,
-  Form: CourseModuleForm,
-} = createModuleComponents<CourseModule>(
-  CourseModuleModuleConfig,
-  CourseModuleListConfig,
-  CourseModuleFormConfig,
+  Module: StudentModule,
+  List: StudentList,
+  ListItem: StudentListItem,
+  Form: StudentForm,
+} = createModuleComponents<Student>(
+  StudentModuleConfig,
+  StudentListConfig,
+  StudentFormConfig,
 );
+

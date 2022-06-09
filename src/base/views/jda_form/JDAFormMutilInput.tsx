@@ -15,11 +15,7 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
           {props.label}
         </Text>
       )}
-      {!props.disabled && (
-        <Button size={'tiny'} onPress={() => props.append({})}>
-          {`Add ${props.label.toLowerCase()}`}
-        </Button>
-      )}
+      
       {props.formItems.map((item, index) => (
         <View style={styles.row}>
           <View style={styles.expanded}>{item}</View>
@@ -35,6 +31,11 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
           )}
         </View>
       ))}
+      {!props.disabled && (
+        <Button size={"small"} onPress={() => props.append({})} appearance='outline' status={'basic'}>
+          {`+ Add ${props.label.toLowerCase()}`}
+        </Button>
+      )}
     </>
   );
 }

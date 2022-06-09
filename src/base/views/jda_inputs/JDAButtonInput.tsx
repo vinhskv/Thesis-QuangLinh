@@ -23,6 +23,7 @@ export function MyButtonInput(props: IJDAButtonInputProps) {
       )}
       <Button
         size={'medium'}
+        status='basic'
         style={props.eva?.style ? props.eva.style.buttonLikeInput : {}}
         appearance="outline"
         disabled={props.disabled}

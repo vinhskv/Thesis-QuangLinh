@@ -1,26 +1,15 @@
-import {Address} from './Address';
-
-export enum Gender {
-  Male = 'Male',
-  Female = 'Female',
-}
+import { Gender } from "./Gender"
+import { Address } from "./Address"
+import { StudentClass } from "./StudentClass"
+import { Enrolment } from "./Enrolment"
 
 export interface Student {
-  id: number;
+  id: string;
   name: string;
   gender: Gender;
   dob: Date;
-  email: string;
   address?: Address;
-}
-
-export interface StudentPOST extends Omit<Student, 'id' | 'address'> {
-  addressId?: number;
-}
-
-export function toStudentPOST(s: Student): StudentPOST {
-  return {
-    ...s,
-    addressId: s.address?.id,
-  };
+  email: string;
+  studentClass?: StudentClass;
+  enrolments: Enrolment[];
 }

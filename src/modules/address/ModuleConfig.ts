@@ -3,9 +3,9 @@ import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/wit
 import {IJDAListConfig} from '../../base/creators/createListComponents';
 import {Address} from '../../data_types/Address';
 import {
-  FormNumberInput,
-  FormStringInput,
-  // FormStudentInput,
+    FormNumberInput,
+    FormStringInput,
+    FormStudentInput,
 } from '../FormInputs';
 
 export const AddressModuleConfig: IJDAModuleConfig<Address> = {
@@ -15,22 +15,29 @@ export const AddressModuleConfig: IJDAModuleConfig<Address> = {
   fieldLabel: {
     id: 'ID',
     name: 'City name',
-    // student: 'Student',
+    student: 'student',
   },
-  quickRender: v => (v ? `${v.name}` : ''),
+  quickRender: address => (address ? ` ${ address.id } | ${ address.name } |` : ''),
+  apiConfig:{
+      toPOST:(address)=>{
+        return {
+          ...address,
+          studentId: address.student?.id,
+        }
+      }
+  }
 };
 
 export const AddressFormConfig: IJDAFormConfig<Address> = {
   id: FormNumberInput,
   name: FormStringInput,
-  // student: FormStudentInput,
+  student: FormStudentInput,
 };
 
 export const AddressListConfig: IJDAListConfig<Address> = {
   listItemProps: {
-    icon: 'home-outline',
-    title: address => `${address.name}`,
-    subTitle: address => `#${address.id}`,
+    icon: 'person-outline',
+    title: address => ` ${ address.id } | ${ address.name } |`,
   },
   listProps: {},
 };
