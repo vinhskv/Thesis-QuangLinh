@@ -8,7 +8,7 @@ export interface Student {
   name: string;
   gender: Gender;
   dob: Date;
-  address?: Address;
+  // address?: Address;
   email: string;
   studentClass?: StudentClass;
   enrolments: Enrolment[];

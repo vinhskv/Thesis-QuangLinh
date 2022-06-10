@@ -1,13 +1,13 @@
-import {Divider, Icon, List, ListItem} from '@ui-kitten/components';
+import { Divider, Icon, List, ListItem } from '@ui-kitten/components';
 import * as React from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {IJDAInput} from '.';
-import {JDAButtonInput} from './JDAButtonInput';
+import { IJDAInput } from '.';
+import { JDAButtonInput } from './JDAButtonInput';
 
 export interface IJDASelectInputProps<T> extends IJDAInput<T> {
   label?: string;
   values: T[];
-  valueRender: (v: T) => string;
+  valueRender: (v?: T) => string;
 }
 
 export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
@@ -18,16 +18,16 @@ export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
         disabled={props.disabled}
         onPress={() => ref.current?.open()}
         label={props.label}
-        value={props.valueRender(props.value || props.values[0])}
+        value={props.valueRender(props.value)}
       />
       <RBSheet
         ref={ref as any}
         // height={300}
         openDuration={250}>
         <List
-          data={props.values}
+          data={[undefined, ...props.values]}
           ItemSeparatorComponent={Divider}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <ListItem
               onPress={() => {
                 if (props.onChange) {

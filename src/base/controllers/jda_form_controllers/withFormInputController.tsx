@@ -47,6 +47,14 @@ export function withJDAFormInputController<
           />
         )}
       />
+      // <Component
+      // {...componentProps}
+      // {...(props as P)}
+      // // {...item}
+      // field={{
+      //   onChange: (value: T) => {}
+      // }}
+    // />
     );
   };
 }

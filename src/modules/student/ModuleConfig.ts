@@ -20,7 +20,7 @@ export const StudentModuleConfig: IJDAModuleConfig<Student> = {
     name: 'Full Name',
     gender: 'Gender',
     dob: 'Date of birth',
-    address: 'Current Address',
+    // address: 'Current Address',
     email: 'Email',
     studentClass: 'Student class',
     enrolments: 'Course Enrolments',
@@ -30,7 +30,7 @@ export const StudentModuleConfig: IJDAModuleConfig<Student> = {
       toPOST:(student)=>{
         return {
           ...student,
-          addressId: student.address?.id,
+          // addressId: student.address?.id,
           studentClassId: student.studentClass?.id,
         }
       }
@@ -42,7 +42,7 @@ export const StudentFormConfig: IJDAFormConfig<Student> = {
   name: FormStringInput,
   gender: FormGenderInput,
   dob: FormDateInput,
-  address: FormAddressInput,
+  // address: FormAddressInput,
   email: FormStringInput,
   studentClass: FormStudentClassInput,
   enrolments: FormMultiEnrolmentInput,

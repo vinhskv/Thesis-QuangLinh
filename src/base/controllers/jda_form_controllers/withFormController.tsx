@@ -1,8 +1,8 @@
-import React, {ComponentType, useCallback, useEffect} from 'react';
-import {FormProvider, useForm} from 'react-hook-form';
-import {IJDAModuleConfig} from '../jda_module_controller/withModuleController';
-import {JDAControlledFormInputComponent} from './withFormInputController';
-import {JDAControlledFormMultiInputComponent} from './withFormMultiInputController';
+import React, { ComponentType, useCallback, useEffect } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { IJDAModuleConfig } from '../jda_module_controller/withModuleController';
+import { JDAControlledFormInputComponent } from './withFormInputController';
+import { JDAControlledFormMultiInputComponent } from './withFormMultiInputController';
 
 export enum JDAFormMode {
   CREATE,
@@ -21,9 +21,12 @@ export interface IJDAFormAPI {
 }
 
 export type IJDAFormConfig<T> = Record<
-  keyof T,
-  | JDAControlledFormInputComponent<T, any>
-  | JDAControlledFormMultiInputComponent<T, any, any>
+  keyof T, {
+    InputComponent: JDAControlledFormInputComponent<T, any>
+    | JDAControlledFormMultiInputComponent<T, any, any>
+    CustomProps: (formState: T) => object
+  }
+
 >;
 
 export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
@@ -70,15 +73,17 @@ export function withJDAFormControler<T, P extends IJDAFormControlerProps<T>>(
 
     const formInputs = Object.keys(formConfig).map(key => {
       const InputView: JDAControlledFormInputComponent<T, any> =
-        formConfig[key as keyof T];
+        formConfig[key as keyof T].InputComponent;
       return (
         <InputView
           name={key}
           label={moduleConfig.fieldLabel[key as keyof T]}
           disabled={checkDisabled(key as keyof T)}
+          {...formConfig[key as keyof T].CustomProps}
         />
       );
     });
+    console.log(formInputs)
     return (
       <FormProvider {...form}>
         <Component
@@ -98,7 +103,7 @@ class TypeUltil<T, P extends IJDAFormControlerProps<T>> {
 
   controlled = (
     Component: ComponentType<P>,
-    formConfig: Record<keyof T, JDAControlledFormInputComponent<T, any>>,
+    formConfig: IJDAFormConfig<T>,
     moduleConfig: IJDAModuleConfig<T>,
   ) => withJDAFormControler<T, P>(Component, formConfig, moduleConfig);
 }
@@ -106,4 +111,4 @@ class TypeUltil<T, P extends IJDAFormControlerProps<T>> {
 export type JDAControlledFormComponent<
   T,
   P extends IJDAFormControlerProps<T>,
-> = ReturnType<TypeUltil<T, P>['controlled']>;
+  > = ReturnType<TypeUltil<T, P>['controlled']>;

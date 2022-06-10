@@ -22,7 +22,7 @@ export const EnrolmentModuleConfig: IJDAModuleConfig<Enrolment> = {
     finalGrade: 'Final Grade',
     finalMark: 'finalMark',
   },
-  quickRender: enrolment => (enrolment ? ` ${ enrolment.id } | ${ enrolment.internalMark } | ${ enrolment.examMark } | ${ enrolment.finalGrade } | ${ enrolment.finalMark } |` : ''),
+  quickRender: enrolment => (enrolment ? ` ${ enrolment.id } |` : ''),
   apiConfig:{
       toPOST:(enrolment)=>{
         return {

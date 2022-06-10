@@ -17,7 +17,7 @@ export const StudentClassModuleConfig: IJDAModuleConfig<StudentClass> = {
     name: 'Name',
     students: 'Students',
   },
-  quickRender: studentclass => (studentclass ? ` ${ studentclass.id } | ${ studentclass.name } |` : ''),
+  quickRender: studentclass => (studentclass ? ` ${ studentclass.name } |` : ''),
   apiConfig:{
       toPOST:(studentclass)=>{
         return {

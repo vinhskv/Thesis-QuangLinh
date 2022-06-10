@@ -3,6 +3,7 @@ export interface IJDAInput<T> {
   onChange?: (value?: T) => void;
   disabled?: boolean;
   label?: string;
+  required?: boolean;
 }
 
 export interface IJDAMultiInput<T> {
@@ -10,4 +11,5 @@ export interface IJDAMultiInput<T> {
   onChange?: (values: T[]) => void;
   disabled?: boolean;
   label?: string;
+  required?: boolean;
 }
