@@ -12,18 +12,22 @@ import {
 import {createFormComponents} from './createFormComponents';
 import {createListComponents, IJDAListConfig} from './createListComponents';
 
-export function createModuleComponents<T>(
-  moduleConfig: IJDAModuleConfig<T>,
+export function createModuleComponents<T, SubT = T>(
+  moduleConfig: IJDAModuleConfig<T, SubT>,
   listConfig: IJDAListConfig<T>,
   formConfig: IJDAFormConfig<T>,
 ) {
-  const {Form} = createFormComponents<T>(moduleConfig, formConfig);
-  const {List, ListItem} = createListComponents<T>(moduleConfig, listConfig);
+  const {Form} = createFormComponents<T, SubT>(moduleConfig, formConfig);
+  const {List, ListItem} = createListComponents<T, SubT>(
+    moduleConfig,
+    listConfig,
+  );
   const Module = withModuleController<
     T,
     IJDABasicListProps<T>,
     IJDABasicFormProps<T>,
-    IJDABasicModuleProps<T>
+    IJDABasicModuleProps<T>,
+    SubT
   >(JDABasicModule, List, Form, moduleConfig);
   return {Module, Form, List, ListItem};
 }

@@ -1,43 +1,22 @@
-import {IJDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
 import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/withModuleController';
-import {IJDAListConfig} from '../../base/creators/createListComponents';
-import {Address} from '../../data_types/Address';
-import {
-    FormNumberInput,
-    FormStringInput,
-    FormStudentInput,
-} from '../FormInputs';
+import {Address, SubAddress} from '../../data_types/Address';
 
-export const AddressModuleConfig: IJDAModuleConfig<Address> = {
+export const AddressModuleConfig: IJDAModuleConfig<Address, SubAddress> = {
   primaryKey: 'id',
   apiResource: 'addresses',
   moduleName: 'Addresses',
   fieldLabel: {
     id: 'ID',
     name: 'City name',
-    student: 'student',
+    student: 'Student',
   },
-  quickRender: address => (address ? ` ${ address.id } | ${ address.name } |` : ''),
-  apiConfig:{
-      toPOST:(address)=>{
-        return {
-          ...address,
-          studentId: address.student?.id,
-        }
-      }
-  }
-};
-
-export const AddressFormConfig: IJDAFormConfig<Address> = {
-  id: FormNumberInput,
-  name: FormStringInput,
-  student: FormStudentInput,
-};
-
-export const AddressListConfig: IJDAListConfig<Address> = {
-  listItemProps: {
-    icon: 'person-outline',
-    title: address => ` ${ address.id } | ${ address.name } |`,
+  quickRender: address => (address ? ` ${address.id} | ${address.name} |` : ''),
+  apiConfig: {
+    toPOST: address => {
+      return {
+        ...address,
+        studentId: address.student?.id,
+      };
+    },
   },
-  listProps: {},
 };

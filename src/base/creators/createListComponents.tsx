@@ -26,8 +26,8 @@ export type IJDAListConfig<T> = {
   >;
 };
 
-export function createListComponents<T>(
-  moduleConfig: IJDAModuleConfig<T>,
+export function createListComponents<T, SubT = T>(
+  moduleConfig: IJDAModuleConfig<T, SubT>,
   listConfig: IJDAListConfig<T>,
 ) {
   type ListItemProps = IJDABasicListItemProps<T>;
@@ -37,7 +37,7 @@ export function createListComponents<T>(
   );
 
   type ListProps = IJDABasicListProps<T>;
-  const List = withJDAListController<T, ListProps>(
+  const List = withJDAListController<T, ListProps, SubT>(
     JDABasicList,
     ListItem,
     moduleConfig,

@@ -18,12 +18,12 @@ export interface IJDAModuleAPI<T> {
   moduleConfig: IJDAModuleConfig<T>;
 }
 
-export interface IJDAModuleConfig<T> {
+export interface IJDAModuleConfig<T, SubT = T> {
   primaryKey: keyof T;
   apiResource: string;
   moduleName: string;
   fieldLabel: Record<keyof T, string>;
-  quickRender: (v?: T) => string;
+  quickRender: (v?: SubT) => string;
   apiConfig?: IAPIConfig<T, any, any, any>;
 }
 export enum JDAModuleView {
@@ -39,11 +39,12 @@ export function withModuleController<
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
   P extends IJDAModuleControllerProps<T>,
+  SubT = T,
 >(
   Component: ComponentType<P>,
   ListView: JDAControlledListComponent<T, ListProps>,
   FormView: JDAControlledFormComponent<T, FormProps>,
-  moduleConfig: IJDAModuleConfig<T>,
+  moduleConfig: IJDAModuleConfig<T, SubT>,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI<T>>) => {
     const [currentView, setCurrentView] = useState<JDAModuleView>(

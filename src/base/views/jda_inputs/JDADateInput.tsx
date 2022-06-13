@@ -29,7 +29,8 @@ export function JDADateInput(props: IJDADateInputProps) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}>
+        openDuration={250}
+      >
         <View style={styles.container}>
           <DatePicker
             // modal
@@ -43,7 +44,8 @@ export function JDADateInput(props: IJDADateInputProps) {
           onPress={() => {
             ref.current?.close();
             if (props.onChange) props.onChange(tempDate);
-          }}>
+          }}
+        >
           OK
         </Button>
       </RBSheet>

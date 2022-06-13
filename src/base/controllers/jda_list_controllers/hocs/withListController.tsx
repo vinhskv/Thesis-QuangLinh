@@ -20,7 +20,7 @@ import {
   IJDAPaging,
   usePageControl,
 } from '../hooks/useListPageControl';
-import {JDAControlledListItemComponent} from './withJDAListItemController';
+import {JDAControlledListItemComponent} from './withListItemController';
 
 interface IJDAListAPI<T> {
   // eslint-disable-next-line no-undef
@@ -50,11 +50,10 @@ export function withJDAListController<
   T,
   // ItemProps extends IJDAListItemControllerProps<T>,
   ListProps extends IJDAListControllerProps<T>,
-  SubT = T,
 >(
   Component: ComponentType<ListProps>,
   ItemComponent: JDAControlledListItemComponent<T, any>,
-  moduleConfig: IJDAModuleConfig<T, SubT>,
+  moduleConfig: IJDAModuleConfig<T>,
 ) {
   return forwardRef<IJDAListRef<T>, Omit<ListProps, keyof IJDAListAPI<T>>>(
     (props, ref) => {
@@ -78,6 +77,7 @@ export function withJDAListController<
         checkControl,
         setLoading,
       }));
+
       return (
         <JDAListContext.Provider value={itemActionsHandler}>
           <Component
@@ -86,6 +86,7 @@ export function withJDAListController<
             itemComponents={items.map((item, index) => (
               <ItemComponent {...({} as any)} item={item} itemIndex={index} />
             ))}
+            onLoggin
             paging={paging}
             checkedItems={checkedItems}
           />

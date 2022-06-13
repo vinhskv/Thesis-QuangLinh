@@ -1,12 +1,10 @@
 import * as React from 'react';
 import JDADrawer from './base/views/jda_drawer/JDADrawer';
-import {
-  StudentClassModule,
-  AddressModule,
-  CourseModuleModule,
-  EnrolmentModule,
-  StudentModule,
-} from './modules/Modules';
+import { StudentClassModule } from './modules/studentclass/Index';
+import { AddressModule } from './modules/address/Index';
+import { CourseModuleModule } from './modules/coursemodule/Index';
+import { EnrolmentModule } from './modules/enrolment/Index';
+import { StudentModule } from './modules/student/Index';
 
 export default class MainScreen extends React.Component {
   public render() {

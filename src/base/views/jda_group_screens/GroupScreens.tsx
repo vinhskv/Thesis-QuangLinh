@@ -16,7 +16,8 @@ export function GroupScreen(props: IGroupScreenProps) {
         <Stack.Screen
           key={index}
           name={screen.name}
-          options={{title: screen.title}}>
+          options={{title: screen.title}}
+        >
           {() => screen.component}
         </Stack.Screen>
       ))}

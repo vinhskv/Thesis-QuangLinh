@@ -38,10 +38,12 @@ export function createFormDataInput<T>(Input: ComponentType<IJDAInput<T>>) {
   return {Input, FormInput, FormMultiInput};
 }
 
-export function createModuleInput<T>(config: IJDAModuleConfig<T>) {
-  function Input(props: IJDAInput<T>) {
+export function createModuleInput<T, SubT = T>(
+  config: IJDAModuleConfig<T, SubT>,
+) {
+  function Input(props: IJDAInput<SubT>) {
     return (
-      <JDAObjectInput<T>
+      <JDAObjectInput<SubT>
         {...props}
         apiResource={config.apiResource}
         renderOption={config.quickRender}

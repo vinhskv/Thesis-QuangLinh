@@ -46,24 +46,29 @@ export const {
   FormInput: FormStudentClassInput,
   FormMultiInput: FormMultiStudentClassInput,
 } = createModuleInput(StudentClassModuleConfig);
+
 export const {
   Input: AddressInput,
   FormInput: FormAddressInput,
   FormMultiInput: FormMultiAddressInput,
 } = createModuleInput(AddressModuleConfig);
+
 export const {
   Input: CourseModuleInput,
   FormInput: FormCourseModuleInput,
   FormMultiInput: FormMultiCourseModuleInput,
 } = createModuleInput(CourseModuleModuleConfig);
+
 export const {
   Input: EnrolmentInput,
   FormInput: FormEnrolmentInput,
   FormMultiInput: FormMultiEnrolmentInput,
 } = createModuleInput(EnrolmentModuleConfig);
+
 export const {
   Input: StudentInput,
   FormInput: FormStudentInput,
   FormMultiInput: FormMultiStudentInput,
 } = createModuleInput(StudentModuleConfig);
+
 

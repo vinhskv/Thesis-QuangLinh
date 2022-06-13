@@ -17,7 +17,8 @@ export function JDABasicModule<T>(props: IJDABasicModuleProps<T>) {
         collapsable={true}
         onRequestClose={() => {}}
         // transparent={true}
-        animationType={'slide'}>
+        animationType={'slide'}
+      >
         <Text style={styles.formTitle}>
           Form: {props.moduleConfig.moduleName}
         </Text>

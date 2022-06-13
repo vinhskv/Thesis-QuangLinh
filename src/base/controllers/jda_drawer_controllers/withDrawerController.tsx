@@ -34,7 +34,8 @@ export function withDrawerController<T extends IJDADrawerControllerProps>(
           }}
           drawerContent={drawer_props => (
             <Component {...(props as T)} drawerProps={drawer_props} />
-          )}>
+          )}
+        >
           {props.routes.map((route, index) => (
             <Drawer.Screen key={route.name + index} name={route.name}>
               {_props => route.component}
