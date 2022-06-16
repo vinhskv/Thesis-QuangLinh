@@ -1,12 +1,12 @@
-import {Text} from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import * as React from 'react';
-import {Modal, SafeAreaView, StyleSheet} from 'react-native';
+import { Modal, SafeAreaView, StyleSheet } from 'react-native';
+import { JDAModuleView } from '../../controllers/jda_module_controller/hooks/useModuleHandler';
 import {
-  IJDAModuleControllerProps,
-  JDAModuleView,
+  IJDAModuleControllerProps
 } from '../../controllers/jda_module_controller/withModuleController';
 
-export interface IJDABasicModuleProps<T> extends IJDAModuleControllerProps<T> {}
+export interface IJDABasicModuleProps<T> extends IJDAModuleControllerProps<T> { }
 
 export function JDABasicModule<T>(props: IJDABasicModuleProps<T>) {
   return (
@@ -15,8 +15,7 @@ export function JDABasicModule<T>(props: IJDABasicModuleProps<T>) {
       <Modal
         visible={props.currentView === JDAModuleView.FORM}
         collapsable={true}
-        onRequestClose={() => {}}
-        // transparent={true}
+        onRequestClose={() => { }}
         animationType={'slide'}
       >
         <Text style={styles.formTitle}>

@@ -1,9 +1,12 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Divider, Icon, List, ListItem } from '@ui-kitten/components';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { IJDAInput } from '.';
+import { AddressForm } from '../../../../modules/address/Index';
+import { StudentForm } from '../../../../modules/student/Index';
 import useDebounce from '../../../common_hooks/useDebounce';
 import { useAPI } from '../../../controllers/jda_apis/useAPI';
 import { JDAButtonInput } from './JDAButtonInput';
@@ -13,6 +16,8 @@ export interface IJDAObjectInputProps<T> extends IJDAInput<T> {
   apiResource: string;
   renderOption: (option?: T) => string;
 }
+
+const Stack = createNativeStackNavigator();
 
 export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
   const ref = React.useRef<RBSheet>();
