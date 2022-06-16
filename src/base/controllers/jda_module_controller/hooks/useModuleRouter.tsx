@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {useCallback} from 'react';
 
@@ -14,3 +15,26 @@ function useNavigation(props: DrawerScreenProps<any>) {
 }
 
 export default useNavigation;
+=======
+import { DrawerScreenProps } from '@react-navigation/drawer';
+import { useCallback } from 'react';
+
+interface ParamsList{
+
+}
+
+interface ScreenConfig{
+    
+}
+
+function useNavigation(props: DrawerScreenProps<any>,screens:ScreenConfig) {
+    const openCreateForm = useCallback(
+        (type: string) => {
+            props.navigation.navigate()
+        },
+        [],
+    );
+}
+
+export default useNavigation;
+>>>>>>> 69e6f8cb2ca34dbb86fc1cd2d167482142b389bc

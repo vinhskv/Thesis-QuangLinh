@@ -26,7 +26,8 @@ export interface IJDAModuleConfig<T, SubT = T> {
   apiConfig?: IAPIConfig<T, any, any, any>;
 }
 
-export interface IJDAModuleControllerProps<T> extends IJDAModuleAPI<T> {} // reversed for other logic
+
+export interface IJDAModuleControllerProps<T> extends IJDAModuleAPI<T> { } // reversed for other logic
 
 export function withModuleController<
   T,
@@ -35,11 +36,11 @@ export function withModuleController<
   FormProps extends IJDAFormControlerProps<T>,
   P extends IJDAModuleControllerProps<T>,
   SubT = T,
->(
-  Component: ComponentType<P>,
-  ListView: JDAControlledListComponent<T, ListProps>,
-  FormView: JDAControlledFormComponent<T, FormProps>,
-  moduleConfig: IJDAModuleConfig<T, SubT>,
+  >(
+    Component: ComponentType<P>,
+    ListView: JDAControlledListComponent<T, ListProps>,
+    FormView: JDAControlledFormComponent<T, FormProps>,
+    moduleConfig: IJDAModuleConfig<T, SubT>,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI<T>>) => {
     const {currentView, listHandler, formHandler} = useModuleHandler<T, SubT>(
@@ -65,7 +66,7 @@ class TypeUltil<
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
   P extends IJDAModuleControllerProps<T>,
-> {
+  > {
   //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
   controlled = (
     Component: ComponentType<P>,
@@ -87,4 +88,4 @@ export type JDAControlledModuleComponent<
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
   P extends IJDAModuleControllerProps<T>,
-> = ReturnType<TypeUltil<T, ListProps, FormProps, P>['controlled']>;
+  > = ReturnType<TypeUltil<T, ListProps, FormProps, P>['controlled']>;

@@ -1,12 +1,23 @@
+<<<<<<< HEAD
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Button, Divider, Icon, List, ListItem} from '@ui-kitten/components';
+=======
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Button, Divider, Icon, List, ListItem } from '@ui-kitten/components';
+>>>>>>> 69e6f8cb2ca34dbb86fc1cd2d167482142b389bc
 import * as React from 'react';
 import {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
+<<<<<<< HEAD
 import {IJDAInput} from '.';
 import {AddressForm} from '../../../../modules/address/Index';
 import {StudentForm} from '../../../../modules/student/Index';
+=======
+import { IJDAInput } from '.';
+import { AddressForm } from '../../../../modules/address/Index';
+import { StudentForm } from '../../../../modules/student/Index';
+>>>>>>> 69e6f8cb2ca34dbb86fc1cd2d167482142b389bc
 import useDebounce from '../../../common_hooks/useDebounce';
 import {useAPI} from '../../../controllers/jda_apis/useAPI';
 import {JDAButtonInput} from './JDAButtonInput';
