@@ -1,9 +1,11 @@
-import { createModuleComponents } from "../../base/creators/createModuleComponents";
-import {Address, SubAddress} from '../../data_types/Address';
-import { AddressFormConfig } from "./FormConfig";
+import { Address, SubAddress } from '../../data_types/Address';
 import { AddressListConfig } from "./ListConfig";
 import { AddressModuleConfig } from "./ModuleConfig";
 
+
+
+import { createModuleComponents } from "../../base/creators/createModuleComponents";
+import { AddressFormConfig } from "./FormConfig";
 export const {
     Module: AddressModule,
     List: AddressList,
@@ -14,3 +16,4 @@ export const {
     AddressListConfig,
     AddressFormConfig,
 );
+

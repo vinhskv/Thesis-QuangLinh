@@ -1,9 +1,11 @@
-import { createModuleComponents } from "../../base/creators/createModuleComponents";
-import {StudentClass, SubStudentClass} from '../../data_types/StudentClass';
-import { StudentClassFormConfig } from "./FormConfig";
+import { StudentClass, SubStudentClass } from '../../data_types/StudentClass';
 import { StudentClassListConfig } from "./ListConfig";
 import { StudentClassModuleConfig } from "./ModuleConfig";
 
+
+
+import { createModuleComponents } from "../../base/creators/createModuleComponents";
+import { StudentClassFormConfig } from "./FormConfig";
 export const {
     Module: StudentClassModule,
     List: StudentClassList,
@@ -14,3 +16,4 @@ export const {
     StudentClassListConfig,
     StudentClassFormConfig,
 );
+

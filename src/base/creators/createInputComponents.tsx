@@ -10,9 +10,9 @@ import {
   IJDAFormMultiInputProps,
   JDAFormMutilInput,
 } from '../views/jda_form/JDAFormMutilInput';
-import {IJDAInput} from '../views/jda_inputs';
-import {JDAEnumInput} from '../views/jda_inputs/JDAEnumInput';
-import {JDAObjectInput} from '../views/jda_inputs/JDAObjectInput';
+import {IJDAInput} from '../views/jda_form/form_inputs';
+import {JDAEnumInput} from '../views/jda_form/form_inputs/JDAEnumInput';
+import {JDAObjectInput} from '../views/jda_form/form_inputs/JDAObjectInput';
 
 export function createFormDataInput<T>(Input: ComponentType<IJDAInput<T>>) {
   function _FormInput(props: IJDAFormInputControllerProps<T>) {

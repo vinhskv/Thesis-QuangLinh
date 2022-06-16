@@ -8,11 +8,11 @@ export const EnrolmentModuleConfig: IJDAModuleConfig<Enrolment, SubEnrolment> = 
   fieldLabel: {
     id: 'Id',
     student: 'Student',
-    courseModule: 'Course Module',
-    internalMark: 'Internal Mark',
-    examMark: 'Exam Mark',
-    finalGrade: 'Final Grade',
-    finalMark: 'finalMark',
+    courseModule: 'Coursemodule',
+    internalMark: 'Internalmark',
+    examMark: 'Exammark',
+    finalGrade: 'Finalgrade',
+    finalMark: 'Finalmark',
   },
   quickRender: enrolment => (enrolment ? ` ${enrolment.id} |` : ''),
   apiConfig: {

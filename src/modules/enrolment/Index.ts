@@ -1,9 +1,11 @@
-import { createModuleComponents } from "../../base/creators/createModuleComponents";
-import {Enrolment, SubEnrolment} from '../../data_types/Enrolment';
-import { EnrolmentFormConfig } from "./FormConfig";
+import { Enrolment, SubEnrolment } from '../../data_types/Enrolment';
 import { EnrolmentListConfig } from "./ListConfig";
 import { EnrolmentModuleConfig } from "./ModuleConfig";
 
+
+
+import { createModuleComponents } from "../../base/creators/createModuleComponents";
+import { EnrolmentFormConfig } from "./FormConfig";
 export const {
     Module: EnrolmentModule,
     List: EnrolmentList,
@@ -14,3 +16,4 @@ export const {
     EnrolmentListConfig,
     EnrolmentFormConfig,
 );
+

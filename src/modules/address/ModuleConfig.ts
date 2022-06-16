@@ -6,8 +6,8 @@ export const AddressModuleConfig: IJDAModuleConfig<Address, SubAddress> = {
   apiResource: 'addresses',
   moduleName: 'Addresses',
   fieldLabel: {
-    id: 'ID',
-    name: 'City name',
+    id: 'Id',
+    name: 'Name',
     student: 'Student',
   },
   quickRender: address => (address ? ` ${address.id} | ${address.name} |` : ''),

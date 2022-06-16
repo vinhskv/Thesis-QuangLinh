@@ -6,7 +6,7 @@ import {
   UseFieldArrayReturn,
   useFormContext,
 } from 'react-hook-form';
-import {IJDAInput} from '../../views/jda_inputs';
+import {IJDAInput} from '../../views/jda_form/form_inputs';
 interface IJDAFormMultiInputAPI<T> extends UseFieldArrayReturn<T> {
   formItems: React.ReactNode[];
 }

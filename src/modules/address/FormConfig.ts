@@ -1,6 +1,7 @@
 import { IJDAFormConfig } from "../../base/controllers/jda_form_controllers/withFormController";
 import {Address} from '../../data_types/Address';
 
+
 import {
   FormNumberInput,
   FormStringInput,
@@ -13,3 +14,4 @@ export const AddressFormConfig: IJDAFormConfig<Address> = {
   name: FormStringInput,
   student: FormStudentInput,
 };
+

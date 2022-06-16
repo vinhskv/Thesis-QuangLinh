@@ -1,6 +1,7 @@
 import { IJDAFormConfig } from "../../base/controllers/jda_form_controllers/withFormController";
 import {StudentClass} from '../../data_types/StudentClass';
 
+
 import {
   FormNumberInput,
   FormStringInput,
@@ -13,3 +14,4 @@ export const StudentClassFormConfig: IJDAFormConfig<StudentClass> = {
   name: FormStringInput,
   students: FormMultiStudentInput,
 };
+

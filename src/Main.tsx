@@ -1,8 +1,8 @@
 import * as React from 'react';
 import JDADrawer from './base/views/jda_drawer/JDADrawer';
-import { StudentClassModule } from './modules/studentclass/Index';
+import { StudentClassModule } from './modules/student_class/Index';
 import { AddressModule } from './modules/address/Index';
-import { CourseModuleModule } from './modules/coursemodule/Index';
+import { CourseModuleModule } from './modules/course_module/Index';
 import { EnrolmentModule } from './modules/enrolment/Index';
 import { StudentModule } from './modules/student/Index';
 

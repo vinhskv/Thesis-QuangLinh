@@ -10,11 +10,11 @@ export const StudentClassModuleConfig: IJDAModuleConfig<StudentClass, SubStudent
     name: 'Name',
     students: 'Students',
   },
-  quickRender: studentclass => (studentclass ? ` ${studentclass.name} |` : ''),
+  quickRender: student_class => (student_class ? ` ${student_class.name} |` : ''),
   apiConfig: {
-    toPOST: studentclass => {
+    toPOST: student_class => {
       return {
-        ...studentclass,
+        ...student_class,
       };
     },
   },
