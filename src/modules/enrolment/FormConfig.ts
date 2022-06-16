@@ -1,14 +1,10 @@
-import { IJDAFormConfig } from "../../base/controllers/jda_form_controllers/withFormController";
+import {IJDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
 import {Enrolment} from '../../data_types/Enrolment';
 
+import {FormNumberInput, FormStringInput} from '../FormInputs';
 
-import {
-  FormNumberInput,
-  FormStringInput,
-} from '../FormInputs';
-
-import { FormStudentInput } from "../student/Input";
-import { FormCourseModuleInput } from "../course_module/Input";
+import {FormStudentInput} from '../student/Input';
+import {FormCourseModuleInput} from '../course_module/Input';
 
 export const EnrolmentFormConfig: IJDAFormConfig<Enrolment> = {
   id: FormNumberInput,
@@ -19,4 +15,3 @@ export const EnrolmentFormConfig: IJDAFormConfig<Enrolment> = {
   finalGrade: FormStringInput,
   finalMark: FormNumberInput,
 };
-

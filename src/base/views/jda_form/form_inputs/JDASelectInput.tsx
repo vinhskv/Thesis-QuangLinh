@@ -23,7 +23,8 @@ export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}>
+        openDuration={250}
+      >
         <List
           data={props.values}
           ItemSeparatorComponent={Divider}

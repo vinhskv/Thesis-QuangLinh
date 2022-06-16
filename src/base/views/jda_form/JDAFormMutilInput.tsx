@@ -17,7 +17,7 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
       )}
 
       {props.formItems.map((item, index) => (
-        <View style={styles.row}>
+        <View style={styles.row} key={index}>
           <View style={styles.expanded}>{item}</View>
           {!props.disabled && (
             <Button

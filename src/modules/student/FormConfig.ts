@@ -1,16 +1,11 @@
-import { IJDAFormConfig } from "../../base/controllers/jda_form_controllers/withFormController";
+import {IJDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
 import {Student} from '../../data_types/Student';
 
+import {FormStringInput, FormGenderInput, FormDateInput} from '../FormInputs';
 
-import {
-  FormStringInput,
-  FormGenderInput,
-  FormDateInput,
-} from '../FormInputs';
-
-import { FormAddressInput } from "../address/Input";
-import { FormStudentClassInput } from "../student_class/Input";
-import { FormMultiEnrolmentInput } from "../enrolment/Input";
+import {FormAddressInput} from '../address/Input';
+import {FormStudentClassInput} from '../student_class/Input';
+import {FormMultiEnrolmentInput} from '../enrolment/Input';
 
 export const StudentFormConfig: IJDAFormConfig<Student> = {
   id: FormStringInput,
@@ -22,4 +17,3 @@ export const StudentFormConfig: IJDAFormConfig<Student> = {
   studentClass: FormStudentClassInput,
   enrolments: FormMultiEnrolmentInput,
 };
-
