@@ -5,8 +5,6 @@ import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { IJDAInput } from '.';
-import { AddressForm } from '../../../../modules/address/Index';
-import { StudentForm } from '../../../../modules/student/Index';
 import useDebounce from '../../../common_hooks/useDebounce';
 import { useAPI } from '../../../controllers/jda_apis/useAPI';
 import { JDAButtonInput } from './JDAButtonInput';
@@ -70,6 +68,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
             marginRight: 10
           }} accessoryLeft={p => <Icon {...p} name="plus" />} size='tiny' onPress={() => {
             console.log("Open screen");
+            // push('Address')
           }}>Create</Button>
         </View>
         <List

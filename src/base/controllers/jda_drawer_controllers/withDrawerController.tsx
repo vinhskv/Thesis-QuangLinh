@@ -2,6 +2,7 @@ import {
   createDrawerNavigator,
   DrawerContentComponentProps,
 } from '@react-navigation/drawer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, {ComponentType, createContext, useState} from 'react';
 
 export interface IJDADrawerControllerProps {
@@ -14,6 +15,7 @@ export interface IJDADrawerControllerProps {
   drawerProps: DrawerContentComponentProps;
 }
 const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 export const DrawerContext = createContext<{
   setDrawerHeader: (show: boolean) => void;
 }>({
