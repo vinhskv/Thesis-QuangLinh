@@ -1,4 +1,3 @@
-
 import {SubStudent} from './Student';
 
 export interface Address {
@@ -7,6 +6,6 @@ export interface Address {
   student?: SubStudent;
 }
 
-export interface SubAddress extends Omit<Address,| 'student' > {
+export interface SubAddress extends Omit<Address, 'student'> {
   studentID?: string;
 }

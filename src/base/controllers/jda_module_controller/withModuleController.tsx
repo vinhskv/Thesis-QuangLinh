@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { ComponentType } from 'react';
-import { IAPIConfig } from '../jda_apis/useAPI';
+import {ComponentType} from 'react';
+import {IAPIConfig} from '../jda_apis/useAPI';
 import {
   IJDAFormControlerProps,
-  JDAControlledFormComponent
+  JDAControlledFormComponent,
 } from '../jda_form_controllers/withFormController';
 import {
-  IJDAListControllerProps, JDAControlledListComponent
+  IJDAListControllerProps,
+  JDAControlledListComponent,
 } from '../jda_list_controllers/hocs/withJDAListController';
-import { JDAModuleView, useModuleHandler } from './hooks/useModuleHandler';
+import {JDAModuleView, useModuleHandler} from './hooks/useModuleHandler';
 export interface IJDAModuleAPI<T> {
   currentView: JDAModuleView;
   ListView: React.ReactNode;
@@ -42,19 +43,17 @@ export function withModuleController<
     moduleConfig: IJDAModuleConfig<T, SubT>,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI<T>>) => {
-    const { currentView, listHandler, formHandler } = useModuleHandler<T, SubT>(moduleConfig)
+    const {currentView, listHandler, formHandler} = useModuleHandler<T, SubT>(
+      moduleConfig,
+    );
     ///////// Render
     return (
       <Component
         {...(props as P)}
         moduleConfig={moduleConfig}
         currentView={currentView}
-        ListView={
-          <ListView {...listHandler as any} />
-        }
-        FormView={
-          <FormView {...formHandler as any} />
-        }
+        ListView={<ListView {...(listHandler as any)} />}
+        FormView={<FormView {...(formHandler as any)} />}
       />
     );
   };

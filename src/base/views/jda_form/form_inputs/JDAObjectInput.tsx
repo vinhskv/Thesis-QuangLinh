@@ -1,14 +1,16 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button, Divider, Icon, List, ListItem } from '@ui-kitten/components';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Button, Divider, Icon, List, ListItem} from '@ui-kitten/components';
 import * as React from 'react';
-import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { IJDAInput } from '.';
+import {IJDAInput} from '.';
+import {AddressForm} from '../../../../modules/address/Index';
+import {StudentForm} from '../../../../modules/student/Index';
 import useDebounce from '../../../common_hooks/useDebounce';
-import { useAPI } from '../../../controllers/jda_apis/useAPI';
-import { JDAButtonInput } from './JDAButtonInput';
-import { JDAStringInput } from './JDAStringInput';
+import {useAPI} from '../../../controllers/jda_apis/useAPI';
+import {JDAButtonInput} from './JDAButtonInput';
+import {JDAStringInput} from './JDAStringInput';
 
 export interface IJDAObjectInputProps<T> extends IJDAInput<T> {
   apiResource: string;
@@ -49,18 +51,21 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}>
-        <View style={{
-          display: 'flex',
-          flexDirection: 'row'
-        }}>
+        openDuration={250}
+      >
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
           <JDAStringInput
             value={keyword}
             onChange={setKeyword}
             InputProps={{
               accessoryLeft: p => <Icon {...p} name="search" />,
               placeholder: `Search for ${props.apiResource}`,
-              style: { margin: 10, flex: 1 },
+              style: {margin: 10, flex: 1},
             }}
           />
           <Button style={{
@@ -73,9 +78,9 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
         </View>
         <List
           data={options}
-          indicatorStyle='black'
+          indicatorStyle="black"
           ItemSeparatorComponent={p => <Divider {...p} />}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <ListItem
               onPress={() => {
                 if (props.onChange) {

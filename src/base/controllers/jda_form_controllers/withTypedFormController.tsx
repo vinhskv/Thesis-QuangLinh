@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {
   IJDAFormAPI,
   IJDAFormControlerProps,
-  JDAControlledFormComponent
+  JDAControlledFormComponent,
 } from './withFormController';
 
 interface IJDATypedFormAPI<T> extends IJDAFormAPI {
@@ -13,24 +13,22 @@ interface IJDATypedFormAPI<T> extends IJDAFormAPI {
   FormView: JDAControlledFormComponent<T, any>;
 }
 export interface ITypedFormItem {
-  type: string,
-  formComponent: JDAControlledFormComponent<any, any>
+  type: string;
+  formComponent: JDAControlledFormComponent<any, any>;
 }
 export interface IJDAMultiFormControllerProps
   extends IJDATypedFormAPI<any>,
-  IJDAFormControlerProps<any> { }
+    IJDAFormControlerProps<any> {}
 
-export function withJDATypedFormController<FormTypes,
+export function withJDATypedFormController<
+  FormTypes,
   P extends IJDAMultiFormControllerProps,
-  >(
-    Component: React.ComponentType<P>,
-    forms: ITypedFormItem[],
-) {
+>(Component: React.ComponentType<P>, forms: ITypedFormItem[]) {
   return (props: Omit<P, keyof IJDATypedFormAPI<any>>) => {
     const [formType, setFormType] = useState<string>(forms[0].type);
     const beforeSubmit = useCallback(
       (formValue: any) => {
-        props.onSubmit({ type: formType, ...formValue });
+        props.onSubmit({type: formType, ...formValue});
       },
       [formType, props],
     );
