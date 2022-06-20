@@ -20,17 +20,16 @@ export function JDABasicModule<T>(props: IJDABasicModuleProps<T>) {
       <Stack.Screen name={JDAModuleView.LIST + ""} options={{ headerShown: false }}>
         {(p: NativeStackScreenProps<any>) => {
           return props.ListView
-        }
-        }
+        }}
       </Stack.Screen>
       <Stack.Screen name={JDAModuleView.FORM + ""} options={{
         presentation: 'modal',
         title: "Form: " + props.moduleConfig.moduleName,
+        headerTitleAlign: "center",
         headerBackVisible: false
       }}>{(p: NativeStackScreenProps<any>) => {
         return props.FormView
-      }
-        }</Stack.Screen>
+      }}</Stack.Screen>
     </Stack.Navigator>
   );
 }
