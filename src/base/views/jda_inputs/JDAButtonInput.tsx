@@ -27,7 +27,8 @@ export function MyButtonInput(props: IJDAButtonInputProps) {
         style={props.eva?.style ? props.eva.style.buttonLikeInput : {}}
         appearance="outline"
         disabled={props.disabled}
-        onPress={props.onPress}>
+        onPress={props.onPress}
+      >
         {props.value}
       </Button>
     </>

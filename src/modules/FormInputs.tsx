@@ -9,6 +9,7 @@ import {JDAStringInput} from '../base/views/jda_form/form_inputs/JDAStringInput'
 import {CourseModuleType} from '../data_types/enums/CourseModuleType';
 import {Gender} from '../data_types/enums/Gender';
 
+
 // Basic input components
 export const {
   FormInput: FormStringInput,
@@ -22,6 +23,7 @@ export const {
   FormInput: FormNumberInput,
   FormMultiInput: FormMultiNumberInput,
 } = createFormDataInput(JDANumberInput);
+
 
 // Enums input components
 

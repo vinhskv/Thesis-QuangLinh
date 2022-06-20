@@ -1,17 +1,19 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as React from 'react';
-import {ComponentType} from 'react';
-import {IAPIConfig} from '../jda_apis/useAPI';
+import { ComponentType, useEffect } from 'react';
+import { IAPIConfig } from '../jda_apis/useAPI';
 import {
   IJDAFormControlerProps,
-  JDAControlledFormComponent,
+  JDAControlledFormComponent
 } from '../jda_form_controllers/withFormController';
 import {
-  IJDAListControllerProps,
-  JDAControlledListComponent,
+  IJDAListControllerProps, JDAControlledListComponent
 } from '../jda_list_controllers/hocs/withJDAListController';
-import {JDAModuleView, useModuleHandler} from './hooks/useModuleHandler';
-export interface IJDAModuleAPI<T> {
+import { JDARouterParams, useRouter } from '../jda_router/useRouter';
+import { JDAModuleView, useModuleHandler } from './hooks/useModuleHandler';
+export interface IJDAModuleAPI<T> extends ReturnType<typeof useRouter> {
   currentView: JDAModuleView;
+  setCurrentView: (view: JDAModuleView) => void;
   ListView: React.ReactNode;
   FormView: React.ReactNode;
   moduleConfig: IJDAModuleConfig<T>;
@@ -19,6 +21,7 @@ export interface IJDAModuleAPI<T> {
 
 export interface IJDAModuleConfig<T, SubT = T> {
   primaryKey: keyof T;
+  route: string;
   apiResource: string;
   moduleName: string;
   fieldLabel: Record<keyof T, string>;
@@ -27,7 +30,7 @@ export interface IJDAModuleConfig<T, SubT = T> {
 }
 
 
-export interface IJDAModuleControllerProps<T> extends IJDAModuleAPI<T> { } // reversed for other logic
+export interface IJDAModuleControllerProps<T> extends IJDAModuleAPI<T>, NativeStackScreenProps<any> { } // reversed for other logic
 
 export function withModuleController<
   T,
@@ -43,17 +46,28 @@ export function withModuleController<
     moduleConfig: IJDAModuleConfig<T, SubT>,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI<T>>) => {
-    const {currentView, listHandler, formHandler} = useModuleHandler<T, SubT>(
-      moduleConfig,
-    );
+    const { currentView, setCurrentView, setFormMode, listHandler, formHandler } = useModuleHandler<T, SubT>(moduleConfig)
+    useEffect(() => {
+      console.log("Route", props.route);
+      const params = props.route.params as JDARouterParams<T>
+      if (params) {
+        setCurrentView(params.type)
+        setFormMode(params.mode)
+      }
+    }, []);
     ///////// Render
     return (
       <Component
         {...(props as P)}
         moduleConfig={moduleConfig}
         currentView={currentView}
-        ListView={<ListView {...(listHandler as any)} />}
-        FormView={<FormView {...(formHandler as any)} />}
+        setCurrentView={setCurrentView}
+        ListView={
+          <ListView {...listHandler as any} />
+        }
+        FormView={
+          <FormView {...formHandler as any} />
+        }
       />
     );
   };

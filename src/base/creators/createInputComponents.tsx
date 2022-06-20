@@ -1,18 +1,18 @@
-import React, {ComponentType} from 'react';
+import React, { ComponentType } from 'react';
 import {
   IJDAFormInputControllerProps,
-  withJDAFormInputController,
+  withJDAFormInputController
 } from '../controllers/jda_form_controllers/withFormInputController';
-import {withJDAFormMultiInputController} from '../controllers/jda_form_controllers/withFormMultiInputController';
-import {IJDAModuleConfig} from '../controllers/jda_module_controller/withModuleController';
-import {enum2Array} from '../utils/enum2Array';
+import { withJDAFormMultiInputController } from '../controllers/jda_form_controllers/withFormMultiInputController';
+import { IJDAModuleConfig } from '../controllers/jda_module_controller/withModuleController';
+import { enum2Array } from '../utils/enum2Array';
+import { IJDAInput } from '../views/jda_form/form_inputs';
+import { JDAEnumInput } from '../views/jda_form/form_inputs/JDAEnumInput';
+import { JDAObjectInput } from '../views/jda_form/form_inputs/JDAObjectInput';
 import {
   IJDAFormMultiInputProps,
-  JDAFormMutilInput,
+  JDAFormMutilInput
 } from '../views/jda_form/JDAFormMutilInput';
-import {IJDAInput} from '../views/jda_form/form_inputs';
-import {JDAEnumInput} from '../views/jda_form/form_inputs/JDAEnumInput';
-import {JDAObjectInput} from '../views/jda_form/form_inputs/JDAObjectInput';
 
 export function createFormDataInput<T>(Input: ComponentType<IJDAInput<T>>) {
   function _FormInput(props: IJDAFormInputControllerProps<T>) {
@@ -35,7 +35,7 @@ export function createFormDataInput<T>(Input: ComponentType<IJDAInput<T>>) {
     IJDAInput<T>
   >(JDAFormMutilInput, Input);
 
-  return {Input, FormInput, FormMultiInput};
+  return { Input, FormInput, FormMultiInput };
 }
 
 export function createModuleInput<T, SubT = T>(
@@ -45,6 +45,7 @@ export function createModuleInput<T, SubT = T>(
     return (
       <JDAObjectInput<SubT>
         {...props}
+        route={config.route}
         apiResource={config.apiResource}
         renderOption={config.quickRender}
       />

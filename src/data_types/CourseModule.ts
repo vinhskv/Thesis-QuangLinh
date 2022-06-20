@@ -1,3 +1,5 @@
+
+
 export interface CourseModule {
   id: number;
   code: string;
@@ -5,3 +7,4 @@ export interface CourseModule {
   semester: number;
   credits: number;
 }
+

@@ -1,20 +1,20 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Button, Divider, Icon, List, ListItem} from '@ui-kitten/components';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Button, Divider, Icon, List, ListItem } from '@ui-kitten/components';
 import * as React from 'react';
-import {useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import { useContext, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {IJDAInput} from '.';
-import {AddressForm} from '../../../../modules/address/Index';
-import {StudentForm} from '../../../../modules/student/Index';
+import { IJDAInput } from '.';
 import useDebounce from '../../../common_hooks/useDebounce';
-import {useAPI} from '../../../controllers/jda_apis/useAPI';
-import {JDAButtonInput} from './JDAButtonInput';
-import {JDAStringInput} from './JDAStringInput';
+import { useAPI } from '../../../controllers/jda_apis/useAPI';
+import { JDARouterContext } from '../../../controllers/jda_router/JDARouterContext';
+import { JDAButtonInput } from './JDAButtonInput';
+import { JDAStringInput } from './JDAStringInput';
 
 export interface IJDAObjectInputProps<T> extends IJDAInput<T> {
   apiResource: string;
   renderOption: (option?: T) => string;
+  route: string
 }
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +32,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
     }
   }, [api]);
 
+  const router = useContext(JDARouterContext);
   useEffect(() => {
     search();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,36 +52,36 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}
-      >
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
+        openDuration={250}>
+        <View style={{
+          display: 'flex',
+          flexDirection: 'row'
+        }}>
           <JDAStringInput
             value={keyword}
             onChange={setKeyword}
             InputProps={{
               accessoryLeft: p => <Icon {...p} name="search" />,
               placeholder: `Search for ${props.apiResource}`,
-              style: {margin: 10, flex: 1},
+              style: { margin: 10, flex: 1 },
             }}
           />
           <Button style={{
             marginVertical: 10,
             marginRight: 10
           }} accessoryLeft={p => <Icon {...p} name="plus" />} size='tiny' onPress={() => {
-            console.log("Open screen");
-            // push('Address')
+            console.log("Open screen: ", props.route);
+            router.JDARouter.openModuleCreateForm(props.route, (item) => {
+              if (props.onChange)
+                props.onChange(item as T)
+            })
           }}>Create</Button>
         </View>
         <List
           data={options}
-          indicatorStyle="black"
+          indicatorStyle='black'
           ItemSeparatorComponent={p => <Divider {...p} />}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <ListItem
               onPress={() => {
                 if (props.onChange) {

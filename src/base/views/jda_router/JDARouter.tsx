@@ -21,7 +21,7 @@ function JDARouter(props: IJDARouterProps) {
         <DrawerLayoutAndroid ref={drawer as any} drawerPosition='left' renderNavigationView={navigationView}>
             <List data={props.routes}
                 ItemSeparatorComponent={p => <Divider {...p} />}
-                renderItem={(item) => <ListItem title={item.item.title ?? item.item.name} onPress={() => props.goToModule(item.item.name)}
+                renderItem={(item) => <ListItem title={item.item.title ?? item.item.name} onPress={() => props.JDARouter.goToModule(item.item.name)}
                     accessoryLeft={<Icon name={'star'} />} />} />
         </DrawerLayoutAndroid>
     );
