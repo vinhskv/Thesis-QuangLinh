@@ -1,7 +1,7 @@
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { JDAModuleView } from '../../controllers/jda_module_controller/hooks/useModuleHandler';
+import { JDAModuleView } from '../../controllers/jda_module_controller/hooks/useListHandler';
 import {
   IJDAModuleControllerProps
 } from '../../controllers/jda_module_controller/withModuleController';

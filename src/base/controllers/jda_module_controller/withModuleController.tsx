@@ -10,7 +10,8 @@ import {
   IJDAListControllerProps, JDAControlledListComponent
 } from '../jda_list_controllers/hocs/withJDAListController';
 import { JDARouterParams, useRouter } from '../jda_router/useRouter';
-import { JDAModuleView, useModuleHandler } from './hooks/useModuleHandler';
+import { useFormHandler } from './hooks/useFormHandler';
+import { JDAModuleView, useListHandler } from './hooks/useListHandler';
 export interface IJDAModuleAPI<T> extends ReturnType<typeof useRouter> {
   currentView: JDAModuleView;
   setCurrentView: (view: JDAModuleView) => void;
@@ -46,7 +47,9 @@ export function withModuleController<
     moduleConfig: IJDAModuleConfig<T, SubT>,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI<T>>) => {
-    const { currentView, setCurrentView, setFormMode, listHandler, formHandler } = useModuleHandler<T, SubT>(moduleConfig)
+    
+    const listHandler = useListHandler(moduleConfig)
+    const formHandler = useFormHandler(moduleConfig)
     useEffect(() => {
       console.log("Route", props.route);
       const params = props.route.params as JDARouterParams<T>

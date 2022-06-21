@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import _ from 'lodash';
 import { useCallback } from 'react';
 import { JDAFormMode } from '../jda_form_controllers/withFormController';
-import { JDAModuleView } from '../jda_module_controller/hooks/useModuleHandler';
+import { JDAModuleView } from '../jda_module_controller/hooks/useListHandler';
 import { IRoute } from './withJDARouter';
 
 interface IOldScreenState{
