@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { useAPI } from '../../jda_apis/useAPI';
-import { JDAFormMode } from '../../jda_form_controllers/withFormController';
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
 import { JDARouterContext } from '../../jda_router/JDARouterContext';
 import { IJDAModuleConfig } from '../withModuleController';
+import { ActionType, useModuleStateReducer } from './useModuleStateReducer';
 export enum JDAModuleView {
     LIST = "List",
     FORM = "Form",
@@ -12,25 +12,29 @@ export enum JDAModuleView {
 export interface IuseModuleHandlerProps {
 }
 
-export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>) {
-    const router = useContext(JDARouterContext);
+export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>, moduleState: ReturnType<typeof useModuleStateReducer<T>>) {
     /////////// Connect List and Form to API
-
-
     const api = useAPI<T>(moduleConfig.apiResource);
     const listRef = React.useRef<IJDAListRef<T>>();
 
     const handleAddItem = React.useCallback(() => {
-        setCurrentView(JDAModuleView.FORM);
-        setFormMode(JDAFormMode.CREATE);
-        setFormValue(undefined);
+        moduleState.changeModuleState({
+            type: ActionType.SHOW_CREATE_FORM,
+            data: {
+                goBackAfterCreated: false,
+                prevScreenState: null
+            }
+        })
     }, []);
 
     const handleEditItem = React.useCallback((itemToEdit: T) => {
         if (itemToEdit) {
-            setCurrentView(JDAModuleView.FORM);
-            setFormMode(JDAFormMode.EDIT);
-            setFormValue(itemToEdit);
+            moduleState.changeModuleState({
+                type: ActionType.SHOW_EDIT_FORM,
+                data: {
+                    editItem: itemToEdit
+                }
+            })
         }
     }, []);
 
@@ -66,9 +70,12 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>)
     const handleRefresh = () => handleChangePage(0);
     const handleChangePageSize = React.useCallback((_pageSize: number) => { }, []);
     const handleShowDetail = React.useCallback((item: T) => {
-        setCurrentView(JDAModuleView.FORM);
-        setFormMode(JDAFormMode.READ_ONLY);
-        setFormValue(item);
+        moduleState.changeModuleState({
+            type: ActionType.SHOW_READ_ONLY_FORM,
+            data: {
+                viewItem: item
+            }
+        })
     }, []);
 
     // auto load page 0 when first render
@@ -77,22 +84,14 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>)
     }, [handleChangePage]);
     return (
         {
-            currentView,
-            setCurrentView,
-            setFormMode,
-            listHandler: {
-                ref: listRef,
-                onAddItem: handleAddItem,
-                onShowDetail: handleShowDetail,
-                onEditItem: handleEditItem,
-                onRefresh: handleRefresh,
-                onDeleteItems: handleDeleteItems,
-                onChangePage: handleChangePage,
-                onChangePageSize: handleChangePageSize,
-            },
-            formHandler: {
-                
-            }
+            ref: listRef,
+            onAddItem: handleAddItem,
+            onShowDetail: handleShowDetail,
+            onEditItem: handleEditItem,
+            onRefresh: handleRefresh,
+            onDeleteItems: handleDeleteItems,
+            onChangePage: handleChangePage,
+            onChangePageSize: handleChangePageSize,
         }
     );
 }

@@ -12,6 +12,7 @@ import {
 import { JDARouterParams, useRouter } from '../jda_router/useRouter';
 import { useFormHandler } from './hooks/useFormHandler';
 import { JDAModuleView, useListHandler } from './hooks/useListHandler';
+import { useModuleStateReducer } from './hooks/useModuleStateReducer';
 export interface IJDAModuleAPI<T> extends ReturnType<typeof useRouter> {
   currentView: JDAModuleView;
   setCurrentView: (view: JDAModuleView) => void;
@@ -47,9 +48,10 @@ export function withModuleController<
     moduleConfig: IJDAModuleConfig<T, SubT>,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI<T>>) => {
+    const moduleStateHandler = useModuleStateReducer<T>();
     
-    const listHandler = useListHandler(moduleConfig)
-    const formHandler = useFormHandler(moduleConfig)
+    const listHandler = useListHandler(moduleConfig, moduleStateHandler)
+    const formHandler = useFormHandler(moduleConfig, moduleStateHandler)
     useEffect(() => {
       console.log("Route", props.route);
       const params = props.route.params as JDARouterParams<T>

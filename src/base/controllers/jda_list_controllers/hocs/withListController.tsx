@@ -22,6 +22,10 @@ import {
 } from '../hooks/useListPageControl';
 import {JDAControlledListItemComponent} from './withListItemController';
 
+export enum IJDAListMode{
+  VIEW
+}
+
 interface IJDAListAPI<T> {
   // eslint-disable-next-line no-undef
   itemComponents: JSX.Element[];

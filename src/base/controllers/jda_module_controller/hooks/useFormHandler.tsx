@@ -1,18 +1,21 @@
 import * as React from 'react';
+import { useAPI } from '../../jda_apis/useAPI';
 import { JDAFormMode } from '../../jda_form_controllers/withFormController';
 import { IJDAModuleConfig } from '../withModuleController';
 import { JDAModuleView } from './useListHandler';
+import { ActionType, useModuleStateReducer } from './useModuleStateReducer';
 
-export function useFormHandler<T,SubT>(moduleConfig: IJDAModuleConfig<T, SubT>) {
-    const [formMode, setFormMode] = React.useState<JDAFormMode>(JDAFormMode.CREATE);
-    const [formValue, setFormValue] = React.useState<T | undefined>();
+export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>, moduleStateHandler: ReturnType<typeof useModuleStateReducer<T>>) {
     const handleFormCancel = React.useCallback(() => {
-        setCurrentView(JDAModuleView.LIST);
+        moduleStateHandler.changeModuleState({
+            type: ActionType.SHOW_LIST_VIEW
+        })
     }, []);
+    const api = useAPI<T>(moduleConfig.apiResource);
 
     const handleFormSubmit = React.useCallback(
         async (submitedItem: T) => {
-            switch (formMode) {
+            switch (moduleStateHandler.moduleState.viewMode) {
                 case JDAFormMode.EDIT: {
                     const res = await api.updateById(
                         submitedItem[moduleConfig.primaryKey],
@@ -36,9 +39,8 @@ export function useFormHandler<T,SubT>(moduleConfig: IJDAModuleConfig<T, SubT>) 
                     setCurrentView(JDAModuleView.LIST);
                     break;
             }
-            router.JDARouter.goBack()
         },
-        [api, formMode],
+        [api],
     );
 
     return {
