@@ -71,7 +71,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
             marginRight: 10
           }} accessoryLeft={p => <Icon {...p} name="plus" />} size='tiny' onPress={() => {
             console.log("Open screen: ", props.route);
-            router.JDARouter.openModuleCreateForm(props.route, (item) => {
+            router.router.openModuleCreateForm(props.route, (item) => {
               if (props.onChange)
                 props.onChange(item as T)
             })

@@ -1,9 +1,10 @@
 import { createNativeStackNavigator, NativeStackNavigationOptions, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as React from 'react';
+import { Modules } from '../../../data_types/enums/Modules';
 import { JDARouterContext } from './JDARouterContext';
 import { useRouter } from './useRouter';
 export interface IRoute {
-    name: string,
+    name: Modules,
     title?: string,
 }
 interface IRouteConfig extends IRoute {

@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ComponentType, useEffect } from 'react';
+import { ComponentType } from 'react';
 import { IAPIConfig } from '../jda_apis/useAPI';
 import {
   IJDAFormControlerProps,
@@ -12,7 +12,7 @@ import {
   IJDAListRef,
   JDAControlledListComponent
 } from '../jda_list_controllers/hocs/withJDAListController';
-import { JDARouterParams, useRouter } from '../jda_router/useRouter';
+import { useRouter } from '../jda_router/useRouter';
 import { useFormHandler } from './hooks/useFormHandler';
 import { useListHandler } from './hooks/useListHandler';
 import { useModuleStateReducer } from './hooks/useModuleStateReducer';
@@ -35,7 +35,9 @@ export interface IJDAModuleConfig<T, SubT = T> {
 
 export interface IJDAModuleControllerProps<T>
   extends IJDAModuleAPI<T>,
-    NativeStackScreenProps<any> {} // reversed for other logic
+    NativeStackScreenProps<any> {
+      
+    } // reversed for other logic
 
 export function withModuleController<
   T,
@@ -58,18 +60,13 @@ export function withModuleController<
     const listHandler = useListHandler(
       moduleConfig,
       moduleStateHandler,
-      formRef,
+      listRef
     );
     const formHandler = useFormHandler(
       moduleConfig,
       moduleStateHandler,
       listRef,
     );
-    useEffect(() => {
-      const params = props.route.params as JDARouterParams<T>;
-      if (params) {
-      }
-    }, []);
     ///////// Render
     return (
       <Component
@@ -77,7 +74,7 @@ export function withModuleController<
         moduleConfig={moduleConfig}
         moduleState={moduleStateHandler}
         ListView={<ListView {...(listHandler as any)} ref={listRef} />}
-        FormView={<FormView {...(formHandler as any)} ref={formRef} />}
+        FormView={<FormView {...(formHandler as any)} mode={moduleStateHandler.moduleState.viewMode}  ref={formRef} />}
       />
     );
   };

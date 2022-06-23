@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useRef } from 'react';
 import { useAPI } from '../../jda_apis/useAPI';
-import { IJDAFormRef } from '../../jda_form_controllers/withFormController';
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
 import { IJDAModuleConfig } from '../withModuleController';
-import { ActionType, useModuleStateReducer } from './useModuleStateReducer';
+import { JDAModuleModes, useModuleStateReducer } from './useModuleStateReducer';
 export enum JDAModuleView {
     LIST = "List",
     FORM = "Form",
@@ -14,14 +13,13 @@ export interface IuseModuleHandlerProps {
 
 export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
     moduleState: ReturnType<typeof useModuleStateReducer<T>>,
-    formRef: ReturnType<typeof useRef<IJDAFormRef<T>>>) {
+    listRef: ReturnType<typeof useRef<IJDAListRef<T>>>) {
     /////////// Connect List and Form to API
     const api = useAPI<T>(moduleConfig.apiResource);
-    const listRef = React.useRef<IJDAListRef<T>>();
 
     const handleAddItem = React.useCallback(() => {
         moduleState.changeModuleState({
-            type: ActionType.SHOW_CREATE_FORM,
+            type: JDAModuleModes.CREATE_NEW_ITEM,
             data: {
                 goBackAfterCreated: false,
                 prevScreenState: null
@@ -32,7 +30,7 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
     const handleEditItem = React.useCallback((itemToEdit: T) => {
         if (itemToEdit) {
             moduleState.changeModuleState({
-                type: ActionType.SHOW_EDIT_FORM,
+                type: JDAModuleModes.EDIT_ITEM,
                 data: {
                     editItem: itemToEdit
                 }
@@ -73,7 +71,7 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
     const handleChangePageSize = React.useCallback((_pageSize: number) => { }, []);
     const handleShowDetail = React.useCallback((item: T) => {
         moduleState.changeModuleState({
-            type: ActionType.SHOW_READ_ONLY_FORM,
+            type: JDAModuleModes.SHOW_ITEM_DETAIL,
             data: {
                 viewItem: item
             }
@@ -86,7 +84,6 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
     }, [handleChangePage]);
     return (
         {
-            ref: listRef,
             onAddItem: handleAddItem,
             onShowDetail: handleShowDetail,
             onEditItem: handleEditItem,
