@@ -4,21 +4,23 @@ import { ComponentType, useEffect } from 'react';
 import { IAPIConfig } from '../jda_apis/useAPI';
 import {
   IJDAFormControlerProps,
+  IJDAFormRef,
   JDAControlledFormComponent
 } from '../jda_form_controllers/withFormController';
 import {
-  IJDAListControllerProps, JDAControlledListComponent
+  IJDAListControllerProps,
+  IJDAListRef,
+  JDAControlledListComponent
 } from '../jda_list_controllers/hocs/withJDAListController';
 import { JDARouterParams, useRouter } from '../jda_router/useRouter';
 import { useFormHandler } from './hooks/useFormHandler';
-import { JDAModuleView, useListHandler } from './hooks/useListHandler';
+import { useListHandler } from './hooks/useListHandler';
 import { useModuleStateReducer } from './hooks/useModuleStateReducer';
 export interface IJDAModuleAPI<T> extends ReturnType<typeof useRouter> {
-  currentView: JDAModuleView;
-  setCurrentView: (view: JDAModuleView) => void;
   ListView: React.ReactNode;
   FormView: React.ReactNode;
   moduleConfig: IJDAModuleConfig<T>;
+  moduleState: ReturnType<typeof useModuleStateReducer<T>>
 }
 
 export interface IJDAModuleConfig<T, SubT = T> {
@@ -31,8 +33,9 @@ export interface IJDAModuleConfig<T, SubT = T> {
   apiConfig?: IAPIConfig<T, any, any, any>;
 }
 
-
-export interface IJDAModuleControllerProps<T> extends IJDAModuleAPI<T>, NativeStackScreenProps<any> { } // reversed for other logic
+export interface IJDAModuleControllerProps<T>
+  extends IJDAModuleAPI<T>,
+    NativeStackScreenProps<any> {} // reversed for other logic
 
 export function withModuleController<
   T,
@@ -41,23 +44,30 @@ export function withModuleController<
   FormProps extends IJDAFormControlerProps<T>,
   P extends IJDAModuleControllerProps<T>,
   SubT = T,
-  >(
-    Component: ComponentType<P>,
-    ListView: JDAControlledListComponent<T, ListProps>,
-    FormView: JDAControlledFormComponent<T, FormProps>,
-    moduleConfig: IJDAModuleConfig<T, SubT>,
+>(
+  Component: ComponentType<P>,
+  ListView: JDAControlledListComponent<T, ListProps>,
+  FormView: JDAControlledFormComponent<T, FormProps>,
+  moduleConfig: IJDAModuleConfig<T, SubT>,
 ) {
   return (props: Omit<P, keyof IJDAModuleAPI<T>>) => {
-    const moduleStateHandler = useModuleStateReducer<T>();
-    
-    const listHandler = useListHandler(moduleConfig, moduleStateHandler)
-    const formHandler = useFormHandler(moduleConfig, moduleStateHandler)
+    const listRef = React.useRef<IJDAListRef<T>>();
+    const formRef = React.useRef<IJDAFormRef<T>>();
+
+    const moduleStateHandler = useModuleStateReducer<T>(listRef, formRef);
+    const listHandler = useListHandler(
+      moduleConfig,
+      moduleStateHandler,
+      formRef,
+    );
+    const formHandler = useFormHandler(
+      moduleConfig,
+      moduleStateHandler,
+      listRef,
+    );
     useEffect(() => {
-      console.log("Route", props.route);
-      const params = props.route.params as JDARouterParams<T>
+      const params = props.route.params as JDARouterParams<T>;
       if (params) {
-        setCurrentView(params.type)
-        setFormMode(params.mode)
       }
     }, []);
     ///////// Render
@@ -65,14 +75,9 @@ export function withModuleController<
       <Component
         {...(props as P)}
         moduleConfig={moduleConfig}
-        currentView={currentView}
-        setCurrentView={setCurrentView}
-        ListView={
-          <ListView {...listHandler as any} />
-        }
-        FormView={
-          <FormView {...formHandler as any} />
-        }
+        moduleState={moduleStateHandler}
+        ListView={<ListView {...(listHandler as any)} ref={listRef} />}
+        FormView={<FormView {...(formHandler as any)} ref={formRef} />}
       />
     );
   };
@@ -85,7 +90,7 @@ class TypeUltil<
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
   P extends IJDAModuleControllerProps<T>,
-  > {
+> {
   //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
   controlled = (
     Component: ComponentType<P>,
@@ -107,4 +112,4 @@ export type JDAControlledModuleComponent<
   ListProps extends IJDAListControllerProps<T>,
   FormProps extends IJDAFormControlerProps<T>,
   P extends IJDAModuleControllerProps<T>,
-  > = ReturnType<TypeUltil<T, ListProps, FormProps, P>['controlled']>;
+> = ReturnType<TypeUltil<T, ListProps, FormProps, P>['controlled']>;

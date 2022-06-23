@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useRef } from 'react';
 import { useAPI } from '../../jda_apis/useAPI';
+import { IJDAFormRef } from '../../jda_form_controllers/withFormController';
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
-import { JDARouterContext } from '../../jda_router/JDARouterContext';
 import { IJDAModuleConfig } from '../withModuleController';
 import { ActionType, useModuleStateReducer } from './useModuleStateReducer';
 export enum JDAModuleView {
@@ -12,7 +12,9 @@ export enum JDAModuleView {
 export interface IuseModuleHandlerProps {
 }
 
-export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>, moduleState: ReturnType<typeof useModuleStateReducer<T>>) {
+export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
+    moduleState: ReturnType<typeof useModuleStateReducer<T>>,
+    formRef: ReturnType<typeof useRef<IJDAFormRef<T>>>) {
     /////////// Connect List and Form to API
     const api = useAPI<T>(moduleConfig.apiResource);
     const listRef = React.useRef<IJDAListRef<T>>();

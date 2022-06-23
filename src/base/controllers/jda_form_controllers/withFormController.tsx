@@ -1,8 +1,8 @@
-import React, {ComponentType, useCallback, useEffect} from 'react';
-import {FormProvider, useForm} from 'react-hook-form';
-import {IJDAModuleConfig} from '../jda_module_controller/withModuleController';
-import {JDAControlledFormInputComponent} from './withFormInputController';
-import {JDAControlledFormMultiInputComponent} from './withFormMultiInputController';
+import React, { ComponentType, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { IJDAModuleConfig } from '../jda_module_controller/withModuleController';
+import { JDAControlledFormInputComponent } from './withFormInputController';
+import { JDAControlledFormMultiInputComponent } from './withFormMultiInputController';
 
 export enum JDAFormMode {
   CREATE,
@@ -32,23 +32,38 @@ export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
   mode: JDAFormMode;
   initValue?: T;
 }
-
 export function withJDAFormControler<
   T,
   P extends IJDAFormControlerProps<T>,
   SubT = T,
->(
-  Component: ComponentType<P>,
-  formConfig: IJDAFormConfig<T>,
-  moduleConfig: IJDAModuleConfig<T, SubT>,
+  >(
+    Component: ComponentType<P>,
+    formConfig: IJDAFormConfig<T>,
+    moduleConfig: IJDAModuleConfig<T, SubT>,
 ) {
-  return (props: Omit<P, keyof IJDAFormAPI>) => {
+  return forwardRef<IJDAFormRef<T>, Omit<P, keyof IJDAFormAPI>>((props, ref) => {
     const form = useForm<T>();
     useEffect(() => {
       if (props.initValue) {
         form.reset(props.initValue as any);
       }
     }, [form, props.initValue]);
+
+    const [mode, setMode] = useState<JDAFormMode>(props.mode);
+
+    const setFormValue = useCallback(
+      (value?: T) => {
+        if (value) {
+          form.reset(props.initValue as any)
+        }
+      },
+      [],
+    );
+
+    useImperativeHandle(ref, () => ({
+      setFormValue,
+      setMode
+    }));
 
     const handleSubmit = useCallback(
       (data: T) => {
@@ -61,7 +76,7 @@ export function withJDAFormControler<
     const checkDisabled = useCallback(
       (key: keyof T) => {
         if (
-          props.mode === JDAFormMode.READ_ONLY ||
+          mode === JDAFormMode.READ_ONLY ||
           String(key) === String(moduleConfig.primaryKey)
         ) {
           return true;
@@ -69,7 +84,7 @@ export function withJDAFormControler<
           return false;
         }
       },
-      [props.mode],
+      [mode],
     );
 
     const formInputs = Object.keys(formConfig).map(key => {
@@ -87,13 +102,15 @@ export function withJDAFormControler<
       <FormProvider {...form}>
         <Component
           {...(props as P)}
+          mode={mode}
           formInputs={formInputs}
           submit={form.handleSubmit(d => handleSubmit(d as T))}
           cancel={props.onCancel}
         />
       </FormProvider>
     );
-  };
+  }
+  )
 }
 
 //Export componentType
@@ -110,4 +127,4 @@ class TypeUltil<T, P extends IJDAFormControlerProps<T>> {
 export type JDAControlledFormComponent<
   T,
   P extends IJDAFormControlerProps<T>,
-> = ReturnType<TypeUltil<T, P>['controlled']>;
+  > = ReturnType<TypeUltil<T, P>['controlled']>;

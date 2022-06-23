@@ -9,7 +9,7 @@ interface ScreenConfig {
 
 }
 
-function useNavigation(props: DrawerScreenProps<any>, screens: ScreenConfig) {
+function useModuleRouter() {
     const openCreateForm = useCallback(
         (domain: string) => {
             props.navigation.navigate(domain, {
@@ -20,4 +20,4 @@ function useNavigation(props: DrawerScreenProps<any>, screens: ScreenConfig) {
     );
 }
 
-export default useNavigation;
+export default useModuleRouter;
