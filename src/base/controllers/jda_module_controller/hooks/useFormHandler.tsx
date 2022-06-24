@@ -7,14 +7,17 @@ import { JDARouterContext } from '../../jda_router/JDARouterContext';
 import { IJDAModuleConfig } from '../withModuleController';
 import { JDAModuleModes, useModuleStateReducer } from './useModuleStateReducer';
 
-export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>, moduleStateHandler: ReturnType<typeof useModuleStateReducer<T>>, listRef: ReturnType<typeof useRef<IJDAListRef<T>>>) {
+export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>, 
+    listRef: ReturnType<typeof useRef<IJDAListRef<T>>>) {
+
+    const router = React.useContext(JDARouterContext);
     const handleFormCancel = React.useCallback(() => {
+        router.router.showCreateForm
         moduleStateHandler.changeModuleState({
             type: JDAModuleModes.SHOW_LIST_ITEM
         })
     }, []);
     const api = useAPI<T>(moduleConfig.apiResource);
-    const router = React.useContext(JDARouterContext);
     const handleFormSubmit = React.useCallback(
         async (submitedItem: T) => {
             switch (moduleStateHandler.moduleState.viewMode) {

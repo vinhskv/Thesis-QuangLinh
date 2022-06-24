@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { useAPI } from '../../jda_apis/useAPI';
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
+import { JDARouterContext } from '../../jda_router/JDARouterContext';
 import { IJDAModuleConfig } from '../withModuleController';
 import { JDAModuleModes, useModuleStateReducer } from './useModuleStateReducer';
 export enum JDAModuleView {
@@ -12,10 +13,10 @@ export interface IuseModuleHandlerProps {
 }
 
 export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
-    moduleState: ReturnType<typeof useModuleStateReducer<T>>,
     listRef: ReturnType<typeof useRef<IJDAListRef<T>>>) {
     /////////// Connect List and Form to API
     const api = useAPI<T>(moduleConfig.apiResource);
+    const router = React.useContext(JDARouterContext)
 
     const handleAddItem = React.useCallback(() => {
         moduleState.changeModuleState({

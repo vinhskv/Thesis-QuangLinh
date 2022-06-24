@@ -45,36 +45,64 @@ export function useRouter<T>(
     props.navigation.navigate(name);
   }, []);
 
-  const openModuleCreateForm = useCallback((name: keyof typeof RouteMap) => {
-    const params: IJDAModuleInput<T> = {
-      mode: JDAModuleModes.CREATE_NEW_ITEM,
-      prevScreenKey: props.route.key,
-    };
-    props.navigation.push(name, params);
+  const showList = useCallback((moduleName?: Modules) => {
+    if (moduleName) {
+      // open in other module
+      const params: IJDAModuleInput<T> = {
+        mode: JDAModuleModes.SHOW_LIST_ITEM,
+        prevScreenKey: props.route.key,
+      };
+      props.navigation.push(moduleName, params);
+    } else {
+      // open in current module
+      const params: IJDAModuleInput<T> = {
+        mode: JDAModuleModes.SHOW_LIST_ITEM,
+      };
+      props.navigation.setParams(params);
+    }
   }, []);
 
-  const openModuleEditForm = useCallback(
-    (name: keyof typeof RouteMap, item: T) => {
+  const showCreateForm = useCallback((moduleName?: Modules) => {
+    if (moduleName) {
+      // open in other module
+      const params: IJDAModuleInput<T> = {
+        mode: JDAModuleModes.CREATE_NEW_ITEM,
+        prevScreenKey: props.route.key,
+      };
+      props.navigation.push(moduleName, params);
+    } else {
+      // open in current module
+      const params: IJDAModuleInput<T> = {
+        mode: JDAModuleModes.CREATE_NEW_ITEM,
+      };
+      props.navigation.setParams(params);
+    }
+  }, []);
+
+  const showEditForm = useCallback((item: T, moduleName?: Modules) => {
+    if (moduleName) {
       const params: IJDAModuleInput<T> = {
         mode: JDAModuleModes.EDIT_ITEM,
         value: item,
         prevScreenKey: props.route.key,
       };
-      props.navigation.push(name, params);
-    },
-    [],
-  );
-  const openModuleViewForm = useCallback(
-    (name: keyof typeof RouteMap, item: T) => {
+      props.navigation.push(moduleName, params);
+    } else {
       const params: IJDAModuleInput<T> = {
-        mode: JDAModuleModes.SHOW_ITEM_DETAIL,
+        mode: JDAModuleModes.EDIT_ITEM,
         value: item,
-        prevScreenKey: props.route.key,
       };
-      props.navigation.push(name, params);
-    },
-    [],
-  );
+      props.navigation.setParams(params);
+    }
+  }, []);
+  const showDetail = useCallback((name: keyof typeof RouteMap, item: T) => {
+    const params: IJDAModuleInput<T> = {
+      mode: JDAModuleModes.SHOW_ITEM_DETAIL,
+      value: item,
+      prevScreenKey: props.route.key,
+    };
+    props.navigation.push(name, params);
+  }, []);
 
   const goBack = useCallback(() => {
     if (props.navigation.canGoBack()) {
@@ -87,9 +115,10 @@ export function useRouter<T>(
     router: {
       goHome,
       goToModule,
-      openModuleCreateForm,
-      openModuleEditForm,
-      openModuleViewForm,
+      showCreateForm,
+      showEditForm,
+      showDetail,
+      showList,
       goBack,
     },
   };

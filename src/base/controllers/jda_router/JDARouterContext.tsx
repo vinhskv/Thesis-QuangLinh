@@ -11,9 +11,9 @@ const defaultContextValue: IJDARouterContext = {
   router: {
     goHome: () => {},
     goToModule: _v => {},
-    openModuleCreateForm: r => undefined,
-    openModuleEditForm: (r, i) => undefined,
-    openModuleViewForm: (r, i) => {},
+    showCreateForm: r => undefined,
+    showEditForm: (r, i) => undefined,
+    showDetail: (r, i) => {},
     goBack: () => {},
   },
 };

@@ -1,8 +1,7 @@
-import { useCallback, useContext, useEffect, useReducer, useRef } from 'react';
+import { useCallback, useReducer, useRef } from 'react';
 import { IJDAFormRef, JDAFormMode } from '../../jda_form_controllers/withFormController';
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
 import { IJDAListMode as JDAListMode } from '../../jda_list_controllers/hocs/withListController';
-import { JDARouterContext } from '../../jda_router/JDARouterContext';
 import { JDAModuleView } from './useListHandler';
 
 interface ModuleState<T> {
@@ -47,14 +46,15 @@ export interface IJDAModuleInput<T>{
     prevScreenKey?:string
 }
 /**
- * @param value Return edited/created instance of domain
+ * @param value Return edited/created instance of poped screen
  */
 export interface IJDAModuleOutput<T>{
     value?:T
 }
 
 export function useModuleStateReducer<T>(listRef: ReturnType<typeof useRef<IJDAListRef<T>>>, formRef: ReturnType<typeof useRef<IJDAFormRef<T>>>) {
-    
+    // const router = useContext(JDARouterContext);
+    // const mode =
     const reducer = useCallback((state: ModuleState<T>, action: ModuleActionType<T>) => {
         switch (action.type) {
             case JDAModuleModes.CREATE_NEW_ITEM:
@@ -90,13 +90,6 @@ export function useModuleStateReducer<T>(listRef: ReturnType<typeof useRef<IJDAL
         view: JDAModuleView.LIST,
         viewMode: JDAListMode.VIEW
     });
-    const router = useContext(JDARouterContext);
-    useEffect(() => {
-        if(router.RouteState.params){
-            const param: IJDAModuleInput<T> = router.RouteState.params as IJDAModuleInput<T>
-            
-        }
-    }, []);
     
     return {
         moduleState,

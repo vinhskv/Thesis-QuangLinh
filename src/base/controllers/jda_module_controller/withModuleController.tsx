@@ -56,15 +56,13 @@ export function withModuleController<
     const listRef = React.useRef<IJDAListRef<T>>();
     const formRef = React.useRef<IJDAFormRef<T>>();
 
-    const moduleStateHandler = useModuleStateReducer<T>(listRef, formRef);
+    // const moduleStateHandler = useModuleStateReducer<T>(listRef, formRef);
     const listHandler = useListHandler(
       moduleConfig,
-      moduleStateHandler,
       listRef
     );
     const formHandler = useFormHandler(
       moduleConfig,
-      moduleStateHandler,
       listRef,
     );
     ///////// Render
