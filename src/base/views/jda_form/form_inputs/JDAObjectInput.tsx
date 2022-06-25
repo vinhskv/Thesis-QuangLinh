@@ -1,23 +1,25 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button, Divider, Icon, List, ListItem } from '@ui-kitten/components';
+import {Button, Divider, Icon, List, ListItem} from '@ui-kitten/components';
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { IJDAInput } from '.';
+import {IJDAInput} from '.';
+import {Modules} from '../../../../data_types/enums/Modules';
 import useDebounce from '../../../common_hooks/useDebounce';
-import { useAPI } from '../../../controllers/jda_apis/useAPI';
-import { JDARouterContext } from '../../../controllers/jda_router/JDARouterContext';
-import { JDAButtonInput } from './JDAButtonInput';
-import { JDAStringInput } from './JDAStringInput';
+import {useTypedContext} from '../../../common_hooks/useTypedContext';
+import {useAPI} from '../../../controllers/jda_apis/useAPI';
+import {
+  IJDARouterContext,
+  JDARouterContext,
+} from '../../../controllers/jda_router/JDARouterContext';
+import {JDAButtonInput} from './JDAButtonInput';
+import {JDAStringInput} from './JDAStringInput';
 
 export interface IJDAObjectInputProps<T> extends IJDAInput<T> {
   apiResource: string;
   renderOption: (option?: T) => string;
-  route: string
+  moduleName: Modules;
 }
-
-const Stack = createNativeStackNavigator();
 
 export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
   const ref = React.useRef<RBSheet>();
@@ -31,8 +33,20 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
       setOptions(address.payload.content);
     }
   }, [api]);
+  // const [waitForReturnData, setWaitForReturnData] = useState(false);
+  const {router} = useTypedContext<IJDARouterContext<T>>(JDARouterContext);
+  // useEffect(() => {
+  //   if (waitForReturnData) {
+  //     const returnValue = router.getGoBackData<T>(props.moduleName);
+  //     if (returnValue) {
+  //       console.log(returnValue);
+  //       props.onChange?.(returnValue);
+  //       setWaitForReturnData(false);
+  //     }
+  //   }
+  // }, [props, router, waitForReturnData]);
+  // console.log('++++++++', router.getGoBackData<T>(props.moduleName));
 
-  const router = useContext(JDARouterContext);
   useEffect(() => {
     search();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,50 +57,48 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
         disabled={props.disabled}
         onPress={() => ref.current?.open()}
         label={props.label}
-        value={
-          props.renderOption
-            ? props.renderOption(props.value)
-            : String(props.value)
-        }
+        value={props.renderOption?.(props.value) ?? String(props.value)}
       />
       <RBSheet
         ref={ref as any}
         // height={300}
         openDuration={250}>
-        <View style={{
-          display: 'flex',
-          flexDirection: 'row'
-        }}>
+        <View style={styles.bottomSheetContainer}>
           <JDAStringInput
             value={keyword}
             onChange={setKeyword}
             InputProps={{
               accessoryLeft: p => <Icon {...p} name="search" />,
               placeholder: `Search for ${props.apiResource}`,
-              style: { margin: 10, flex: 1 },
+              style: {margin: 10, flex: 1},
             }}
           />
-          <Button style={{
-            marginVertical: 10,
-            marginRight: 10
-          }} accessoryLeft={p => <Icon {...p} name="plus" />} size='tiny' onPress={() => {
-            console.log("Open screen: ", props.route);
-            router.router.showCreateForm(props.route, (item) => {
-              if (props.onChange)
-                props.onChange(item as T)
-            })
-          }}>Create</Button>
+          <Button
+            style={styles.createBtn}
+            accessoryLeft={p => <Icon {...p} name="plus" />}
+            size="tiny"
+            onPress={() => {
+              console.log('Open screen: ', props.moduleName);
+              router.showCreateForm(props.moduleName);
+              router.onFocus(() => {
+                console.log('goback here');
+                const value = router.getGoBackData<T>(props.moduleName);
+                console.log(value);
+                props.onChange?.(value);
+              });
+              // setWaitForReturnData(true);
+            }}>
+            Create
+          </Button>
         </View>
         <List
           data={options}
-          indicatorStyle='black'
+          indicatorStyle="black"
           ItemSeparatorComponent={p => <Divider {...p} />}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <ListItem
               onPress={() => {
-                if (props.onChange) {
-                  props.onChange(item);
-                }
+                props.onChange?.(item);
                 ref.current?.close();
               }}
               title={props.renderOption(item)}
@@ -101,5 +113,13 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
+  },
+  bottomSheetContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  createBtn: {
+    marginVertical: 10,
+    marginRight: 10,
   },
 });

@@ -1,116 +1,168 @@
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import _ from 'lodash';
 import {useCallback} from 'react';
 import {Modules} from '../../../data_types/enums/Modules';
 import {
-  IJDAModuleInput,
-  JDAModuleModes,
-} from '../jda_module_controller/hooks/useModuleStateReducer';
-import {IRoute} from './withJDARouter';
+  IJDAModuleParams,
+  JDAModuleMode,
+} from '../jda_module_controller/withModuleController';
 
-export interface IJDARouteParams {
-  prevScreenKey: string;
+export interface IJDARouteParams<T> {
+  prevScreen?: Modules;
+  prevScreenParams?: IJDARouteParams<any>;
+  moduleParams: IJDAModuleParams<T>;
+  goBackData?: any;
 }
 
-// type CreateRouteParam = {
-//   type: JDAModuleView.FORM;
-//   mode: JDAFormMode.CREATE;
-// };
-// type EditRouteParam<T> = {
-//   type: JDAModuleView.FORM;
-//   mode: JDAFormMode.EDIT;
-//   item: T;
-// };
-// type ViewRouteParam<T> = {
-//   type: JDAModuleView.FORM;
-//   mode: JDAFormMode.READ_ONLY;
-//   item: T;
-// };
-// export type JDARouterParams<T> =
-//   | CreateRouteParam
-//   | EditRouteParam<T>
-//   | ViewRouteParam<T>;
+export type ReturnTypeUseRouter<T> = {
+  ModuleParams: IJDARouteParams<T> | undefined;
+  RouteState: RouteProp<any, string>;
+  router: {
+    goHome: () => void;
+    goToModule: (moduleName: Modules) => void;
+    showCreateForm: (moduleName?: Modules) => void;
+    showEditForm: (item: T, moduleName?: Modules) => void;
+    showDetail: (item: T, moduleName?: Modules) => void;
+    showList: (moduleName?: Modules) => void;
+    goBack: (data?: any) => void;
+    getGoBackData: <D extends unknown>(moduleName: Modules) => D | undefined;
+    onFocus: (callback: () => void) => void;
+  };
+};
 
-export function useRouter<T>(
-  props: NativeStackScreenProps<any>,
-  routes: IRoute[],
-) {
-  const RouteMap = _.chain(routes).keyBy('name').value();
-  console.log(RouteMap);
+export function useRouter<T>(props: NativeStackScreenProps<any>) {
+  const route = useRoute();
+  const onFocus = useCallback(
+    (callback: () => void) => {
+      props.navigation.addListener('focus', () => callback());
+    },
+    [props.navigation],
+  );
+
+  const ModuleParams = route.params as IJDARouteParams<T> | undefined;
+  const updateParamOrNavigate = useCallback(
+    (moduleParams: IJDAModuleParams<T>, moduleName?: Modules) => {
+      if (moduleName) {
+        props.navigation.push(moduleName, {
+          prevScreenParams: {...ModuleParams},
+          prevScreen: props.route.name,
+          moduleParams: moduleParams,
+        });
+      } else {
+        props.navigation.setParams({
+          prevScreenParams: undefined,
+          prevScreen: undefined,
+          goBackData: undefined,
+          moduleParams: moduleParams,
+        });
+      }
+    },
+    [ModuleParams, props.navigation, props.route.name],
+  );
   const goHome = useCallback(() => {
     props.navigation.popToTop();
-  }, []);
+  }, [props.navigation]);
 
-  const goToModule = useCallback((name: Modules) => {
-    props.navigation.navigate(name);
-  }, []);
+  const goToModule = useCallback(
+    (moduleName: Modules) => {
+      props.navigation.navigate(moduleName);
+    },
+    [props.navigation],
+  );
 
-  const showList = useCallback((moduleName?: Modules) => {
-    if (moduleName) {
-      // open in other module
-      const params: IJDAModuleInput<T> = {
-        mode: JDAModuleModes.SHOW_LIST_ITEM,
-        prevScreenKey: props.route.key,
-      };
-      props.navigation.push(moduleName, params);
-    } else {
-      // open in current module
-      const params: IJDAModuleInput<T> = {
-        mode: JDAModuleModes.SHOW_LIST_ITEM,
-      };
-      props.navigation.setParams(params);
-    }
-  }, []);
+  const showList = useCallback(
+    (moduleName?: Modules) => {
+      updateParamOrNavigate(
+        {
+          mode: JDAModuleMode.VIEW_LIST_ITEM,
+        },
+        moduleName,
+      );
+    },
+    [updateParamOrNavigate],
+  );
 
-  const showCreateForm = useCallback((moduleName?: Modules) => {
-    if (moduleName) {
-      // open in other module
-      const params: IJDAModuleInput<T> = {
-        mode: JDAModuleModes.CREATE_NEW_ITEM,
-        prevScreenKey: props.route.key,
-      };
-      props.navigation.push(moduleName, params);
-    } else {
-      // open in current module
-      const params: IJDAModuleInput<T> = {
-        mode: JDAModuleModes.CREATE_NEW_ITEM,
-      };
-      props.navigation.setParams(params);
-    }
-  }, []);
+  const showCreateForm = useCallback(
+    (moduleName?: Modules) => {
+      updateParamOrNavigate(
+        {
+          mode: JDAModuleMode.CREATE_ITEM,
+        },
+        moduleName,
+      );
+    },
+    [updateParamOrNavigate],
+  );
 
-  const showEditForm = useCallback((item: T, moduleName?: Modules) => {
-    if (moduleName) {
-      const params: IJDAModuleInput<T> = {
-        mode: JDAModuleModes.EDIT_ITEM,
-        value: item,
-        prevScreenKey: props.route.key,
-      };
-      props.navigation.push(moduleName, params);
-    } else {
-      const params: IJDAModuleInput<T> = {
-        mode: JDAModuleModes.EDIT_ITEM,
-        value: item,
-      };
-      props.navigation.setParams(params);
-    }
-  }, []);
-  const showDetail = useCallback((name: keyof typeof RouteMap, item: T) => {
-    const params: IJDAModuleInput<T> = {
-      mode: JDAModuleModes.SHOW_ITEM_DETAIL,
-      value: item,
-      prevScreenKey: props.route.key,
-    };
-    props.navigation.push(name, params);
-  }, []);
+  const showEditForm = useCallback(
+    (item: T, moduleName?: Modules) => {
+      updateParamOrNavigate(
+        {
+          mode: JDAModuleMode.EDIT_ITEM,
+          value: item,
+        },
+        moduleName,
+      );
+    },
+    [updateParamOrNavigate],
+  );
+  const showDetail = useCallback(
+    (item: T, moduleName?: Modules) => {
+      updateParamOrNavigate(
+        {
+          mode: JDAModuleMode.VIEW_ITEM,
+          value: item,
+        },
+        moduleName,
+      );
+    },
+    [updateParamOrNavigate],
+  );
 
-  const goBack = useCallback(() => {
-    if (props.navigation.canGoBack()) {
-      props.navigation.goBack();
-    }
-  }, []);
+  const goBack = useCallback(
+    (data?: any) => {
+      if (ModuleParams?.prevScreen) {
+        console.log('go back to ', ModuleParams.prevScreen);
+        const params: IJDARouteParams<any> = {
+          ...(ModuleParams.prevScreenParams as any),
+          goBackData: {
+            ...ModuleParams.prevScreenParams?.goBackData,
+            [props.route.name]: data,
+          },
+        };
+        console.log(params);
+        props.navigation.navigate(ModuleParams.prevScreen, params);
+      } else if (props.navigation.canGoBack()) {
+        props.navigation.goBack();
+      }
+    },
+    [
+      ModuleParams?.prevScreen,
+      ModuleParams?.prevScreenParams,
+      props.navigation,
+      props.route.name,
+    ],
+  );
+
+  const getGoBackData = useCallback(
+    <D extends unknown>(moduleName: Modules) => {
+      const data: D | undefined = ModuleParams?.goBackData?.[moduleName] as any;
+      console.log('goBackData ', ModuleParams?.goBackData);
+      console.log(moduleName, ' -- ', data);
+      // props.navigation.setParams({
+      //   ...ModuleParams,
+      //   goBackData: {
+      //     ...ModuleParams?.goBackData,
+      //     [moduleName]: undefined,
+      //   },
+      // });
+      return data;
+    },
+    [ModuleParams],
+  );
 
   return {
+    ModuleParams,
     RouteState: props.route,
     router: {
       goHome,
@@ -120,6 +172,8 @@ export function useRouter<T>(
       showDetail,
       showList,
       goBack,
+      onFocus,
+      getGoBackData,
     },
   };
 }

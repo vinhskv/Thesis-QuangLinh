@@ -1,43 +1,30 @@
 import * as React from 'react';
 import { useRef } from 'react';
 import { useAPI } from '../../jda_apis/useAPI';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
 import { JDARouterContext } from '../../jda_router/JDARouterContext';
 import { IJDAModuleConfig } from '../withModuleController';
-import { JDAModuleModes, useModuleStateReducer } from './useModuleStateReducer';
-export enum JDAModuleView {
-    LIST = "List",
-    FORM = "Form",
-}
+
 export interface IuseModuleHandlerProps {
 }
 
 export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
+    // eslint-disable-next-line prettier/prettier
     listRef: ReturnType<typeof useRef<IJDAListRef<T>>>) {
     /////////// Connect List and Form to API
     const api = useAPI<T>(moduleConfig.apiResource);
-    const router = React.useContext(JDARouterContext)
+    const {router} = React.useContext(JDARouterContext);
 
     const handleAddItem = React.useCallback(() => {
-        moduleState.changeModuleState({
-            type: JDAModuleModes.CREATE_NEW_ITEM,
-            data: {
-                goBackAfterCreated: false,
-                prevScreenState: null
-            }
-        })
-    }, []);
+        router.showCreateForm();
+    }, [router]);
 
     const handleEditItem = React.useCallback((itemToEdit: T) => {
         if (itemToEdit) {
-            moduleState.changeModuleState({
-                type: JDAModuleModes.EDIT_ITEM,
-                data: {
-                    editItem: itemToEdit
-                }
-            })
+            router.showEditForm(itemToEdit);
         }
-    }, []);
+    }, [router]);
 
     const handleDeleteItems = React.useCallback(
         async (_items: T[keyof T][]) => {
@@ -46,7 +33,7 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
                 listRef.current?.itemsControl.deleteItems(_items);
             }
         },
-        [api],
+        [api, listRef],
     );
     const handleChangePage = React.useCallback(
         async (page: number) => {
@@ -66,18 +53,13 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
             }
             listRef.current?.setLoading(false);
         },
-        [api],
+        [api, listRef],
     );
     const handleRefresh = () => handleChangePage(0);
     const handleChangePageSize = React.useCallback((_pageSize: number) => { }, []);
     const handleShowDetail = React.useCallback((item: T) => {
-        moduleState.changeModuleState({
-            type: JDAModuleModes.SHOW_ITEM_DETAIL,
-            data: {
-                viewItem: item
-            }
-        })
-    }, []);
+        router.showDetail(item);
+    }, [router]);
 
     // auto load page 0 when first render
     React.useEffect(() => {

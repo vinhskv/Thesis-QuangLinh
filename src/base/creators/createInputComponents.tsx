@@ -45,7 +45,7 @@ export function createModuleInput<T, SubT = T>(
     return (
       <JDAObjectInput<SubT>
         {...props}
-        route={config.route}
+        moduleName={config.route}
         apiResource={config.apiResource}
         renderOption={config.quickRender}
       />

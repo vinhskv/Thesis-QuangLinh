@@ -1,51 +1,22 @@
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
-import {JDAModuleView} from '../../controllers/jda_module_controller/hooks/useListHandler';
-import {IJDAModuleControllerProps} from '../../controllers/jda_module_controller/withModuleController';
+import {
+  IJDAModuleControllerProps,
+  JDAModuleMode,
+} from '../../controllers/jda_module_controller/withModuleController';
 export interface IJDABasicModuleProps<T> extends IJDAModuleControllerProps<T> {}
-const Stack = createNativeStackNavigator();
+
+const ViewMap: Record<JDAModuleMode, string> = {
+  [JDAModuleMode.CREATE_ITEM]: 'Form',
+  [JDAModuleMode.EDIT_ITEM]: 'Form',
+  [JDAModuleMode.VIEW_ITEM]: 'Form',
+  [JDAModuleMode.VIEW_LIST_ITEM]: 'List',
+};
 
 export function JDABasicModule<T>(props: IJDABasicModuleProps<T>) {
-  React.useLayoutEffect(() => {
-    props.navigation.navigate(props.route.name, {
-      screen: props.moduleState.moduleState.view + '',
-    });
-    props.navigation.setOptions({
-      headerShown: props.moduleState.moduleState.view != JDAModuleView.FORM,
-    });
-  }, [props.moduleState.moduleState.view]);
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name={JDAModuleView.LIST + ''}
-        options={{headerShown: false}}>
-        {(p: NativeStackScreenProps<any>) => {
-          return props.ListView;
-        }}
-      </Stack.Screen>
-      <Stack.Screen
-        name={JDAModuleView.FORM + ''}
-        options={{
-          presentation: 'modal',
-          title: 'Form: ' + props.moduleConfig.moduleName,
-          headerTitleAlign: 'center',
-          headerBackVisible: false,
-        }}>
-        {(p: NativeStackScreenProps<any>) => {
-          return props.FormView;
-        }}
-      </Stack.Screen>
-    </Stack.Navigator>
+    <>
+      {ViewMap[props.mode] === 'Form' && props.FormView}
+      {ViewMap[props.mode] === 'List' && props.ListView}
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  formTitle: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-});

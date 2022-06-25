@@ -30,8 +30,7 @@ export function withGroupScreensController<
             name="home"
             options={{
               headerShown: false,
-            }}
-          >
+            }}>
             {screenProps => (
               <Component
                 {...(props as P)}
