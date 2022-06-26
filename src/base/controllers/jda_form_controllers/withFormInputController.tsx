@@ -1,4 +1,4 @@
-import React, {ComponentType} from 'react';
+import React, {ComponentProps, ComponentType} from 'react';
 import {
   Controller,
   ControllerFieldState,
@@ -16,7 +16,12 @@ export interface IJDAFormInputAPI<T> {
   formState: UseFormStateReturn<T>;
 }
 
-export interface IJDAFormInputControllerProps<T> extends IJDAFormInputAPI<T> {
+export interface IJDAInputOptions
+  extends Pick<ComponentProps<typeof Controller>, 'rules'> {}
+
+export interface IJDAFormInputControllerProps<T>
+  extends IJDAFormInputAPI<T>,
+    IJDAInputOptions {
   name: Path<T>;
   label: string;
   disabled?: boolean;
@@ -31,10 +36,13 @@ export function withJDAFormInputController<
 ) {
   return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
     const {control} = useFormContext<T>();
+    console.log('Rules:', props.rules);
+
     return (
       <Controller
         name={props.name}
         control={control}
+        rules={props.rules}
         render={item => (
           <Component
             {...componentProps}
@@ -54,7 +62,6 @@ export function withJDAFormInputController<
 //Export componentType
 class TypeUltil<T, P extends IJDAFormInputControllerProps<T>> {
   //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
-
   controlled = (Component: ComponentType<P>) =>
     withJDAFormInputController<T, P>(Component);
 }

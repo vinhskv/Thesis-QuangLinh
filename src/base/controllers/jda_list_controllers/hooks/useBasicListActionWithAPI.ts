@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {useAPI} from '../../jda_apis/useAPI';
+import {useAPI} from '../../../common_hooks/useAPI';
 import {
   DefaultListAction,
   DefaultListItemAction,

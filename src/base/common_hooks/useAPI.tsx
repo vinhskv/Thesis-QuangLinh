@@ -1,14 +1,27 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {useCallback} from 'react';
-import {
-  IAPIError,
-  IAPIGetListReturn,
-  IAPIReturn as IAPIReturn,
-} from './apiTypes';
+
 const axiosConfigs: AxiosRequestConfig = {
   baseURL: 'http://localhost:8080',
   withCredentials: true,
 };
+
+export interface IAPIReturn<P> {
+  success: boolean;
+  payload: P;
+  error: IAPIError;
+}
+
+export interface IAPIError {
+  code: number;
+  message?: string;
+}
+
+export interface IAPIGetListReturn<T> {
+  currentPage?: number;
+  pageCount: number;
+  content?: T[];
+}
 
 export interface IAPIConfig<
   GET_T,

@@ -7,7 +7,7 @@ import {IJDAInput} from '.';
 import {Modules} from '../../../../data_types/enums/Modules';
 import useDebounce from '../../../common_hooks/useDebounce';
 import {useTypedContext} from '../../../common_hooks/useTypedContext';
-import {useAPI} from '../../../controllers/jda_apis/useAPI';
+import {useAPI} from '../../../common_hooks/useAPI';
 import {
   IJDARouterContext,
   JDARouterContext,

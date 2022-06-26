@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import { useTypedContext } from '../../../common_hooks/useTypedContext';
-import { useAPI } from '../../jda_apis/useAPI';
+import { useAPI } from '../../../common_hooks/useAPI';
 import { IJDAFormRef, JDAFormMode } from '../../jda_form_controllers/withFormController';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';

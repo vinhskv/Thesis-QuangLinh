@@ -7,10 +7,15 @@ export interface IJDAStringInputProps extends IJDAInput<string> {
 }
 
 export function JDAStringInput(props: IJDAStringInputProps) {
+  console.log(props.error);
+
   return (
     <Input
       {...props.InputProps}
       disabled={props.disabled}
+      status={props.error ? 'danger' : 'basic'}
+      caption={props.error}
+      clearButtonMode="while-editing"
       value={props.value}
       label={props.label}
       onChangeText={props.onChange}

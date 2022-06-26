@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef } from 'react';
-import { useAPI } from '../../jda_apis/useAPI';
+import { useAPI } from '../../../common_hooks/useAPI';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
 import { JDARouterContext } from '../../jda_router/JDARouterContext';

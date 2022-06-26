@@ -1,17 +1,17 @@
-import React, { ComponentType } from 'react';
+import React, {ComponentType} from 'react';
 import {
   IJDAFormInputControllerProps,
-  withJDAFormInputController
+  withJDAFormInputController,
 } from '../controllers/jda_form_controllers/withFormInputController';
-import { withJDAFormMultiInputController } from '../controllers/jda_form_controllers/withFormMultiInputController';
-import { IJDAModuleConfig } from '../controllers/jda_module_controller/withModuleController';
-import { enum2Array } from '../utils/enum2Array';
-import { IJDAInput } from '../views/jda_form/form_inputs';
-import { JDAEnumInput } from '../views/jda_form/form_inputs/JDAEnumInput';
-import { JDAObjectInput } from '../views/jda_form/form_inputs/JDAObjectInput';
+import {withJDAFormMultiInputController} from '../controllers/jda_form_controllers/withFormMultiInputController';
+import {IJDAModuleConfig} from '../controllers/jda_module_controller/withModuleController';
+import {enum2Array} from '../utils/enum2Array';
+import {getErrorString, IJDAInput} from '../views/jda_form/form_inputs';
+import {JDAEnumInput} from '../views/jda_form/form_inputs/JDAEnumInput';
+import {JDAObjectInput} from '../views/jda_form/form_inputs/JDAObjectInput';
 import {
   IJDAFormMultiInputProps,
-  JDAFormMutilInput
+  JDAFormMutilInput,
 } from '../views/jda_form/JDAFormMutilInput';
 
 export function createFormDataInput<T>(Input: ComponentType<IJDAInput<T>>) {
@@ -21,6 +21,7 @@ export function createFormDataInput<T>(Input: ComponentType<IJDAInput<T>>) {
         onChange={props.field.onChange}
         value={props.field.value}
         label={props.label}
+        error={getErrorString(props.fieldState.error, props.rules)}
         disabled={props.disabled}
       />
     );
@@ -35,7 +36,7 @@ export function createFormDataInput<T>(Input: ComponentType<IJDAInput<T>>) {
     IJDAInput<T>
   >(JDAFormMutilInput, Input);
 
-  return { Input, FormInput, FormMultiInput };
+  return {Input, FormInput, FormMultiInput};
 }
 
 export function createModuleInput<T, SubT = T>(

@@ -6,7 +6,7 @@ import {FormNumberInput, FormStringInput} from '../FormInputs';
 import {FormMultiStudentInput} from '../student/Input';
 
 export const StudentClassFormConfig: IJDAFormConfig<StudentClass> = {
-  id: FormNumberInput,
-  name: FormStringInput,
-  students: FormMultiStudentInput,
+  id: {component: FormNumberInput},
+  name: {component: FormStringInput},
+  students: {component: FormMultiStudentInput},
 };

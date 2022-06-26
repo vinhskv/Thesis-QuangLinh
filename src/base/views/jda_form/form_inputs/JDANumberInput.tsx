@@ -10,6 +10,7 @@ export function JDANumberInput(props: IJDANumberInputProps) {
       disabled={props.disabled}
       value={props.value ? String(props.value) : undefined}
       label={props.label}
+      status={props.error ? 'danger' : 'basic'}
       onChangeText={t => {
         if (props.onChange) {
           props.onChange(parseInt(t, 10));

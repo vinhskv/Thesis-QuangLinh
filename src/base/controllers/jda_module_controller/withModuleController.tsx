@@ -1,7 +1,8 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {ComponentType} from 'react';
-import {IAPIConfig} from '../jda_apis/useAPI';
+import {Modules} from '../../../data_types/enums/Modules';
+import {IAPIConfig} from '../../common_hooks/useAPI';
 import {
   IJDAFormControlerProps,
   IJDAFormRef,
@@ -41,7 +42,7 @@ export interface IJDAModuleAPI<T> extends ReturnType<typeof useRouter> {
 
 export interface IJDAModuleConfig<T, SubT = T> {
   primaryKey: keyof T;
-  route: string;
+  route: Modules;
   apiResource: string;
   moduleName: string;
   fieldLabel: Record<keyof T, string>;

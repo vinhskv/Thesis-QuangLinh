@@ -7,7 +7,10 @@ import React, {
 } from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {IJDAModuleConfig} from '../jda_module_controller/withModuleController';
-import {JDAControlledFormInputComponent} from './withFormInputController';
+import {
+  IJDAInputOptions,
+  JDAControlledFormInputComponent,
+} from './withFormInputController';
 import {JDAControlledFormMultiInputComponent} from './withFormMultiInputController';
 
 export enum JDAFormMode {
@@ -26,10 +29,16 @@ export interface IJDAFormAPI {
   formInputs: React.ReactNode[];
 }
 
-export type IJDAFormConfig<T> = Record<
-  keyof T,
-  | JDAControlledFormInputComponent<T, any>
-  | JDAControlledFormMultiInputComponent<T, any, any>
+export type IJDAFormConfig<T> = Partial<
+  Record<
+    keyof T,
+    {
+      component:
+        | JDAControlledFormInputComponent<T, any>
+        | JDAControlledFormMultiInputComponent<T, any, any>;
+      options?: IJDAInputOptions;
+    }
+  >
 >;
 
 export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
@@ -49,7 +58,10 @@ export function withJDAFormControler<
 ) {
   return forwardRef<IJDAFormRef<T>, Omit<P, keyof IJDAFormAPI>>(
     (props, ref) => {
-      const form = useForm<T>();
+      const form = useForm<T>({
+        reValidateMode: 'onChange',
+        mode: 'onChange',
+      });
       const [mode, setMode] = useState<JDAFormMode>(props.mode);
       const setFormValue = useCallback(
         (value?: T) => {
@@ -89,11 +101,14 @@ export function withJDAFormControler<
       );
 
       const formInputs = Object.keys(formConfig).map(key => {
-        const InputView: JDAControlledFormInputComponent<T, any> =
-          formConfig[key as keyof T];
+        const InputView: JDAControlledFormInputComponent<T, any> = formConfig[
+          key as keyof T
+        ]?.component as any;
+        const options = formConfig[key as keyof T]?.options;
         return (
           <InputView
             name={key}
+            {...options}
             label={moduleConfig.fieldLabel[key as keyof T]}
             disabled={checkDisabled(key as keyof T)}
           />
@@ -120,7 +135,7 @@ class TypeUltil<T, P extends IJDAFormControlerProps<T>> {
 
   controlled = (
     Component: ComponentType<P>,
-    formConfig: Record<keyof T, JDAControlledFormInputComponent<T, any>>,
+    formConfig: IJDAFormConfig<T>,
     moduleConfig: IJDAModuleConfig<T>,
   ) => withJDAFormControler<T, P>(Component, formConfig, moduleConfig);
 }
