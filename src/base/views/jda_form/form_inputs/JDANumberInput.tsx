@@ -17,6 +17,7 @@ export function JDANumberInput(props: IJDANumberInputProps) {
         }
       }}
       keyboardType="numeric"
+      caption={props.error}
     />
   );
 }

@@ -19,7 +19,6 @@ export interface IJDAMultiInput<T> {
 export const BasicRuleMsg: Partial<
   Record<keyof RegisterOptions<any, any>, string>
 > = {
-  required: 'Required info!',
   min: 'Minimum value: ',
   max: 'Maximum value: ',
   maxLength: 'Maximum length: ',
@@ -43,9 +42,15 @@ export function getErrorString(
       rules[`${error.type}` as keyof IJDAInputOptions['rules']],
     );
     if (error.type === 'validate') return error.message;
-    else
-      return `${BasicRuleMsg[error.type as keyof RegisterOptions<any, any>]} ${
-        rules[`${error.type}` as keyof IJDAInputOptions['rules']]
-      }`;
+    switch (error.type) {
+      case 'validate':
+        return error.message;
+      case 'required':
+        return 'This is required info';
+      default:
+        return `${
+          BasicRuleMsg[error.type as keyof RegisterOptions<any, any>]
+        } ${rules[`${error.type}` as keyof IJDAInputOptions['rules']]}`;
+    }
   }
 }

@@ -6,6 +6,7 @@ import {
   useFormContext,
   UseFormStateReturn,
 } from 'react-hook-form';
+import {JDAFormMode} from './withFormController';
 
 export interface IJDAFormInputAPI<T> {
   field: {
@@ -17,7 +18,9 @@ export interface IJDAFormInputAPI<T> {
 }
 
 export interface IJDAInputOptions
-  extends Pick<ComponentProps<typeof Controller>, 'rules'> {}
+  extends Pick<ComponentProps<typeof Controller>, 'rules'> {
+  hiddenInMode?: JDAFormMode[];
+}
 
 export interface IJDAFormInputControllerProps<T>
   extends IJDAFormInputAPI<T>,

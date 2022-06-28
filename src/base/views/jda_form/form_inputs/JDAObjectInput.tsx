@@ -5,9 +5,9 @@ import {StyleSheet, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {IJDAInput} from '.';
 import {Modules} from '../../../../data_types/enums/Modules';
+import {useAPI} from '../../../common_hooks/useAPI';
 import useDebounce from '../../../common_hooks/useDebounce';
 import {useTypedContext} from '../../../common_hooks/useTypedContext';
-import {useAPI} from '../../../common_hooks/useAPI';
 import {
   IJDARouterContext,
   JDARouterContext,
@@ -83,6 +83,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
               router.onFocus(() => {
                 console.log('goback here');
                 const value = router.getGoBackData<T>(props.moduleName);
+                search();
                 console.log(value);
                 props.onChange?.(value);
               });

@@ -101,14 +101,13 @@ export function withJDAFormControler<
       );
 
       const formInputs = Object.keys(formConfig).map(key => {
-        const InputView: JDAControlledFormInputComponent<T, any> = formConfig[
-          key as keyof T
-        ]?.component as any;
-        const options = formConfig[key as keyof T]?.options;
-        return (
+        const config = formConfig[key as keyof T];
+        const InputView: JDAControlledFormInputComponent<T, any> =
+          config?.component as any;
+        return config?.options?.hiddenInMode?.includes(mode) ? undefined : (
           <InputView
             name={key}
-            {...options}
+            {...config?.options}
             label={moduleConfig.fieldLabel[key as keyof T]}
             disabled={checkDisabled(key as keyof T)}
           />
