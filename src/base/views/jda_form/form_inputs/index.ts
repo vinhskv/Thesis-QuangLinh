@@ -35,12 +35,12 @@ export function getErrorString(
 ) {
   if (!error || !rules) return undefined;
   else {
-    console.log('Rules-----', rules);
-    console.log('violate rule: ', error.type);
-    console.log(
-      'rule value: ',
-      rules[`${error.type}` as keyof IJDAInputOptions['rules']],
-    );
+    // console.log('Rules-----', rules);
+    // console.log('violate rule: ', error.type);
+    // console.log(
+    //   'rule value: ',
+    //   rules[`${error.type}` as keyof IJDAInputOptions['rules']],
+    // );
     if (error.type === 'validate') return error.message;
     switch (error.type) {
       case 'validate':

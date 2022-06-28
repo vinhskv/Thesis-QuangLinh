@@ -74,7 +74,7 @@ export function withJDAFormControler<
             }
           }
         },
-        [form],
+        [form, props],
       );
 
       useImperativeHandle(ref, () => ({
@@ -84,7 +84,6 @@ export function withJDAFormControler<
 
       const handleSubmit = useCallback(
         (data: T) => {
-          console.log(data);
           props.onSubmit(data);
         },
         [props],
