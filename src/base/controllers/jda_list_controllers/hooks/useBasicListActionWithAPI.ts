@@ -19,7 +19,6 @@ export function useBasicListActionWithAPI<
   const refreshList = useCallback(async () => {
     //TODO api does not support pageSize
     const result = await api.getByPage(0);
-    console.log(result);
     if (result.success) {
       itemsViewControl.resetItems(result.payload.content || []);
     }
@@ -36,13 +35,11 @@ export function useBasicListActionWithAPI<
   // );
 
   const useListItemAction = useCallback((action: keyof ListItemActionTypes) => {
-    console.log(action);
     // deleteItem()
     return;
   }, []);
   const useListAction = useCallback(
     (action: keyof ListActionTypes) => {
-      console.log(action);
       refreshList();
     },
     [refreshList],

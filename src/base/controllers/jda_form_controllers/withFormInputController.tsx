@@ -39,7 +39,7 @@ export function withJDAFormInputController<
 ) {
   return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
     const {control} = useFormContext<T>();
-    console.log('Rules:', props.rules);
+    // console.log('Rules:', props.rules);
 
     return (
       <Controller

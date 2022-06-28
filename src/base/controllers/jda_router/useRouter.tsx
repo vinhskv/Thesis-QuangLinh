@@ -1,6 +1,6 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useCallback} from 'react';
+import {useCallback, useRef} from 'react';
 import {Modules} from '../../../data_types/enums/Modules';
 import {
   IJDAModuleParams,
@@ -31,15 +31,18 @@ export type ReturnTypeUseRouter<T> = {
 };
 
 export function useRouter<T>(props: NativeStackScreenProps<any>) {
-  const route = useRoute();
+  const focusListener = useRef<(() => void) | null>(null);
   const onFocus = useCallback(
     (callback: () => void) => {
-      props.navigation.addListener('focus', () => callback());
+      if (focusListener.current != null)
+        props.navigation.removeListener('focus', focusListener.current);
+      props.navigation.addListener('focus', callback);
+      focusListener.current = callback;
     },
     [props.navigation],
   );
+  const ModuleParams = props.route.params as IJDARouteParams<T> | undefined;
 
-  const ModuleParams = route.params as IJDARouteParams<T> | undefined;
   const updateParamOrNavigate = useCallback(
     (moduleParams: IJDAModuleParams<T>, moduleName?: Modules) => {
       if (moduleName) {
@@ -122,7 +125,7 @@ export function useRouter<T>(props: NativeStackScreenProps<any>) {
   const goBack = useCallback(
     (data?: any) => {
       if (ModuleParams?.prevScreen) {
-        console.log('go back to ', ModuleParams.prevScreen);
+        // console.log('1. go back to ', ModuleParams.prevScreen);
         const params: IJDARouteParams<any> = {
           ...(ModuleParams.prevScreenParams as any),
           goBackData: {
@@ -130,7 +133,6 @@ export function useRouter<T>(props: NativeStackScreenProps<any>) {
             [props.route.name]: data,
           },
         };
-        console.log(params);
         props.navigation.navigate(ModuleParams.prevScreen, params);
       } else if (props.navigation.canGoBack()) {
         props.navigation.goBack();
@@ -147,8 +149,11 @@ export function useRouter<T>(props: NativeStackScreenProps<any>) {
   const getGoBackData = useCallback(
     <D extends unknown>(moduleName: Modules) => {
       const data: D | undefined = ModuleParams?.goBackData?.[moduleName] as any;
-      console.log('goBackData ', ModuleParams?.goBackData);
-      console.log(moduleName, ' -- ', data);
+      // console.log(
+      //   `goBackData ${route.name}, router Key: ${route.key} , ModuleParams value:`,
+      //   ModuleParams,
+      // );
+      // console.log(moduleName, ' -- ', data);
       // props.navigation.setParams({
       //   ...ModuleParams,
       //   goBackData: {

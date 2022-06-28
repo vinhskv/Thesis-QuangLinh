@@ -51,6 +51,14 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
     search();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
+
+  useEffect(() => {
+    //Try to update value if goBackData Change
+    const value = router.getGoBackData<T>(props.moduleName);
+    props.onChange?.(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.getGoBackData]);
+
   return (
     <>
       <JDAButtonInput
@@ -80,13 +88,17 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
             onPress={() => {
               console.log('Open screen: ', props.moduleName);
               router.showCreateForm(props.moduleName);
-              router.onFocus(() => {
-                console.log('goback here');
-                const value = router.getGoBackData<T>(props.moduleName);
-                search();
-                console.log(value);
-                props.onChange?.(value);
-              });
+              // router.onFocus(() => {
+              //   setUpdaeee(999);
+              //   // console.log('3. get goback for ',props.moduleName);
+              //   // setTimeout(() => {
+              //   // console.log('2.goback here ', props.moduleName);
+              //   // const value = router.getGoBackData<T>(props.moduleName);
+              //   // search();
+              //   // console.log(value);
+              //   // props.onChange?.(value);
+              //   // }, 10000);
+              // });
               // setWaitForReturnData(true);
             }}>
             Create
