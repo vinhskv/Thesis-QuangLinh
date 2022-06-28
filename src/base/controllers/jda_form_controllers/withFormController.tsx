@@ -46,6 +46,7 @@ export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
   onCancel?: () => void;
   mode: JDAFormMode;
   initValue?: T;
+  setFormType?: (type: any) => void;
 }
 export function withJDAFormControler<
   T,
@@ -68,6 +69,9 @@ export function withJDAFormControler<
           console.log('value', value);
           if (value) {
             form.reset(value as any);
+            if (value['type' as keyof T]) {
+              props.setFormType?.(value['type' as keyof T]);
+            }
           }
         },
         [form],
@@ -131,7 +135,6 @@ export function withJDAFormControler<
 //Export componentType
 class TypeUltil<T, P extends IJDAFormControlerProps<T>> {
   //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
-
   controlled = (
     Component: ComponentType<P>,
     formConfig: IJDAFormConfig<T>,

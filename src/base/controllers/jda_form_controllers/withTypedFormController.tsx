@@ -3,6 +3,7 @@ import {useCallback, useMemo, useState} from 'react';
 import {
   IJDAFormAPI,
   IJDAFormControlerProps,
+  IJDAFormRef,
   JDAControlledFormComponent,
 } from './withFormController';
 
@@ -23,7 +24,10 @@ export interface IJDAMultiFormControllerProps
 export function withJDATypedFormController<
   P extends IJDAMultiFormControllerProps,
 >(Component: React.ComponentType<P>, forms: ITypedFormItem[]) {
-  return (props: Omit<P, keyof IJDATypedFormAPI<any>>) => {
+  return React.forwardRef<
+    IJDAFormRef<any>,
+    Omit<P, keyof IJDATypedFormAPI<any>>
+  >((props, ref) => {
     const [formType, setFormType] = useState<string>(forms[0].type);
     const beforeSubmit = useCallback(
       (formValue: any) => {
@@ -34,7 +38,12 @@ export function withJDATypedFormController<
     const FormView = useMemo(() => {
       const FView = forms.find(f => f.type === formType)?.formComponent;
       return FView ? (
-        <FView {...(props as any)} onSubmit={beforeSubmit} />
+        <FView
+          {...(props as any)}
+          ref={ref}
+          onSubmit={beforeSubmit}
+          setFormType={setFormType}
+        />
       ) : (
         <></>
       );
@@ -48,5 +57,5 @@ export function withJDATypedFormController<
         onChangeFormType={setFormType}
       />
     );
-  };
+  });
 }

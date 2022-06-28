@@ -28,6 +28,7 @@ export function JDABasicTypedForm(props: IJDABasicGenenricFormProps) {
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
+    backgroundColor: 'white',
   },
   select: {
     marginHorizontal: 10,

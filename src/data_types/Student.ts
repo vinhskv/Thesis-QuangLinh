@@ -1,7 +1,7 @@
 import {Gender} from './enums/Gender';
 
-import {SubAddress} from './Address';
-import {SubStudentClass} from './StudentClass';
+import {Address, SubAddress} from './Address';
+import {StudentClass, SubStudentClass} from './StudentClass';
 import {SubEnrolment} from './Enrolment';
 
 export interface Student {
@@ -9,13 +9,14 @@ export interface Student {
   name: string;
   gender: Gender;
   dob: Date;
-  address?: SubAddress;
+  address?: Omit<Address, 'student'>;
   email: string;
-  studentClass?: SubStudentClass;
+  studentClass?: Omit<StudentClass,'students'>;
   enrolments: SubEnrolment[];
 }
 
-export interface SubStudent extends Omit<Student,| 'address' | 'studentClass' | 'enrolments' > {
+export interface SubStudent
+  extends Omit<Student, 'address' | 'studentClass' | 'enrolments'> {
   addressID?: number;
   studentClassID?: number;
   enrolmentsID: number[];
