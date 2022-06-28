@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
-import { useTypedContext } from '../../../common_hooks/useTypedContext';
 import { useAPI } from '../../../common_hooks/useAPI';
+import { useTypedContext } from '../../../common_hooks/useTypedContext';
 import { IJDAFormRef, JDAFormMode } from '../../jda_form_controllers/withFormController';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
@@ -20,10 +20,22 @@ export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
     formRef: ReturnType<typeof useRef<IJDAFormRef<T>>>
     ) {
     const {ModuleParams,router} = useTypedContext<IJDARouterContext<T>>(JDARouterContext);
-
+    const api = useAPI<T>(moduleConfig.apiResource);
+    const getRawItem = useCallback(
+        async (id?: T[keyof T]) => {
+            if(!id) return;
+            const res = await api.getById(id);
+            if(res.success){
+                formRef.current?.setFormValue(res.payload);
+            }else {
+                formRef.current?.setFormValue(ModuleParams?.moduleParams?.value); 
+            };
+        },
+        [ModuleParams?.moduleParams?.value, api, formRef],
+    );
     useEffect(() => {
-        formRef.current?.setFormValue(ModuleParams?.moduleParams?.value);
-    }, [ModuleParams?.moduleParams?.value, formRef]);
+        getRawItem(ModuleParams?.moduleParams?.value?.[moduleConfig.primaryKey]);
+    }, [ModuleParams?.moduleParams?.value, getRawItem, moduleConfig.primaryKey]);
 
     const showListOrGoBack = useCallback(
         (item?:T) => {
@@ -42,7 +54,6 @@ export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
             router.showList();
         }
     }, [ModuleParams?.prevScreen, router]);
-    const api = useAPI<T>(moduleConfig.apiResource);
     const handleFormSubmit = React.useCallback(
         async (submitedItem: T) => {
             switch (ModuleParams?.moduleParams.mode) {
