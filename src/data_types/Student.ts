@@ -11,7 +11,7 @@ export interface Student {
   dob: Date;
   address?: Omit<Address, 'student'>;
   email: string;
-  studentClass?: Omit<StudentClass,'students'>;
+  studentClass?: Omit<StudentClass, 'students'>;
   enrolments: SubEnrolment[];
 }
 

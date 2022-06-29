@@ -18,7 +18,8 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
             size={'small'}
             accessoryLeft={<Icon name="plus" />}
             style={styles.fab}
-            onPress={props.onAddItem}>
+            onPress={props.onAddItem}
+          >
             Add
           </Button>
         }

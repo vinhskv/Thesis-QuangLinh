@@ -70,7 +70,8 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}>
+        openDuration={250}
+      >
         <View style={styles.bottomSheetContainer}>
           <JDAStringInput
             value={keyword}
@@ -100,7 +101,8 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
               //   // }, 10000);
               // });
               // setWaitForReturnData(true);
-            }}>
+            }}
+          >
             Create
           </Button>
         </View>

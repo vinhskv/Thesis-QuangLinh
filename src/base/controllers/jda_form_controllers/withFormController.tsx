@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useImperativeHandle,
   useState,
+  useEffect,
 } from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {IJDAModuleConfig} from '../jda_module_controller/withModuleController';
@@ -46,7 +47,6 @@ export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
   onCancel?: () => void;
   mode: JDAFormMode;
   initValue?: T;
-  setFormType?: (type: any) => void;
 }
 export function withJDAFormControler<
   T,
@@ -61,20 +61,24 @@ export function withJDAFormControler<
     (props, ref) => {
       const form = useForm<T>({
         reValidateMode: 'onChange',
-        mode: 'onChange',
+        mode: 'onSubmit',
       });
       const [mode, setMode] = useState<JDAFormMode>(props.mode);
+
+      useEffect(() => {
+        console.log('initial value', props.initValue);
+
+        if (props.initValue) form.reset(props.initValue as any);
+      }, [form, props.initValue]);
+
       const setFormValue = useCallback(
         (value?: T) => {
           console.log('value', value);
           if (value) {
             form.reset(value as any);
-            if (value['type' as keyof T]) {
-              props.setFormType?.(value['type' as keyof T]);
-            }
           }
         },
-        [form, props],
+        [form],
       );
 
       useImperativeHandle(ref, () => ({

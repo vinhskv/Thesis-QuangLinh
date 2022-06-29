@@ -36,7 +36,8 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
           size={'small'}
           onPress={() => props.append(undefined as any)}
           appearance="outline"
-          status={'basic'}>
+          status={'basic'}
+        >
           {`+ Add ${props.label.toLowerCase()}`}
         </Button>
       )}

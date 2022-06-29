@@ -1,5 +1,5 @@
-import { createModuleInput } from "../../../../base/creators/createInputComponents";
-import { CompulsoryModuleModuleConfig } from "./ModuleConfig";
+import {createModuleInput} from '../../../../base/creators/createInputComponents';
+import {CompulsoryModuleModuleConfig} from './ModuleConfig';
 
 export const {
   Input: CompulsoryModuleInput,

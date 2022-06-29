@@ -60,7 +60,8 @@ export default function JDABasicForm<T>(props: IJDABasicFormProps<T>) {
           size={'small'}
           onPress={
             props.mode !== JDAFormMode.READ_ONLY ? props.submit : props.cancel
-          }>
+          }
+        >
           {SubmitText[props.mode]}
         </Button>
       </Layout>

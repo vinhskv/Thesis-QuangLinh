@@ -28,10 +28,24 @@ export function withJDATypedFormController<
     IJDAFormRef<any>,
     Omit<P, keyof IJDATypedFormAPI<any>>
   >((props, ref) => {
+    const fwRef = React.useRef<IJDAFormRef<any>>();
     const [formType, setFormType] = useState<string>(forms[0].type);
+    const [formValue, setFormValue] = useState();
+    const setFormValueWithType = useCallback((value?: any) => {
+      if (value.type) {
+        setFormType(value.type);
+      }
+      setFormValue(value);
+    }, []);
+    React.useImperativeHandle(ref, () => ({
+      setMode: mode => fwRef.current?.setMode?.(mode),
+      setFormValue: v => setFormValueWithType(v),
+    }));
     const beforeSubmit = useCallback(
-      (formValue: any) => {
-        props.onSubmit({type: formType, ...formValue});
+      (value: any) => {
+        console.log('Go to before submit in typed form ');
+
+        props.onSubmit({type: formType, ...value});
       },
       [formType, props],
     );
@@ -39,15 +53,15 @@ export function withJDATypedFormController<
       const FView = forms.find(f => f.type === formType)?.formComponent;
       return FView ? (
         <FView
-          {...(props as any)}
-          ref={ref}
+          ref={fwRef}
           onSubmit={beforeSubmit}
-          setFormType={setFormType}
+          initValue={formValue}
+          {...(props as any)}
         />
       ) : (
         <></>
       );
-    }, [beforeSubmit, formType, props]);
+    }, [beforeSubmit, formType, formValue, props]);
     return (
       <Component
         {...(props as P)}

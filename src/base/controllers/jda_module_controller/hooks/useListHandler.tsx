@@ -16,15 +16,27 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
     const api = useAPI<T>(moduleConfig.apiResource);
     const {router} = React.useContext(JDARouterContext);
 
+    const getFullItem = React.useCallback(
+        async (id?: T[keyof T]) => {
+            if (!id) return;
+            const res = await api.getById(id);
+            if (res.success) {
+                return res.payload;
+            }
+        },
+        [api],
+    );
+
     const handleAddItem = React.useCallback(() => {
         router.showCreateForm();
     }, [router]);
 
-    const handleEditItem = React.useCallback((itemToEdit: T) => {
+    const handleEditItem = React.useCallback(async (itemToEdit: T) => {
         if (itemToEdit) {
-            router.showEditForm(itemToEdit);
+            const fullItem = await getFullItem(itemToEdit[moduleConfig.primaryKey]);
+            router.showEditForm(fullItem ?? itemToEdit);
         }
-    }, [router]);
+    }, [getFullItem, moduleConfig.primaryKey, router]);
 
     const handleDeleteItems = React.useCallback(
         async (_items: T[keyof T][]) => {
@@ -57,9 +69,10 @@ export function useListHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
     );
     const handleRefresh = () => handleChangePage(0);
     const handleChangePageSize = React.useCallback((_pageSize: number) => { }, []);
-    const handleShowDetail = React.useCallback((item: T) => {
-        router.showDetail(item);
-    }, [router]);
+    const handleShowDetail = React.useCallback(async (item: T) => {
+        const fullItem = await getFullItem(item[moduleConfig.primaryKey]);
+        router.showDetail(fullItem ?? item);
+    }, [getFullItem, moduleConfig.primaryKey, router]);
 
     // auto load page 0 when first render
     React.useEffect(() => {

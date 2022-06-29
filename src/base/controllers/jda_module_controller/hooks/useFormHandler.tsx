@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import { useAPI } from '../../../common_hooks/useAPI';
 import { useTypedContext } from '../../../common_hooks/useTypedContext';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IJDAFormRef, JDAFormMode } from '../../jda_form_controllers/withFormController';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IJDAListRef } from '../../jda_list_controllers/hocs/withJDAListController';
@@ -13,33 +14,22 @@ const FormModeMaping: Record<JDAModuleMode, JDAFormMode> = {
     [JDAModuleMode.VIEW_ITEM]: JDAFormMode.READ_ONLY,
     [JDAModuleMode.EDIT_ITEM]: JDAFormMode.EDIT,
     [JDAModuleMode.VIEW_LIST_ITEM]: JDAFormMode.CREATE,
-  };
+};
 
 export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
+    // eslint-disable-next-line prettier/prettier
     listRef: ReturnType<typeof useRef<IJDAListRef<T>>>,
     formRef: ReturnType<typeof useRef<IJDAFormRef<T>>>
-    ) {
-    const {ModuleParams,router} = useTypedContext<IJDARouterContext<T>>(JDARouterContext);
+) {
+    const { ModuleParams, router } = useTypedContext<IJDARouterContext<T>>(JDARouterContext);
     const api = useAPI<T>(moduleConfig.apiResource);
-    const getRawItem = useCallback(
-        async (id?: T[keyof T]) => {
-            if(!id) return;
-            const res = await api.getById(id);
-            if(res.success){
-                formRef.current?.setFormValue(res.payload);
-            }else {
-                formRef.current?.setFormValue(ModuleParams?.moduleParams?.value); 
-            };
-        },
-        [ModuleParams?.moduleParams?.value, api, formRef],
-    );
     useEffect(() => {
-        getRawItem(ModuleParams?.moduleParams?.value?.[moduleConfig.primaryKey]);
-    }, [ModuleParams?.moduleParams?.value, getRawItem, moduleConfig.primaryKey]);
+      formRef.current?.setFormValue(ModuleParams?.moduleParams?.value);
+    }, [ModuleParams?.moduleParams?.value, formRef]);
 
     const showListOrGoBack = useCallback(
-        (item?:T) => {
-            if (ModuleParams?.prevScreen){
+        (item?: T) => {
+            if (ModuleParams?.prevScreen) {
                 router.goBack(item);
             } else {
                 router.showList();
@@ -48,7 +38,7 @@ export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
         [ModuleParams?.prevScreen, router],
     );
     const handleFormCancel = React.useCallback(() => {
-        if (ModuleParams?.prevScreen){
+        if (ModuleParams?.prevScreen) {
             router.goBack();
         } else {
             router.showList();
@@ -69,6 +59,7 @@ export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
                     break;
                 }
                 case JDAModuleMode.CREATE_ITEM: {
+                    console.log("CREATE:",submitedItem);
                     const res = await api.create(submitedItem);
                     listRef.current?.itemsControl.addItems([res]);
                     showListOrGoBack(res);

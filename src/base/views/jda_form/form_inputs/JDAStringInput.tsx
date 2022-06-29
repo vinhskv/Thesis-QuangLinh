@@ -7,8 +7,6 @@ export interface IJDAStringInputProps extends IJDAInput<string> {
 }
 
 export function JDAStringInput(props: IJDAStringInputProps) {
-  console.log(props.error);
-
   return (
     <Input
       {...props.InputProps}
