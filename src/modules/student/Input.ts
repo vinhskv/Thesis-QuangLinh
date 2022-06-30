@@ -1,5 +1,5 @@
-import {createModuleInput} from '../../base/creators/createInputComponents';
-import {StudentModuleConfig} from './ModuleConfig';
+import { createModuleInput } from '../../base/creators/createInputComponents';
+import {StudentModuleConfig} from './ModuleConfig'
 export const {
   Input: StudentInput,
   FormInput: FormStudentInput,

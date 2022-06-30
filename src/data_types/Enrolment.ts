@@ -1,3 +1,4 @@
+
 import {SubStudent} from './Student';
 import {CourseModule} from './CourseModule';
 
@@ -11,8 +12,7 @@ export interface Enrolment {
   finalMark?: number;
 }
 
-export interface SubEnrolment
-  extends Omit<Enrolment, 'student' | 'courseModule'> {
+export interface SubEnrolment extends Omit<Enrolment,| 'student' | 'courseModule' > {
   studentID: string;
   courseModuleID: number;
 }

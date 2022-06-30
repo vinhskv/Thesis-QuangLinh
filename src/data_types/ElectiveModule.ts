@@ -1,5 +1,5 @@
-import {CourseModule} from './CourseModule';
+import { CourseModule } from './CourseModule';
 
 export interface ElectiveModule extends CourseModule {
-  deptName: string;
+    deptName: string;
 }

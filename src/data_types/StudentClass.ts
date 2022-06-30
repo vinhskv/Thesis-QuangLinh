@@ -1,11 +1,12 @@
-import {Student} from './Student';
+
+import {SubStudent} from './Student';
 
 export interface StudentClass {
   id?: number;
   name: string;
-  students?: Omit<Student, 'studentClass'>[];
+  students?: SubStudent[];
 }
 
-export interface SubStudentClass extends Omit<StudentClass, 'students'> {
+export interface SubStudentClass extends Omit<StudentClass,| 'students' > {
   studentsID?: string[];
 }

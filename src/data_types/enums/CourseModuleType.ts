@@ -1,4 +1,4 @@
 export enum CourseModuleType {
-  compulsory = 'compulsory',
-  elective = 'elective',
+  compulsory = "compulsory",
+  elective = "elective",
 }
