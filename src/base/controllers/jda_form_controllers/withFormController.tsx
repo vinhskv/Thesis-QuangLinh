@@ -2,9 +2,9 @@ import React, {
   ComponentType,
   forwardRef,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useState,
-  useEffect,
 } from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {IJDAModuleConfig} from '../jda_module_controller/withModuleController';
@@ -67,7 +67,6 @@ export function withJDAFormControler<
 
       useEffect(() => {
         console.log('initial value', props.initValue);
-
         if (props.initValue) form.reset(props.initValue as any);
       }, [form, props.initValue]);
 
@@ -88,6 +87,8 @@ export function withJDAFormControler<
 
       const handleSubmit = useCallback(
         (data: T) => {
+          console.log('submit here!', data);
+
           props.onSubmit(data);
         },
         [props],

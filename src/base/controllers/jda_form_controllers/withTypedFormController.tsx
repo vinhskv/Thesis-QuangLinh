@@ -32,7 +32,7 @@ export function withJDATypedFormController<
     const [formType, setFormType] = useState<string>(forms[0].type);
     const [formValue, setFormValue] = useState();
     const setFormValueWithType = useCallback((value?: any) => {
-      if (value.type) {
+      if (value?.type) {
         setFormType(value.type);
       }
       setFormValue(value);
@@ -53,10 +53,10 @@ export function withJDATypedFormController<
       const FView = forms.find(f => f.type === formType)?.formComponent;
       return FView ? (
         <FView
+          {...(props as any)}
           ref={fwRef}
           onSubmit={beforeSubmit}
           initValue={formValue}
-          {...(props as any)}
         />
       ) : (
         <></>
