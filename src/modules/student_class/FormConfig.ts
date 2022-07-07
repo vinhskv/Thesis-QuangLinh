@@ -1,5 +1,6 @@
 import { IJDAFormConfig } from "../../base/controllers/jda_form_controllers/withFormController";
 import {StudentClass} from '../../data_types/StudentClass';
+import {Modules} from '../../data_types/enums/Modules';
 
 import {
   FormNumberInput,
@@ -22,7 +23,7 @@ maxLength:20,
   },
   students: {
     component: FormMultiStudentInput,
-    
+    options:{module: Modules.Student,},
   },
 };
 

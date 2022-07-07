@@ -1,5 +1,6 @@
 import { IJDAFormConfig } from "../../base/controllers/jda_form_controllers/withFormController";
 import {Enrolment} from '../../data_types/Enrolment';
+import {Modules} from '../../data_types/enums/Modules';
 
 import {
   FormNumberInput,
@@ -19,13 +20,13 @@ export const EnrolmentFormConfig: IJDAFormConfig<Enrolment> = {
     component: FormStudentInput,
     options:{rules:{required:true,
 maxLength:5,
-},},
+},module: Modules.Student,},
   },
   courseModule: {
     component: FormCourseModuleInput,
     options:{rules:{required:true,
 maxLength:5,
-},},
+},module: Modules.CourseModule,},
   },
   internalMark: {
     component: FormNumberInput,
