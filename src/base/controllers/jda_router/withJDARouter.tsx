@@ -54,7 +54,7 @@ export function withRouterController<P extends IJDARouterControllerProps>(
                 ...route.screenOptions,
               }}>
               {p => {
-                const router = useRouter(p);
+                const router = useRouter(p, route.name);
                 return (
                   <JDARouterContext.Provider value={router}>
                     <Screen {...(p as any)} {...router} />

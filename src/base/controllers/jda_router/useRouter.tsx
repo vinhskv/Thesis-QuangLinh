@@ -20,9 +20,20 @@ export type ReturnTypeUseRouter<T> = {
   router: {
     goHome: () => void;
     goToModule: (moduleName: Modules) => void;
-    showCreateForm: (moduleName?: Modules) => void;
-    showEditForm: (item: T, moduleName?: Modules) => void;
-    showDetail: (item: T, moduleName?: Modules) => void;
+    showCreateForm: (
+      moduleName?: Modules,
+      options?: IJDAModuleParams<T>,
+    ) => void;
+    showEditForm: (
+      item: T,
+      moduleName?: Modules,
+      options?: IJDAModuleParams<T>,
+    ) => void;
+    showDetail: (
+      item: T,
+      moduleName?: Modules,
+      options?: IJDAModuleParams<T>,
+    ) => void;
     showList: (moduleName?: Modules) => void;
     goBack: (data?: any) => void;
     getGoBackData: <D extends unknown>(moduleName: Modules) => D | undefined;
@@ -30,7 +41,10 @@ export type ReturnTypeUseRouter<T> = {
   };
 };
 
-export function useRouter<T>(props: NativeStackScreenProps<any>) {
+export function useRouter<T>(
+  props: NativeStackScreenProps<any>,
+  module?: Modules,
+) {
   const focusListener = useRef<(() => void) | null>(null);
   const onFocus = useCallback(
     (callback: () => void) => {
@@ -49,7 +63,7 @@ export function useRouter<T>(props: NativeStackScreenProps<any>) {
         props.navigation.push(moduleName, {
           prevScreenParams: {...ModuleParams},
           prevScreen: props.route.name,
-          moduleParams: moduleParams,
+          moduleParams: {...moduleParams, caller: module},
         });
       } else {
         props.navigation.setParams({
@@ -60,7 +74,7 @@ export function useRouter<T>(props: NativeStackScreenProps<any>) {
         });
       }
     },
-    [ModuleParams, props.navigation, props.route.name],
+    [ModuleParams, module, props.navigation, props.route.name],
   );
   const goHome = useCallback(() => {
     props.navigation.popToTop();
@@ -86,10 +100,11 @@ export function useRouter<T>(props: NativeStackScreenProps<any>) {
   );
 
   const showCreateForm = useCallback(
-    (moduleName?: Modules) => {
+    (moduleName?: Modules, options?: IJDAModuleParams<T>) => {
       updateParamOrNavigate(
         {
           mode: JDAModuleMode.CREATE_ITEM,
+          ...options,
         },
         moduleName,
       );
@@ -98,11 +113,12 @@ export function useRouter<T>(props: NativeStackScreenProps<any>) {
   );
 
   const showEditForm = useCallback(
-    (item: T, moduleName?: Modules) => {
+    (item: T, moduleName?: Modules, options?: IJDAModuleParams<T>) => {
       updateParamOrNavigate(
         {
           mode: JDAModuleMode.EDIT_ITEM,
           value: item,
+          ...options,
         },
         moduleName,
       );
@@ -110,11 +126,12 @@ export function useRouter<T>(props: NativeStackScreenProps<any>) {
     [updateParamOrNavigate],
   );
   const showDetail = useCallback(
-    (item: T, moduleName?: Modules) => {
+    (item: T, moduleName?: Modules, options?: IJDAModuleParams<T>) => {
       updateParamOrNavigate(
         {
           mode: JDAModuleMode.VIEW_ITEM,
           value: item,
+          ...options,
         },
         moduleName,
       );

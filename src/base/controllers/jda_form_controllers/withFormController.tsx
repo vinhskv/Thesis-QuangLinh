@@ -7,6 +7,7 @@ import React, {
   useState,
 } from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
+import {Modules} from '../../../data_types/enums/Modules';
 import {IJDAModuleConfig} from '../jda_module_controller/withModuleController';
 import {
   IJDAInputOptions,
@@ -46,6 +47,8 @@ export interface IJDAFormControlerProps<T> extends IJDAFormAPI {
   onSubmit: (value: T) => void;
   onCancel?: () => void;
   mode: JDAFormMode;
+  hiddenFields?: (keyof T)[];
+  hideModuleInputs?: Modules[];
   initValue?: T;
 }
 export function withJDAFormControler<
@@ -64,6 +67,7 @@ export function withJDAFormControler<
         mode: 'onSubmit',
       });
       const [mode, setMode] = useState<JDAFormMode>(props.mode);
+      console.log('Hide module input', props.hideModuleInputs);
 
       useEffect(() => {
         console.log('initial value', props.initValue);
@@ -108,19 +112,28 @@ export function withJDAFormControler<
         [mode],
       );
 
-      const formInputs = Object.keys(formConfig).map(key => {
-        const config = formConfig[key as keyof T];
-        const InputView: JDAControlledFormInputComponent<T, any> =
-          config?.component as any;
-        return config?.options?.hiddenInMode?.includes(mode) ? undefined : (
-          <InputView
-            name={key}
-            {...config?.options}
-            label={moduleConfig.fieldLabel[key as keyof T]}
-            disabled={checkDisabled(key as keyof T)}
-          />
-        );
-      });
+      const formInputs = Object.keys(formConfig)
+        .map(key => {
+          const config = formConfig[key as keyof T];
+          if (props.hiddenFields?.includes(key as keyof T)) return null;
+          console.log(`config option for ${key}: `, config?.options);
+          if (
+            config?.options?.module &&
+            props.hideModuleInputs?.includes(config.options.module)
+          )
+            return null;
+          const InputView: JDAControlledFormInputComponent<T, any> =
+            config?.component as any;
+          return config?.options?.hideInMode?.includes(mode) ? undefined : (
+            <InputView
+              name={key}
+              {...config?.options}
+              label={moduleConfig.fieldLabel[key as keyof T]}
+              disabled={checkDisabled(key as keyof T)}
+            />
+          );
+        })
+        .filter(e => e);
       return (
         <FormProvider {...form}>
           <Component

@@ -24,12 +24,16 @@ export enum JDAModuleMode {
   VIEW_ITEM,
   VIEW_LIST_ITEM,
 }
+
 /**
- * @property valueKey : In case other module request create new Object for specific key,
+ * @param valueKey : In case other module request create new Object for specific key,
  * after create object done, current module will go back and return new object with this key and object[keyValue] = created value
+ * @param hiddenData : hide some info of Object in both List $ Form
  */
 export interface IJDAModuleParams<T> {
   mode: JDAModuleMode;
+  hiddenFields?: (keyof T)[];
+  caller?: Modules;
   valueKey?: string;
   value?: T;
 }
@@ -81,7 +85,13 @@ export function withModuleController<
         mode={ModuleParams?.moduleParams?.mode ?? JDAModuleMode.VIEW_LIST_ITEM}
         moduleConfig={moduleConfig}
         ListView={<ListView {...(listHandler as any)} ref={listRef} />}
-        FormView={<FormView {...(formHandler as any)} ref={formRef} />}
+        FormView={
+          <FormView
+            {...(formHandler as any)}
+            hideModuleInputs={[ModuleParams?.moduleParams.caller]}
+            ref={formRef}
+          />
+        }
       />
     );
   };

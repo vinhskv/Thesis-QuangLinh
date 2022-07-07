@@ -18,6 +18,7 @@ import {JDAStringInput} from './JDAStringInput';
 export interface IJDAObjectInputProps<T> extends IJDAInput<T> {
   apiResource: string;
   renderOption: (option?: T) => string;
+  containerModuleName?: Modules;
   moduleName: Modules;
 }
 
@@ -35,17 +36,6 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
   }, [api]);
   // const [waitForReturnData, setWaitForReturnData] = useState(false);
   const {router} = useTypedContext<IJDARouterContext<T>>(JDARouterContext);
-  // useEffect(() => {
-  //   if (waitForReturnData) {
-  //     const returnValue = router.getGoBackData<T>(props.moduleName);
-  //     if (returnValue) {
-  //       console.log(returnValue);
-  //       props.onChange?.(returnValue);
-  //       setWaitForReturnData(false);
-  //     }
-  //   }
-  // }, [props, router, waitForReturnData]);
-  // console.log('++++++++', router.getGoBackData<T>(props.moduleName));
 
   useEffect(() => {
     search();
@@ -88,18 +78,6 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
             onPress={() => {
               console.log('Open screen: ', props.moduleName);
               router.showCreateForm(props.moduleName);
-              // router.onFocus(() => {
-              //   setUpdaeee(999);
-              //   // console.log('3. get goback for ',props.moduleName);
-              //   // setTimeout(() => {
-              //   // console.log('2.goback here ', props.moduleName);
-              //   // const value = router.getGoBackData<T>(props.moduleName);
-              //   // search();
-              //   // console.log(value);
-              //   // props.onChange?.(value);
-              //   // }, 10000);
-              // });
-              // setWaitForReturnData(true);
             }}>
             Create
           </Button>

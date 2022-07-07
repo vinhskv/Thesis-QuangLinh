@@ -10,7 +10,7 @@ export const ElectiveModuleModuleConfig: IJDAModuleConfig<ElectiveModule> = {
   moduleName: 'Course Modules',
   fieldLabel: {
     ...CourseModuleModuleConfig.fieldLabel,
-    deptName: 'deptName',
+    deptName: 'Dept. Name',
   },
   quickRender: elective_module => (elective_module ? ` ${elective_module.id} | ${elective_module.code} | ${elective_module.name} | ${elective_module.semester} | ${elective_module.credits} |` : ''),
   apiConfig: {

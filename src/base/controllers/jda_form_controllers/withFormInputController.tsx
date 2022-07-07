@@ -6,6 +6,7 @@ import {
   useFormContext,
   UseFormStateReturn,
 } from 'react-hook-form';
+import {Modules} from '../../../data_types/enums/Modules';
 import {JDAFormMode} from './withFormController';
 
 export interface IJDAFormInputAPI<T> {
@@ -19,7 +20,8 @@ export interface IJDAFormInputAPI<T> {
 
 export interface IJDAInputOptions
   extends Pick<ComponentProps<typeof Controller>, 'rules'> {
-  hiddenInMode?: JDAFormMode[];
+  hideInMode?: JDAFormMode[];
+  module?: Modules; // only use for ObjectInput
 }
 
 export interface IJDAFormInputControllerProps<T>
