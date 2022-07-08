@@ -56,7 +56,35 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
         onPress={() => ref.current?.open()}
         label={props.label}
         value={props.renderOption?.(props.value) ?? String(props.value)}
+        accessoryRight={
+          <>
+            {props.value && (
+              <View style={styles.row}>
+                <Button
+                  style={styles.button}
+                  appearance={'ghost'}
+                  status="basic"
+                  accessoryRight={<Icon name="edit-2-outline" />}
+                  onPress={() => {
+                    if (props.value)
+                      router.showEditForm(props.value, props.moduleName);
+                  }}
+                />
+                <Button
+                  style={styles.button}
+                  appearance={'ghost'}
+                  status="danger"
+                  accessoryRight={<Icon name="flash-off-outline" />}
+                  onPress={() => {
+                    props.onChange?.(undefined);
+                  }}
+                />
+              </View>
+            )}
+          </>
+        }
       />
+
       <RBSheet
         ref={ref as any}
         // height={300}
@@ -104,6 +132,10 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  expanded: {
+    flex: 1,
   },
   bottomSheetContainer: {
     display: 'flex',
@@ -112,5 +144,10 @@ const styles = StyleSheet.create({
   createBtn: {
     marginVertical: 10,
     marginRight: 10,
+  },
+  button: {
+    margin: 0,
+    padding: 0,
+    width: 10,
   },
 });

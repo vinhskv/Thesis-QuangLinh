@@ -15,16 +15,14 @@ export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
   return (
     <>
       <JDAButtonInput
-        disabled={props.disabled}
+        {...(props as any)}
         onPress={() => ref.current?.open()}
-        label={props.label}
         value={props.valueRender(props.value)}
       />
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}
-      >
+        openDuration={200}>
         <List
           data={props.values}
           ItemSeparatorComponent={Divider}

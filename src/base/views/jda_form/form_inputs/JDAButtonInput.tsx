@@ -5,12 +5,15 @@ import {
   withStyles,
 } from '@ui-kitten/components';
 import * as React from 'react';
+import {ReactElement} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {IJDAInput} from '.';
 
 export interface IJDAButtonInputProps
   extends IJDAInput<string>,
     ThemedComponentProps {
   onPress?: () => void;
+  accessoryRight?: ReactElement;
 }
 
 export function MyButtonInput(props: IJDAButtonInputProps) {
@@ -21,18 +24,38 @@ export function MyButtonInput(props: IJDAButtonInputProps) {
           {props.label}
         </Text>
       )}
-      <Button
-        size={'medium'}
-        status={props.error ? 'danger' : 'basic'}
-        style={props.eva?.style ? props.eva.style.buttonLikeInput : {}}
-        appearance="outline"
-        disabled={props.disabled}
-        onPress={props.onPress}>
-        {props.value}
-      </Button>
+      <View style={styles.row}>
+        <View style={styles.expanded}>
+          <Button
+            size={'medium'}
+            status={props.error ? 'danger' : 'basic'}
+            style={props.eva?.style ? props.eva.style.buttonLikeInput : {}}
+            appearance="outline"
+            disabled={props.disabled}
+            onPress={props.onPress}>
+            {props.value}
+          </Button>
+        </View>
+        {props.accessoryRight}
+      </View>
+      {props.error && (
+        <Text category={'c2'} status="danger">
+          {props.error}
+        </Text>
+      )}
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  expanded: {
+    flex: 1,
+  },
+});
 
 export const JDAButtonInput = withStyles(MyButtonInput, theme => ({
   buttonLikeInput: {

@@ -10,11 +10,9 @@ export interface IEnumInputProps<T> extends IJDAInput<T> {
 export function JDAEnumInput<T>(props: IEnumInputProps<T>) {
   return (
     <JDASelectInput<T>
+      {...(props as any)}
       values={enum2Array(props.enumObject)}
       onChange={props.onChange}
-      value={props.value}
-      label={props.label}
-      disabled={props.disabled}
       valueRender={v => (v ? String(v) : '')}
     />
   );

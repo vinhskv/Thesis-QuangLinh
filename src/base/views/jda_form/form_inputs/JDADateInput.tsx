@@ -21,8 +21,7 @@ export function JDADateInput(props: IJDADateInputProps) {
   return (
     <>
       <JDAButtonInput
-        disabled={props.disabled}
-        label={props.label}
+        {...(props as any)}
         value={date?.toLocaleDateString()}
         onPress={() => ref.current?.open()}
       />
