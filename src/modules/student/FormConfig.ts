@@ -15,7 +15,7 @@ export const StudentFormConfig: IJDAFormConfig<Student> = {
   },
   name: {
     component: FormStringInput,
-    options: {rules: {required: true, maxLength: 30}},
+    options: {rules: {required: true, maxLength: 30}, disabled: true},
   },
   gender: {
     component: FormGenderInput,

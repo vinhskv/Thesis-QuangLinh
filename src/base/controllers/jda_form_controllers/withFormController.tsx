@@ -127,9 +127,9 @@ export function withJDAFormControler<
           return config?.options?.hideInMode?.includes(mode) ? undefined : (
             <InputView
               name={key}
+              disabled={checkDisabled(key as keyof T)}
               {...config?.options}
               label={moduleConfig.fieldLabel[key as keyof T]}
-              disabled={checkDisabled(key as keyof T)}
             />
           );
         })
