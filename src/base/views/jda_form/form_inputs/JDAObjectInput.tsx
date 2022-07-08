@@ -53,7 +53,10 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
     <>
       <JDAButtonInput
         disabled={props.disabled}
-        onPress={() => ref.current?.open()}
+        onPress={() => {
+          if (props.value) router.showDetail(props.value, props.moduleName);
+          else ref.current?.open();
+        }}
         label={props.label}
         value={props.renderOption?.(props.value) ?? String(props.value)}
         accessoryRight={

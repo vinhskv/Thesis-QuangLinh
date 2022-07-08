@@ -39,11 +39,11 @@ export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
     );
     const handleFormCancel = React.useCallback(() => {
         if (ModuleParams?.prevScreen) {
-            router.goBack();
+            router.goBack(ModuleParams.moduleParams.value);
         } else {
             router.showList();
         }
-    }, [ModuleParams?.prevScreen, router]);
+    }, [ModuleParams?.moduleParams.value, ModuleParams?.prevScreen, router]);
     const handleFormSubmit = React.useCallback(
         async (submitedItem: T) => {
             switch (ModuleParams?.moduleParams.mode) {
@@ -59,14 +59,13 @@ export function useFormHandler<T, SubT>(moduleConfig: IJDAModuleConfig<T, SubT>,
                     break;
                 }
                 case JDAModuleMode.CREATE_ITEM: {
-                    console.log("CREATE:",submitedItem);
                     const res = await api.create(submitedItem);
                     listRef.current?.itemsControl.addItems([res]);
                     showListOrGoBack(res);
                     break;
                 }
                 case JDAModuleMode.VIEW_ITEM:
-                    showListOrGoBack();
+                    showListOrGoBack(submitedItem);
                     break;
             }
         },
