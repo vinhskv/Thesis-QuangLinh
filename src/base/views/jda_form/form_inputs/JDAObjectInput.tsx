@@ -61,7 +61,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
         value={props.renderOption?.(props.value) ?? String(props.value)}
         accessoryRight={
           <>
-            {props.value && (
+            {props.value && !props.disabled && (
               <View style={styles.row}>
                 <Button
                   style={styles.button}

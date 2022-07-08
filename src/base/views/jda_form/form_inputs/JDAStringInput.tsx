@@ -10,13 +10,15 @@ export function JDAStringInput(props: IJDAStringInputProps) {
   return (
     <Input
       {...props.InputProps}
-      disabled={props.disabled}
       status={props.error ? 'danger' : 'basic'}
       caption={props.error}
+      disabled={props.disabled}
       clearButtonMode="while-editing"
       value={props.value}
       label={props.label}
-      onChangeText={props.onChange}
+      onChangeText={v => {
+        props.onChange?.(props.disabled ? undefined : v);
+      }}
     />
   );
 }

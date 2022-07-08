@@ -22,6 +22,7 @@ export interface IJDAInputOptions
   extends Pick<ComponentProps<typeof Controller>, 'rules'> {
   hideInMode?: JDAFormMode[];
   module?: Modules; // only use for ObjectInput
+  disabled?: boolean;
 }
 
 export interface IJDAFormInputControllerProps<T>
@@ -29,7 +30,6 @@ export interface IJDAFormInputControllerProps<T>
     IJDAInputOptions {
   name: Path<T>;
   label: string;
-  disabled?: boolean;
 }
 
 export function withJDAFormInputController<

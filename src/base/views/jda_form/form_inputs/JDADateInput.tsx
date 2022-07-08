@@ -23,15 +23,13 @@ export function JDADateInput(props: IJDADateInputProps) {
       <JDAButtonInput
         {...(props as any)}
         value={date?.toLocaleDateString()}
-        onPress={() => ref.current?.open()}
+        onPress={() => {
+          if (!props.disabled) ref.current?.open();
+        }}
       />
-      <RBSheet
-        ref={ref as any}
-        // height={300}
-        openDuration={250}>
+      <RBSheet ref={ref as any} openDuration={200}>
         <View style={styles.container}>
           <DatePicker
-            // modal
             mode="date"
             date={tempDate || new Date()}
             onDateChange={setTempDate}

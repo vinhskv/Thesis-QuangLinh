@@ -16,7 +16,9 @@ export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
     <>
       <JDAButtonInput
         {...(props as any)}
-        onPress={() => ref.current?.open()}
+        onPress={() => {
+          if (!props.disabled) ref.current?.open();
+        }}
         value={props.valueRender(props.value)}
       />
       <RBSheet
