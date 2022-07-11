@@ -12,11 +12,6 @@ export const ElectiveModuleFormConfig: IJDAFormConfig<ElectiveModule> = {
   ...CourseModuleFormConfig,
     deptName: {
       component: FormStringInput,
-      options:{
-        rules:{
-          required:true,
-maxLength:50,
-}
-      }
+      options:{rules:{required:true, maxLength:50, },},
     },
 };

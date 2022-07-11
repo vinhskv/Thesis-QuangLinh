@@ -11,11 +11,11 @@ export const CompulsoryModuleModuleConfig: IJDAModuleConfig<CompulsoryModule> = 
   fieldLabel: {
     ...CourseModuleModuleConfig.fieldLabel,
   },
-  quickRender: compulsory_module => (compulsory_module ? ` ${compulsory_module.id} | ${compulsory_module.code} | ${compulsory_module.name} | ${compulsory_module.semester} | ${compulsory_module.credits} |` : ''),
+  quickRender: compulsoryModule => (compulsoryModule ? ` ${compulsoryModule.id} | ${compulsoryModule.code} | ${compulsoryModule.name} | ${compulsoryModule.semester} | ${compulsoryModule.credits} |` : ''),
   apiConfig: {
-    toPOST: compulsory_module => {
+    toPOST: compulsoryModule => {
       return {
-        ...compulsory_module,
+        ...compulsoryModule,
       };
     },
   },

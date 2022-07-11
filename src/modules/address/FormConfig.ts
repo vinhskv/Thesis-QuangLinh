@@ -1,4 +1,7 @@
-import {IJDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
+import {
+  IJDAFormConfig,
+  JDAFormMode,
+} from '../../base/controllers/jda_form_controllers/withFormController';
 import {Address} from '../../data_types/Address';
 import {Modules} from '../../data_types/enums/Modules';
 
@@ -9,7 +12,7 @@ import {FormStudentInput} from '../student/Input';
 export const AddressFormConfig: IJDAFormConfig<Address> = {
   id: {
     component: FormNumberInput,
-    options: {rules: {maxLength: 3}, disabled: true},
+    options: {disabled: true, rules: {maxLength: 3}},
   },
   name: {
     component: FormStringInput,
@@ -17,6 +20,9 @@ export const AddressFormConfig: IJDAFormConfig<Address> = {
   },
   student: {
     component: FormStudentInput,
-    options: {module: Modules.Student},
+    options: {
+      module: Modules.Student,
+      hideInMode: [JDAFormMode.CREATE, JDAFormMode.EDIT],
+    },
   },
 };

@@ -12,11 +12,11 @@ export const ElectiveModuleModuleConfig: IJDAModuleConfig<ElectiveModule> = {
     ...CourseModuleModuleConfig.fieldLabel,
     deptName: 'Dept. Name',
   },
-  quickRender: elective_module => (elective_module ? ` ${elective_module.id} | ${elective_module.code} | ${elective_module.name} | ${elective_module.semester} | ${elective_module.credits} |` : ''),
+  quickRender: electiveModule => (electiveModule ? ` ${electiveModule.id} | ${electiveModule.code} | ${electiveModule.name} | ${electiveModule.semester} | ${electiveModule.credits} |` : ''),
   apiConfig: {
-    toPOST: elective_module => {
+    toPOST: electiveModule => {
       return {
-        ...elective_module,
+        ...electiveModule,
       };
     },
   },

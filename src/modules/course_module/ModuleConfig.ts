@@ -14,11 +14,11 @@ export const CourseModuleModuleConfig: IJDAModuleConfig<CourseModule> = {
     semester: 'Semester',
     credits: 'Credits',
   },
-  quickRender: course_module => (course_module ? ` ${course_module.id} | ${course_module.code} | ${course_module.name} | ${course_module.semester} | ${course_module.credits} |` : ''),
+  quickRender: courseModule => (courseModule ? ` ${courseModule.id} | ${courseModule.code} | ${courseModule.name} | ${courseModule.semester} | ${courseModule.credits} |` : ''),
   apiConfig: {
-    toPOST: course_module => {
+    toPOST: courseModule => {
       return {
-        ...course_module,
+        ...courseModule,
       };
     },
   },

@@ -14,6 +14,7 @@ import {
   JDAControlledFormInputComponent,
 } from './withFormInputController';
 import {JDAControlledFormMultiInputComponent} from './withFormMultiInputController';
+import {JDAControlledModuleInputComponent} from './withModuleInputController';
 
 export enum JDAFormMode {
   CREATE,
@@ -37,6 +38,7 @@ export type IJDAFormConfig<T> = Partial<
     {
       component:
         | JDAControlledFormInputComponent<T, any>
+        | JDAControlledModuleInputComponent<T, any>
         | JDAControlledFormMultiInputComponent<T, any, any>;
       options?: IJDAInputOptions;
     }

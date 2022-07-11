@@ -45,7 +45,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
   useEffect(() => {
     //Try to update value if goBackData Change
     const value = router.getGoBackData<T>(props.moduleName);
-    props.onChange?.(value);
+    if (value) props.onChange?.(value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.getGoBackData]);
 
