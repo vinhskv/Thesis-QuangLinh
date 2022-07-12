@@ -9,6 +9,13 @@ export interface IJDAInput<T> {
   error?: string;
 }
 
+export interface IJDAModuleInput<T> extends IJDAInput<T> {
+  onCreate: () => void;
+  onEdit: () => void;
+  onShowDetail: () => void;
+  onSearch: (keyword: string) => Promise<T[]>;
+}
+
 export interface IJDAMultiInput<T> {
   values?: T[];
   onChange?: (values: T[]) => void;

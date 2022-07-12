@@ -4,9 +4,9 @@ import {
   Controller,
   useFieldArray,
   UseFieldArrayReturn,
-  useFormContext,
+  useFormContext
 } from 'react-hook-form';
-import {IJDAInput} from '../../views/jda_form/form_inputs';
+import { IJDAInput, IJDAModuleInput } from '../../views/jda_form/form_inputs';
 interface IJDAFormMultiInputAPI<T> extends UseFieldArrayReturn<T> {
   formItems: React.ReactNode[];
 }
@@ -20,10 +20,11 @@ export interface IJDAFormMultiInputControllerProps<T>
 export function withJDAFormMultiInputController<
   T,
   Props extends IJDAFormMultiInputControllerProps<T>,
-  SingleInputProps extends IJDAInput<T>,
 >(
   Component: React.ComponentType<Props>,
-  SingleInputComponent: React.ComponentType<SingleInputProps>,
+  SingleInputComponent:
+    | React.ComponentType<IJDAInput<T>>
+    | React.ComponentType<IJDAModuleInput<T>>,
 ) {
   return (props: Omit<Props, keyof IJDAFormMultiInputAPI<T>>) => {
     const {control} = useFormContext<T>();
@@ -54,26 +55,9 @@ export function withJDAFormMultiInputController<
   };
 }
 
-//Export componentType
-class TypeUltil<
-  T,
-  Props extends IJDAFormMultiInputControllerProps<T>,
-  SingleInputProps extends IJDAInput<T>,
-> {
-  //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
-
-  controlled = (
-    Component: React.ComponentType<Props>,
-    SingleInputComponent: React.ComponentType<SingleInputProps>,
-  ) =>
-    withJDAFormMultiInputController<T, Props, SingleInputProps>(
-      Component,
-      SingleInputComponent,
-    );
-}
-
 export type JDAControlledFormMultiInputComponent<
   T,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Props extends IJDAFormMultiInputControllerProps<T>,
-  SingleInputProps extends IJDAInput<T>,
-> = ReturnType<TypeUltil<T, Props, SingleInputProps>['controlled']>;
+// eslint-disable-next-line prettier/prettier
+> = ReturnType<typeof withJDAFormMultiInputController<T,Props>>;

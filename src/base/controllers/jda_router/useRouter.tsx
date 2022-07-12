@@ -1,10 +1,9 @@
-import {RouteProp} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useCallback, useRef} from 'react';
-import {Modules} from '../../../data_types/enums/Modules';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useCallback, useRef } from 'react';
+import { Modules } from '../../../data_types/enums/Modules';
 import {
   IJDAModuleParams,
-  JDAModuleMode,
+  JDAModuleMode
 } from '../jda_module_controller/withModuleController';
 
 export interface IJDARouteParams<T> {
@@ -14,32 +13,35 @@ export interface IJDARouteParams<T> {
   goBackData?: any;
 }
 
-export type ReturnTypeUseRouter<T> = {
-  ModuleParams: IJDARouteParams<T> | undefined;
-  RouteState: RouteProp<any, string>;
-  router: {
-    goHome: () => void;
-    goToModule: (moduleName: Modules) => void;
-    showCreateForm: (
-      moduleName?: Modules,
-      options?: IJDAModuleParams<T>,
-    ) => void;
-    showEditForm: (
-      item: T,
-      moduleName?: Modules,
-      options?: IJDAModuleParams<T>,
-    ) => void;
-    showDetail: (
-      item: T,
-      moduleName?: Modules,
-      options?: IJDAModuleParams<T>,
-    ) => void;
-    showList: (moduleName?: Modules) => void;
-    goBack: (data?: any) => void;
-    getGoBackData: <D extends unknown>(moduleName: Modules) => D | undefined;
-    onFocus: (callback: () => void) => void;
-  };
-};
+// export type ReturnTypeUseRouter<T> = {
+//   ModuleParams: IJDARouteParams<T> | undefined;
+//   RouteState: RouteProp<any, string>;
+//   router: {
+//     goHome: () => void;
+//     goToModule: (moduleName: Modules) => void;
+//     showCreateForm: (
+//       moduleName?: Modules,
+//       options?: Partial<IJDAModuleParams<T>>,
+//     ) => void;
+//     showEditForm: (
+//       item: T,
+//       moduleName?: Modules,
+//       options?: Partial<IJDAModuleParams<T>>,
+//     ) => void;
+//     showDetail: (
+//       item: T,
+//       moduleName?: Modules,
+//       options?: Partial<IJDAModuleParams<T>>,
+//     ) => void;
+//     showList: (moduleName?: Modules) => void;
+//     goBack: (data?: any) => void;
+//     getGoBackData: <D extends unknown>(moduleName: Modules) => D | undefined;
+//     onFocus: (callback: () => void) => void;
+//   };
+// };
+
+// eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-vars
+export type ReturnTypeUseRouter<T> = ReturnType<typeof useRouter<T>>
 
 export function useRouter<T>(
   props: NativeStackScreenProps<any>,
@@ -58,7 +60,7 @@ export function useRouter<T>(
   const ModuleParams = props.route.params as IJDARouteParams<T> | undefined;
 
   const updateParamOrNavigate = useCallback(
-    (moduleParams: IJDAModuleParams<T>, moduleName?: Modules) => {
+    (moduleParams: Partial<IJDAModuleParams<T>>, moduleName?: Modules) => {
       if (moduleName) {
         props.navigation.push(moduleName, {
           prevScreenParams: {...ModuleParams},
@@ -100,7 +102,7 @@ export function useRouter<T>(
   );
 
   const showCreateForm = useCallback(
-    (moduleName?: Modules, options?: IJDAModuleParams<T>) => {
+    (moduleName?: Modules, options?: Partial<IJDAModuleParams<T>>) => {
       updateParamOrNavigate(
         {
           mode: JDAModuleMode.CREATE_ITEM,
@@ -113,12 +115,12 @@ export function useRouter<T>(
   );
 
   const showEditForm = useCallback(
-    (item: T, moduleName?: Modules, options?: IJDAModuleParams<T>) => {
+    (item: T, moduleName?: Modules, options?: Partial<IJDAModuleParams<T>>) => {
       updateParamOrNavigate(
         {
           mode: JDAModuleMode.EDIT_ITEM,
-          value: item,
           ...options,
+          value: {...item, ...options?.value},
         },
         moduleName,
       );
@@ -126,15 +128,12 @@ export function useRouter<T>(
     [updateParamOrNavigate],
   );
   const showDetail = useCallback(
-    (item: T, moduleName?: Modules, options?: IJDAModuleParams<T>) => {
-      updateParamOrNavigate(
-        {
-          mode: JDAModuleMode.VIEW_ITEM,
-          value: item,
-          ...options,
-        },
-        moduleName,
-      );
+    (item: T, moduleName?: Modules, options?: Partial<IJDAModuleParams<T>>) => {
+      updateParamOrNavigate({
+        mode: JDAModuleMode.VIEW_ITEM,
+        ...options,
+        value: {...item, ...options?.value},
+      });
     },
     [updateParamOrNavigate],
   );
@@ -166,18 +165,6 @@ export function useRouter<T>(
   const getGoBackData = useCallback(
     <D extends unknown>(moduleName: Modules) => {
       const data: D | undefined = ModuleParams?.goBackData?.[moduleName] as any;
-      // console.log(
-      //   `goBackData ${route.name}, router Key: ${route.key} , ModuleParams value:`,
-      //   ModuleParams,
-      // );
-      // console.log(moduleName, ' -- ', data);
-      // props.navigation.setParams({
-      //   ...ModuleParams,
-      //   goBackData: {
-      //     ...ModuleParams?.goBackData,
-      //     [moduleName]: undefined,
-      //   },
-      // });
       return data;
     },
     [ModuleParams?.goBackData],
