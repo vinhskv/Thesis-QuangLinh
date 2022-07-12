@@ -1,16 +1,17 @@
 import * as React from 'react';
-import {ComponentType, useCallback} from 'react';
-import {Controller, useFormContext, useWatch} from 'react-hook-form';
-import {Modules} from '../../../data_types/enums/Modules';
-import {JDARouterContext} from '../jda_router/JDARouterContext';
+import { ComponentType, useCallback } from 'react';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import { Modules } from '../../../data_types/enums/Modules';
+import { JDARouterContext } from '../jda_router/JDARouterContext';
 import {
-  IJDAFormInputAPI,
-  IJDAFormInputControllerProps,
+    IJDAFormInputAPI,
+    IJDAFormInputControllerProps
 } from './withFormInputController';
 
 export interface IJDAModuleInputControllerProps<T>
   extends IJDAFormInputControllerProps<T> {
-  moduleName: Modules;
+  module: Modules;
+  associateField?: keyof T;
 }
 
 export interface IJDAModuleInputAPI<T> extends IJDAFormInputAPI<T> {
@@ -29,16 +30,20 @@ export function withModuleInputController<
     const {control} = useFormContext<T>();
 
     const onCreate = useCallback(async () => {
-      router.showCreateForm(props.moduleName);
-    }, [props.moduleName, router]);
+      //   router.showCreateForm(props.module, {
+      //     // value:{
+      //     //     [props.associateField as keyof T]:control.
+      //     // }
+      //   });
+    }, [props.module, router]);
 
     const onEdit = useCallback(async () => {
-      router.showEditForm(_currentValue as any, props.moduleName);
-    }, [props.moduleName, router, _currentValue]);
+      router.showEditForm(_currentValue as any, props.module);
+    }, [props.module, router, _currentValue]);
 
     const onShowDetail = useCallback(async () => {
-      router.showDetail(_currentValue as any, props.moduleName);
-    }, [props.moduleName, router, _currentValue]);
+      router.showDetail(_currentValue as any, props.module);
+    }, [props.module, router, _currentValue]);
 
     return (
       <Controller
