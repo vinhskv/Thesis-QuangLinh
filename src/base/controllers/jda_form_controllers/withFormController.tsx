@@ -10,11 +10,18 @@ import {FormProvider, useForm} from 'react-hook-form';
 import {Modules} from '../../../data_types/enums/Modules';
 import {IJDAModuleConfig} from '../jda_module_controller/withModuleController';
 import {
+  IJDAFormInputControllerProps,
   IJDAInputOptions,
   JDAControlledFormInputComponent,
 } from './withFormInputController';
-import {JDAControlledFormMultiInputComponent} from './withFormMultiInputController';
-import {JDAControlledModuleInputComponent} from './withModuleInputController';
+import {
+  IJDAFormMultiInputControllerProps,
+  JDAControlledFormMultiInputComponent,
+} from './withFormMultiInputController';
+import {
+  IJDAModuleInputControllerProps,
+  JDAControlledModuleInputComponent,
+} from './withModuleInputController';
 
 export enum JDAFormMode {
   CREATE,
@@ -32,15 +39,23 @@ export interface IJDAFormAPI {
   formInputs: React.ReactNode[];
 }
 
+type InputComponent<T> =
+  | JDAControlledFormInputComponent<T, any>
+  | JDAControlledModuleInputComponent<T, any>
+  | JDAControlledFormMultiInputComponent<T, any>;
+
+type InputComponentProps<T> =
+  | IJDAFormInputControllerProps<T>
+  | IJDAModuleInputControllerProps<T>
+  | IJDAFormMultiInputControllerProps<T>;
+
 export type IJDAFormConfig<T> = Partial<
   Record<
     keyof T,
     {
-      component:
-        | JDAControlledFormInputComponent<T, any>
-        | JDAControlledModuleInputComponent<T, any>
-        | JDAControlledFormMultiInputComponent<T, any>;
+      component: InputComponent<T>;
       options?: IJDAInputOptions;
+      props?: Partial<InputComponentProps<T[keyof T]>>;
     }
   >
 >;
@@ -131,6 +146,7 @@ export function withJDAFormControler<
               name={key}
               disabled={checkDisabled(key as keyof T)}
               {...config?.options}
+              {...config?.props}
               label={moduleConfig.fieldLabel[key as keyof T]}
             />
           );

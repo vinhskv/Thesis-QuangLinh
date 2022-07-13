@@ -1,8 +1,8 @@
 import {Gender} from './enums/Gender';
 
 import {SubAddress} from './Address';
-import {SubStudentClass} from './StudentClass';
 import {SubEnrolment} from './Enrolment';
+import {SubStudentClass} from './StudentClass';
 
 export interface Student {
   id: string;
@@ -15,7 +15,8 @@ export interface Student {
   enrolments: SubEnrolment[];
 }
 
-export interface SubStudent extends Omit<Student,| 'address' | 'studentClass' | 'enrolments' > {
+export interface SubStudent
+  extends Omit<Student, 'address' | 'studentClass' | 'enrolments'> {
   addressID?: number;
   studentClassID?: number;
   enrolmentsID: number[];

@@ -31,6 +31,9 @@ export const StudentFormConfig: IJDAFormConfig<Student> = {
   address: {
     component: FormAddressInput,
     options: {module: Modules.Address, rules: {maxLength: 20}},
+    props: {
+      associateField: 'student',
+    },
   },
   email: {
     component: FormStringInput,

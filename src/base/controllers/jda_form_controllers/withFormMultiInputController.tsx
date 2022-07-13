@@ -31,7 +31,7 @@ export function withJDAFormMultiInputController<
     const multiInputControl = useFieldArray<T>({control, name: props.name});
     const formItems = multiInputControl.fields.map((field, index) => (
       <Controller
-        key={field.id}
+        key={field.id + index}
         control={control}
         name={`${props.name}.${index}` as any}
         render={({field: itemInput}) => (

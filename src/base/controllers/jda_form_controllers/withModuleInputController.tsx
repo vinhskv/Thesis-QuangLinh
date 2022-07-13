@@ -18,7 +18,7 @@ export interface IJDAModuleInputControllerProps<T>
   extends IJDAFormInputControllerProps<T> {
   module: Modules;
   apiResource: string;
-  associateField?: keyof T;
+  associateField?: string;
 }
 
 export function withModuleInputController<
@@ -26,6 +26,7 @@ export function withModuleInputController<
   P extends IJDAModuleInputControllerProps<T>,
 >(Component: React.ComponentType<P>) {
   return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
+    console.log("DKJFSDLFJLSDFJLSDFJLSDJF                              ",props.associateField);
     const api = useAPI<T>(props.apiResource);
     const search = React.useCallback(async () => {
       const res = await api.getByPage(0);
@@ -82,9 +83,5 @@ export function withModuleInputController<
   };
 }
 
-export type JDAControlledModuleInputComponent<
-  T,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  P extends IJDAModuleInputControllerProps<T>,
-// eslint-disable-next-line prettier/prettier
-> = ReturnType<typeof withModuleInputController<T,P>>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, prettier/prettier
+export type JDAControlledModuleInputComponent<T,P extends IJDAModuleInputControllerProps<T>> = ReturnType<typeof withModuleInputController<T,P>>;

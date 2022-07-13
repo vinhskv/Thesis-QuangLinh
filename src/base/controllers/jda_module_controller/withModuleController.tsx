@@ -97,36 +97,5 @@ export function withModuleController<
   };
 }
 
-//Export componentType
-// class TypeUltil<
-//   T,
-//   // ListItemProps extends IJDAListItemControllerProps<T>,
-//   ListProps extends IJDAListControllerProps<T>,
-//   FormProps extends IJDAFormControlerProps<T>,
-//   P extends IJDAModuleControllerProps<T>,
-// > {
-//   //TODO if you change parammeter of withJDAListController function, you must change parameters of controlled function below
-//   controlled = (
-//     Component: ComponentType<P>,
-//     ListView: JDAControlledListComponent<T, ListProps>,
-//     FormView: JDAControlledFormComponent<T, FormProps>,
-//     moduleConfig: IJDAModuleConfig<T>,
-//   ) =>
-//     withModuleController<T, ListProps, FormProps, P>(
-//       Component,
-//       ListView,
-//       FormView,
-//       moduleConfig,
-//     );
-// }
-
-// export type JDAControlledModuleComponent<
-//   T,
-//   // ListItemProps extends IJDAListItemControllerProps<T>,
-//   ListProps extends IJDAListControllerProps<T>,
-//   FormProps extends IJDAFormControlerProps<T>,
-//   P extends IJDAModuleControllerProps<T>,
-// > = ReturnType<TypeUltil<T, ListProps, FormProps, P>['controlled']>;
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, prettier/prettier
 export type JDAControlledModuleComponent<T,ListProps extends IJDAListControllerProps<T>,FormProps extends IJDAFormControlerProps<T>,P extends IJDAModuleControllerProps<T>> = ReturnType<typeof withModuleController<T,ListProps,FormProps,P>>
