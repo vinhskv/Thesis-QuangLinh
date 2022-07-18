@@ -17,7 +17,7 @@ import {IJDAModuleConfig} from '../controllers/jda_module_controller/withModuleC
 import {enum2Array} from '../utils/enum2Array';
 
 import {JDAEnumInput} from '../views/jda_form/form_inputs/JDAEnumInput';
-import {JDAObjectInput} from '../views/jda_form/form_inputs/JDAObjectInput';
+import {JDAModuleInput} from '../views/jda_form/form_inputs/JDAModuleInput';
 import {
   IJDAFormMultiInputProps,
   JDAFormMutilInput,
@@ -25,7 +25,7 @@ import {
 
 export function createFormDataInput<T>(
   Input: ComponentType<IJDAInput<T>> | ComponentType<IJDAModuleInput<T>>,
-  isModule?: boolean,
+  moduleConfig?: IJDAModuleConfig<T>,
 ) {
   function _FormInput(
     props: IJDAFormInputControllerProps<T> | IJDAModuleInputControllerProps<T>,
@@ -38,9 +38,10 @@ export function createFormDataInput<T>(
     );
   }
 
-  const FormInput = isModule
+  const FormInput = moduleConfig
     ? withModuleInputController<T, IJDAModuleInputControllerProps<T>>(
         _FormInput,
+        moduleConfig.apiResource,
       )
     : withJDAFormInputController<T, IJDAFormInputControllerProps<T>>(
         _FormInput,
@@ -53,15 +54,11 @@ export function createFormDataInput<T>(
   return {Input, FormInput, FormMultiInput};
 }
 
-export function createModuleInput<T, SubT = T>(
-  config: IJDAModuleConfig<T, SubT>,
-) {
-  function Input(props: IJDAModuleInput<SubT>) {
-    return (
-      <JDAObjectInput<SubT> {...props} renderOption={config.quickRender} />
-    );
+export function createModuleInput<T>(config: IJDAModuleConfig<T>) {
+  function Input(props: IJDAModuleInput<T>) {
+    return <JDAModuleInput<T> {...props} renderOption={config.quickRender} />;
   }
-  return createFormDataInput(Input, true);
+  return createFormDataInput(Input, config);
 }
 
 export function createEnumInput(enumObject: any) {

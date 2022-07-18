@@ -18,7 +18,6 @@ export interface IJDAModuleInputAPI<T>
 export interface IJDAModuleInputControllerProps<T>
   extends IJDAFormInputControllerProps<T> {
   module: Modules;
-  apiResource: string;
   associateField?: string;
   associateCollection?: string;
 }
@@ -26,15 +25,25 @@ export interface IJDAModuleInputControllerProps<T>
 export function withModuleInputController<
   T,
   P extends IJDAModuleInputControllerProps<T>,
->(Component: React.ComponentType<P>) {
+>(Component: React.ComponentType<P>, apiResource: string) {
   return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
-    const api = useAPI<T>(props.apiResource);
+    const api = useAPI<T>(apiResource);
+    const [options, setOptions] = React.useState<T[]>([]);
+
     const search = React.useCallback(async () => {
+      console.log('Init search for ', apiResource);
+
       const res = await api.getByPage(0);
       if (res.success && res.payload.content) {
-        return res.payload.content;
-      } else return [];
+        setOptions(res.payload.content);
+      } else setOptions([]);
     }, [api]);
+
+    useEffect(() => {
+      search();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const {router} = React.useContext(JDARouterContext);
 
     const {control, getValues, setValue} = useFormContext<T>();
@@ -103,6 +112,7 @@ export function withModuleInputController<
             onEdit={onEdit}
             onShowDetail={onShowDetail}
             onSearch={search}
+            options={options}
           />
         )}
       />

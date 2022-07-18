@@ -14,6 +14,7 @@ export interface IJDAModuleInput<T> extends IJDAInput<T> {
   onEdit: () => void;
   onShowDetail: () => void;
   onSearch?: (keyword: string) => Promise<T[]>;
+  options: T[];
 }
 
 export interface IJDAMultiInput<T> {

@@ -1,7 +1,6 @@
 import {Button, Divider, Icon, List, ListItem} from '@ui-kitten/components';
 import _ from 'lodash';
 import * as React from 'react';
-import {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import useDebounce from '../../../common_hooks/useDebounce';
@@ -12,16 +11,13 @@ export interface IJDAObjectInputProps<T> extends IJDAModuleInput<T> {
   renderOption: (option?: T) => string;
 }
 
-export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
+export function JDAModuleInput<T>(props: IJDAObjectInputProps<T>) {
   const ref = React.useRef<RBSheet>();
-  const [options, setOptions] = React.useState<T[]>([]);
   const [keyword, setKeyword] = React.useState<string | undefined>('');
   const searchValue = useDebounce<string | undefined>(keyword, 500);
-
-  useEffect(() => {
-    if (searchValue) props.onSearch?.(searchValue).then((r) => setOptions(r));
+  React.useEffect(() => {
+    if (searchValue) props.onSearch?.(searchValue);
   }, [props, searchValue]);
-
   return (
     <>
       <JDAButtonInput
@@ -67,8 +63,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}
-      >
+        openDuration={250}>
         <View style={styles.bottomSheetContainer}>
           <JDAStringInput
             value={keyword}
@@ -85,13 +80,12 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
             size="tiny"
             onPress={() => {
               props.onCreate?.();
-            }}
-          >
+            }}>
             Create
           </Button>
         </View>
         <List
-          data={options}
+          data={props.options}
           indicatorStyle="black"
           ItemSeparatorComponent={(p) => <Divider {...p} />}
           renderItem={({item}) => (
