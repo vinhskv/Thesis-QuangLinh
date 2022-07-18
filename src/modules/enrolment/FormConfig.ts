@@ -1,11 +1,14 @@
-import {IJDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
+import {
+  IJDAFormConfig,
+  JDAFormMode,
+} from '../../base/controllers/jda_form_controllers/withFormController';
 import {Enrolment} from '../../data_types/Enrolment';
 import {Modules} from '../../data_types/enums/Modules';
 
 import {FormNumberInput, FormStringInput} from '../FormInputs';
 
-import {FormCourseModuleInput} from '../course_module/Input';
 import {FormStudentInput} from '../student/Input';
+import {FormCourseModuleInput} from '../course_module/Input';
 
 export const EnrolmentFormConfig: IJDAFormConfig<Enrolment> = {
   id: {
@@ -14,10 +17,7 @@ export const EnrolmentFormConfig: IJDAFormConfig<Enrolment> = {
   },
   student: {
     component: FormStudentInput,
-    options: {
-      module: Modules.Student,
-      rules: {required: true, maxLength: 5},
-    },
+    options: {module: Modules.Student, rules: {required: true, maxLength: 5}},
     props: {associateCollection: 'enrolments'},
   },
   courseModule: {

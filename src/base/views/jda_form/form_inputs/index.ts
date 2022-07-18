@@ -1,28 +1,6 @@
 import {FieldError, RegisterOptions} from 'react-hook-form';
 import {IJDAInputOptions} from '../../../controllers/jda_form_controllers/jda_form_input_controller/withFormInputController';
 
-export interface IJDAInput<T> {
-  value?: T;
-  onChange?: (value?: T) => void;
-  disabled?: boolean;
-  label?: string;
-  error?: string;
-}
-
-export interface IJDAModuleInput<T> extends IJDAInput<T> {
-  onCreate: () => void;
-  onEdit: () => void;
-  onShowDetail: () => void;
-  onSearch: (keyword: string) => Promise<T[]>;
-}
-
-export interface IJDAMultiInput<T> {
-  values?: T[];
-  onChange?: (values: T[]) => void;
-  disabled?: boolean;
-  label?: string;
-}
-
 export const BasicRuleMsg: Partial<
   Record<keyof RegisterOptions<any, any>, string>
 > = {

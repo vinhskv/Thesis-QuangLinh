@@ -67,7 +67,8 @@ export function JDAModuleInput<T>(props: IJDAObjectInputProps<T>) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}>
+        openDuration={250}
+      >
         <View style={styles.bottomSheetContainer}>
           <JDAStringInput
             value={keyword}
@@ -85,7 +86,8 @@ export function JDAModuleInput<T>(props: IJDAObjectInputProps<T>) {
               size="tiny"
               onPress={() => {
                 props.onCreate?.();
-              }}>
+              }}
+            >
               Create
             </Button>
           )}

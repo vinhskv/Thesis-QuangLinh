@@ -1,6 +1,5 @@
 import React, {ComponentType} from 'react';
 import {
-  getErrorString,
   IJDAInput,
   IJDAModuleInput,
 } from '../controllers/jda_form_controllers/jda_form_input_controller';
@@ -17,6 +16,7 @@ import {withJDAModuleMultiInputController} from '../controllers/jda_form_control
 import {IJDAModuleConfig} from '../controllers/jda_module_controller/withModuleController';
 import {enum2Array} from '../utils/enum2Array';
 
+import {getErrorString} from '../views/jda_form/form_inputs';
 import {JDAEnumInput} from '../views/jda_form/form_inputs/JDAEnumInput';
 import {JDAModuleInput} from '../views/jda_form/form_inputs/JDAModuleInput';
 import {JDAFormMutilInput} from '../views/jda_form/JDAFormMutilInput';
@@ -39,7 +39,7 @@ export function createFormDataInput<T>(
   const FormInput = moduleConfig
     ? withModuleInputController<T, IJDAModuleInputControllerProps<T>>(
         _FormInput,
-        moduleConfig.apiResource,
+        moduleConfig,
       )
     : withJDAFormInputController<T, IJDAFormInputControllerProps<T>>(
         _FormInput,
@@ -48,7 +48,7 @@ export function createFormDataInput<T>(
     ? withJDAModuleMultiInputController(
         JDAFormMutilInput,
         Input as any,
-        moduleConfig.apiResource,
+        moduleConfig,
       )
     : withJDAFormMultiInputController(JDAFormMutilInput, Input as any);
 

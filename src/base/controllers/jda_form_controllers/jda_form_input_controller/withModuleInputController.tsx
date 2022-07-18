@@ -4,6 +4,7 @@ import {useCallback, useEffect, useMemo} from 'react';
 import {Controller, useFormContext, useWatch} from 'react-hook-form';
 import {IJDAModuleInput} from '.';
 import {Modules} from '../../../../data_types/enums/Modules';
+import {IJDAModuleConfig} from '../../jda_module_controller/withModuleController';
 import {JDARouterContext} from '../../jda_router/JDARouterContext';
 import {useModuleInputAPI} from './useModuleInputAPI';
 import {
@@ -25,10 +26,9 @@ export interface IJDAModuleInputControllerProps<T>
 export function withModuleInputController<
   T,
   P extends IJDAModuleInputControllerProps<T>,
->(Component: React.ComponentType<P>, apiResource: string) {
+>(Component: React.ComponentType<P>, moduleConfig: IJDAModuleConfig<T>) {
   return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
-    const {options, search} = useModuleInputAPI(apiResource);
-
+    const {options, search, getTypedObject} = useModuleInputAPI(moduleConfig);
     const {router} = React.useContext(JDARouterContext);
 
     const {control, getValues, setValue} = useFormContext<T>();
@@ -97,7 +97,11 @@ export function withModuleInputController<
             {...(props as P)}
             {...item}
             value={item.field.value}
-            onChange={(value: T) => item.field.onChange(value)}
+            onChange={(value: T) => {
+              getTypedObject(value)
+                .then((r) => item.field.onChange(r))
+                .catch((e) => console.log(e));
+            }}
             onCreate={onCreate}
             onEdit={onEdit}
             onShowDetail={onShowDetail}

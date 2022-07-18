@@ -1,12 +1,15 @@
-import {IJDAFormConfig} from '../../base/controllers/jda_form_controllers/withFormController';
-import {Modules} from '../../data_types/enums/Modules';
+import {
+  IJDAFormConfig,
+  JDAFormMode,
+} from '../../base/controllers/jda_form_controllers/withFormController';
 import {Student} from '../../data_types/Student';
+import {Modules} from '../../data_types/enums/Modules';
 
-import {FormDateInput, FormGenderInput, FormStringInput} from '../FormInputs';
+import {FormStringInput, FormGenderInput, FormDateInput} from '../FormInputs';
 
 import {FormAddressInput} from '../address/Input';
-import {FormMultiEnrolmentInput} from '../enrolment/Input';
 import {FormStudentClassInput} from '../student_class/Input';
+import {FormMultiEnrolmentInput} from '../enrolment/Input';
 
 export const StudentFormConfig: IJDAFormConfig<Student> = {
   id: {

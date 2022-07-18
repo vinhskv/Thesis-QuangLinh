@@ -1,6 +1,6 @@
 import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/withModuleController';
-import {Enrolment} from '../../data_types/Enrolment';
 import {Modules} from '../../data_types/enums/Modules';
+import {Enrolment} from '../../data_types/Enrolment';
 
 export const EnrolmentModuleConfig: IJDAModuleConfig<Enrolment> = {
   primaryKey: 'id',
@@ -16,8 +16,7 @@ export const EnrolmentModuleConfig: IJDAModuleConfig<Enrolment> = {
     finalGrade: 'Final Grade',
     finalMark: 'Finalmark',
   },
-  quickRender: (enrolment) =>
-    enrolment ? ` ${enrolment.id} | ${enrolment.courseModule?.name}` : '',
+  quickRender: (enrolment) => (enrolment ? ` ${enrolment.id} |` : ''),
   apiConfig: {
     toPOST: (enrolment) => {
       return {

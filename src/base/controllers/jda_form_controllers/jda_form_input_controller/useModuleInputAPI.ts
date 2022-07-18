@@ -1,22 +1,30 @@
 import * as React from 'react';
-import {useAPI} from '../../jda_apis/useAPI';
+import {useAPI} from '../../../common_hooks/useAPI';
+import {IJDAModuleConfig} from '../../jda_module_controller/withModuleController';
 
-export function useModuleInputAPI<T>(apiResource: string) {
-  const api = useAPI<T>(apiResource);
+export function useModuleInputAPI<T>(ModuleConfig: IJDAModuleConfig<T>) {
+  const api = useAPI<T>(ModuleConfig.apiResource);
   const [options, setOptions] = React.useState<T[]>([]);
 
   const search = React.useCallback(async () => {
-    console.log('Init search for ', apiResource);
-
     const res = await api.getByPage(0);
     if (res.success && res.payload.content) {
       setOptions(res.payload.content);
     } else setOptions([]);
-  }, [api, apiResource]);
+  }, [api]);
+
+  const getTypedObject = React.useCallback(
+    async (obj: T) => {
+      const res = await api.getById(obj[ModuleConfig.primaryKey]);
+      if (res.success && res.payload) {
+        return res.payload;
+      }
+    },
+    [ModuleConfig.primaryKey, api],
+  );
 
   React.useEffect(() => {
     search();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return {options, search};
+  return {options, search, getTypedObject};
 }

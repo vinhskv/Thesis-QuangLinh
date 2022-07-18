@@ -1,18 +1,18 @@
 import _ from 'lodash';
 import * as React from 'react';
-import { useState } from 'react';
+import {useState} from 'react';
 import {
   ArrayPath,
   Controller,
   useFieldArray,
   UseFieldArrayReturn,
-  useFormContext
+  useFormContext,
 } from 'react-hook-form';
-import { onChange } from 'react-native-reanimated';
-import { IJDAModuleInput } from '.';
-import { Modules } from '../../../../data_types/enums/Modules';
-import { JDARouterContext } from '../../jda_router/JDARouterContext';
-import { useModuleInputAPI } from './useModuleInputAPI';
+import {IJDAModuleInput} from '.';
+import {Modules} from '../../../../data_types/enums/Modules';
+import {IJDAModuleConfig} from '../../jda_module_controller/withModuleController';
+import {JDARouterContext} from '../../jda_router/JDARouterContext';
+import {useModuleInputAPI} from './useModuleInputAPI';
 interface IJDAFormMultiInputAPI<T> extends UseFieldArrayReturn<T> {
   formItems: React.ReactNode[];
 }
@@ -32,10 +32,10 @@ export function withJDAModuleMultiInputController<
 >(
   Component: React.ComponentType<Props>,
   SingleInputComponent: React.ComponentType<IJDAModuleInput<T>>,
-  apiResource: string,
+  moduleConfig: IJDAModuleConfig<T>,
 ) {
   return (props: Omit<Props, keyof IJDAFormMultiInputAPI<T>>) => {
-    const {options, search} = useModuleInputAPI(apiResource);
+    const {options, search, getTypedObject} = useModuleInputAPI(moduleConfig);
     const [activeIndex, setActiveIndex] = useState(0);
     const {control, getValues, watch} = useFormContext<T>();
 
@@ -122,7 +122,11 @@ export function withJDAModuleMultiInputController<
             label={undefined}
             options={options}
             onSearch={search}
-            onChange={onChange}
+            onChange={(value: T) => {
+              getTypedObject(value)
+                .then((r) => itemInput.onChange(r))
+                .catch((e) => console.log(e));
+            }}
             onEdit={() => onEdit(index)}
             onShowDetail={() => onShowDetail(index)}
             onCreate={() => onCreate(index)}
