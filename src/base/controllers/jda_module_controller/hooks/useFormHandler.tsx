@@ -29,8 +29,8 @@ export function useFormHandler<T, SubT>(
     useTypedContext<IJDARouterContext<T>>(JDARouterContext);
   const api = useAPI<T>(moduleConfig.apiResource);
   useEffect(() => {
-    if (ModuleParams?.moduleParams.mode !== JDAModuleMode.CREATE_ITEM)
-      formRef.current?.setFormValue(ModuleParams?.moduleParams?.value);
+    // if (ModuleParams?.moduleParams.mode === JDAModuleMode.CREATE_ITEM)
+    formRef.current?.setFormValue(ModuleParams?.moduleParams?.value);
   }, [
     ModuleParams?.moduleParams?.mode,
     ModuleParams?.moduleParams?.value,

@@ -31,13 +31,14 @@ export function withModuleInputController<
     const {options, search, getTypedObject} = useModuleInputAPI(moduleConfig);
     const {router} = React.useContext(JDARouterContext);
 
-    const {control, getValues, setValue} = useFormContext<T>();
+    const {control, setValue, watch} = useFormContext<T>();
+    const formValue = watch();
     const _currentValue = useWatch({
       control: control,
       name: props.name,
     });
     const moduleValue = useMemo(() => {
-      const value = _.cloneDeep(_.omit(getValues() as any, [props.name]));
+      const value = _.cloneDeep(_.omit(formValue as any, [props.name]));
       const linkedFieldValue = props.associateField
         ? {[props.associateField as keyof T]: value}
         : {};
@@ -53,7 +54,7 @@ export function withModuleInputController<
       };
     }, [
       _currentValue,
-      getValues,
+      formValue,
       props.associateCollection,
       props.associateField,
       props.name,

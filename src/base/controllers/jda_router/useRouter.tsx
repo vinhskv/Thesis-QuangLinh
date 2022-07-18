@@ -74,6 +74,8 @@ export function useRouter<T>(
 
   const showCreateForm = useCallback(
     (moduleName?: Modules, options?: Partial<IJDAModuleParams<T>>) => {
+      console.log('Show create form, value: ', options?.value);
+
       updateParamOrNavigate(
         {
           mode: JDAModuleMode.CREATE_ITEM,
