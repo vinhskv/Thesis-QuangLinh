@@ -5,7 +5,7 @@ import {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import useDebounce from '../../../common_hooks/useDebounce';
-import {IJDAModuleInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
+import {IJDAModuleInput} from '../../../controllers/jda_form_controllers/jda_form_input_controller';
 import {JDAButtonInput} from './JDAButtonInput';
 import {JDAStringInput} from './JDAStringInput';
 export interface IJDAObjectInputProps<T> extends IJDAModuleInput<T> {

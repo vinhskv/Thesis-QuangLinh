@@ -3,7 +3,7 @@ import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {JDAFormMode} from '../../controllers/jda_form_controllers/withFormController';
 import {IJDAMultiFormControllerProps} from '../../controllers/jda_form_controllers/withMultiFormControler';
-import {JDASelectInput} from '../jda_inputs/JDASelectInput';
+import {JDASelectInput} from './form_inputs/JDASelectInput';
 export interface IJDABasicGenenricFormProps
   extends IJDAMultiFormControllerProps {}
 

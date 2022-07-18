@@ -1,7 +1,7 @@
 import {Button, Icon, Text, useTheme} from '@ui-kitten/components';
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {IJDAFormMultiInputControllerProps} from '../../controllers/jda_form_controllers/withFormMultiInputController';
+import {IJDAFormMultiInputControllerProps} from '../../controllers/jda_form_controllers/jda_form_input_controller/withFormMultiInputController';
 
 export interface IJDAFormMultiInputProps<T>
   extends IJDAFormMultiInputControllerProps<T> {}
@@ -17,7 +17,7 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
       )}
 
       {props.formItems.map((item, index) => (
-        <View style={styles.row}>
+        <View style={styles.row} key={index}>
           <View style={styles.expanded}>{item}</View>
           {!props.disabled && (
             <Button
@@ -36,8 +36,7 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
           size={'small'}
           onPress={() => props.append({} as any)}
           appearance="outline"
-          status={'basic'}
-        >
+          status={'basic'}>
           {`+ Add ${props.label.toLowerCase()}`}
         </Button>
       )}

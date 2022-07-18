@@ -4,7 +4,7 @@ import {useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
+import {IJDAInput} from '../../../controllers/jda_form_controllers/jda_form_input_controller';
 import {JDAButtonInput} from './JDAButtonInput';
 export interface IJDADateInputProps extends IJDAInput<Date> {}
 

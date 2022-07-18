@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
+import {IJDAInput} from '../../../controllers/jda_form_controllers/jda_form_input_controller';
 import {enum2Array} from '../../../utils/enum2Array';
 import {JDASelectInput} from './JDASelectInput';
 

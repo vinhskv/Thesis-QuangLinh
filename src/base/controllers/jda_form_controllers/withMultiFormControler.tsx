@@ -8,7 +8,7 @@ import {
 
 interface IJDAGenericFormAPI<T> extends IJDAFormAPI {
   formType: string;
-  onChangeFormType: (t: string) => void;
+  onChangeFormType: (t?: string) => void;
   formTypes: string[];
   FormView: JDAControlledFormComponent<T, any>;
 }

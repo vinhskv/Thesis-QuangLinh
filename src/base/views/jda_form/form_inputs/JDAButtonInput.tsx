@@ -7,7 +7,7 @@ import {
 import * as React from 'react';
 import {ReactElement} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
+import {IJDAInput} from '../../../controllers/jda_form_controllers/jda_form_input_controller';
 
 export interface IJDAButtonInputProps
   extends IJDAInput<string>,

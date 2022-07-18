@@ -1,10 +1,11 @@
+import _ from 'lodash';
 import * as React from 'react';
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useMemo} from 'react';
 import {Controller, useFormContext, useWatch} from 'react-hook-form';
 import {IJDAModuleInput} from '.';
-import {Modules} from '../../../data_types/enums/Modules';
-import {useAPI} from '../jda_apis/useAPI';
-import {JDARouterContext} from '../jda_router/JDARouterContext';
+import {Modules} from '../../../../data_types/enums/Modules';
+import {useAPI} from '../../jda_apis/useAPI';
+import {JDARouterContext} from '../../jda_router/JDARouterContext';
 import {
   IJDAFormInputAPI,
   IJDAFormInputControllerProps,
@@ -41,31 +42,44 @@ export function withModuleInputController<
       control: control,
       name: props.name,
     });
+    const moduleValue = useMemo(() => {
+      const value = _.cloneDeep(_.omit(getValues() as any, [props.name]));
+      const linkedFieldValue = props.associateField
+        ? {[props.associateField as keyof T]: value}
+        : {};
+      const linkedCollectionValue = props.associateCollection
+        ? {
+            [props.associateCollection as keyof T]: value,
+          }
+        : {};
+      return {
+        ..._currentValue,
+        ...linkedFieldValue,
+        ...linkedCollectionValue,
+      };
+    }, [
+      _currentValue,
+      getValues,
+      props.associateCollection,
+      props.associateField,
+      props.name,
+    ]);
     useEffect(() => {
       console.log(`Currrent value, ${props.name}  :   `, _currentValue);
     }, [_currentValue, props.name]);
     const onCreate = useCallback(async () => {
       router.showCreateForm(props.module, {
-        value: {
-          [props.associateField as keyof T]: getValues(),
-          [props.associateCollection as keyof T]: [getValues()],
-        },
+        value: moduleValue,
       });
-    }, [
-      getValues,
-      props.associateCollection,
-      props.associateField,
-      props.module,
-      router,
-    ]);
+    }, [moduleValue, props.module, router]);
 
     const onEdit = useCallback(async () => {
-      router.showEditForm(_currentValue as any, props.module);
-    }, [props.module, router, _currentValue]);
+      router.showEditForm(moduleValue, props.module);
+    }, [router, moduleValue, props.module]);
 
     const onShowDetail = useCallback(async () => {
-      router.showDetail(_currentValue as any, props.module);
-    }, [props.module, router, _currentValue]);
+      router.showDetail(moduleValue, props.module);
+    }, [router, moduleValue, props.module]);
 
     useEffect(() => {
       //Try to update value if goBackData Change

@@ -1,5 +1,5 @@
 import {FieldError, RegisterOptions} from 'react-hook-form';
-import {IJDAInputOptions} from '../../../controllers/jda_form_controllers/withFormInputController';
+import {IJDAInputOptions} from '../../../controllers/jda_form_controllers/jda_form_input_controller/withFormInputController';
 
 export interface IJDAInput<T> {
   value?: T;

@@ -7,8 +7,8 @@ import {
   UseFormStateReturn,
 } from 'react-hook-form';
 import {IJDAInput} from '.';
-import {Modules} from '../../../data_types/enums/Modules';
-import {JDAFormMode} from './withFormController';
+import {Modules} from '../../../../data_types/enums/Modules';
+import {JDAFormMode} from '../withFormController';
 
 export interface IJDAFormInputAPI<T> extends IJDAInput<T> {
   fieldState: ControllerFieldState;

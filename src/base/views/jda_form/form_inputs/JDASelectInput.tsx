@@ -1,7 +1,7 @@
 import {Divider, Icon, List, ListItem} from '@ui-kitten/components';
 import * as React from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
+import {IJDAInput} from '../../../controllers/jda_form_controllers/jda_form_input_controller';
 import {JDAButtonInput} from './JDAButtonInput';
 
 export interface IJDASelectInputProps<T> extends IJDAInput<T> {

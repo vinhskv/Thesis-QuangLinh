@@ -3,16 +3,16 @@ import {
   getErrorString,
   IJDAInput,
   IJDAModuleInput,
-} from '../controllers/jda_form_controllers';
+} from '../controllers/jda_form_controllers/jda_form_input_controller';
 import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
-} from '../controllers/jda_form_controllers/withFormInputController';
-import {withJDAFormMultiInputController} from '../controllers/jda_form_controllers/withFormMultiInputController';
+} from '../controllers/jda_form_controllers/jda_form_input_controller/withFormInputController';
+import {withJDAFormMultiInputController} from '../controllers/jda_form_controllers/jda_form_input_controller/withFormMultiInputController';
 import {
   IJDAModuleInputControllerProps,
   withModuleInputController,
-} from '../controllers/jda_form_controllers/withModuleInputController';
+} from '../controllers/jda_form_controllers/jda_form_input_controller/withModuleInputController';
 import {IJDAModuleConfig} from '../controllers/jda_module_controller/withModuleController';
 import {enum2Array} from '../utils/enum2Array';
 

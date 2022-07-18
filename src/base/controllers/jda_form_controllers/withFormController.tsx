@@ -13,15 +13,15 @@ import {
   IJDAFormInputControllerProps,
   IJDAInputOptions,
   JDAControlledFormInputComponent,
-} from './withFormInputController';
+} from './jda_form_input_controller/withFormInputController';
 import {
   IJDAFormMultiInputControllerProps,
   JDAControlledFormMultiInputComponent,
-} from './withFormMultiInputController';
+} from './jda_form_input_controller/withFormMultiInputController';
 import {
   IJDAModuleInputControllerProps,
   JDAControlledModuleInputComponent,
-} from './withModuleInputController';
+} from './jda_form_input_controller/withModuleInputController';
 
 export enum JDAFormMode {
   CREATE,
