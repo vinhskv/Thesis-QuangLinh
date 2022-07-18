@@ -24,7 +24,7 @@ export function JDAModuleInput<T>(props: IJDAObjectInputProps<T>) {
         disabled={props.disabled}
         onPress={() => {
           if (props.value && !_.isEmpty(props.value)) props.onShowDetail?.();
-          else ref.current?.open();
+          else if (!props.disabled) ref.current?.open();
         }}
         label={props.label}
         value={
