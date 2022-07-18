@@ -6,7 +6,7 @@ import {
   UseFieldArrayReturn,
   useFormContext,
 } from 'react-hook-form';
-import {IJDAInput, IJDAModuleInput} from '.';
+import {IJDAInput} from '.';
 interface IJDAFormMultiInputAPI<T> extends UseFieldArrayReturn<T> {
   formItems: React.ReactNode[];
 }
@@ -22,9 +22,7 @@ export function withJDAFormMultiInputController<
   Props extends IJDAFormMultiInputControllerProps<T>,
 >(
   Component: React.ComponentType<Props>,
-  SingleInputComponent:
-    | React.ComponentType<IJDAInput<T>>
-    | React.ComponentType<IJDAModuleInput<T>>,
+  SingleInputComponent: React.ComponentType<IJDAInput<T>>,
 ) {
   return (props: Omit<Props, keyof IJDAFormMultiInputAPI<T>>) => {
     const {control} = useFormContext<T>();

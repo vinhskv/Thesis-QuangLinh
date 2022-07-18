@@ -5,15 +5,15 @@ const axiosConfigs: AxiosRequestConfig = {
   baseURL: 'http://localhost:8080',
   withCredentials: true,
 };
-axios.interceptors.request.use((request) => {
-  console.log('Starting Request', JSON.stringify(request.data, null, 2));
-  return request;
-});
+// axios.interceptors.request.use((request) => {
+//   console.log('Starting Request', JSON.stringify(request.data, null, 2));
+//   return request;
+// });
 
-axios.interceptors.response.use((response) => {
-  console.log('Response:', JSON.stringify(response.data, null, 2));
-  return response;
-});
+// axios.interceptors.response.use((response) => {
+//   console.log('Response:', JSON.stringify(response.data, null, 2));
+//   return response;
+// });
 
 export interface IAPIReturn<P> {
   success: boolean;

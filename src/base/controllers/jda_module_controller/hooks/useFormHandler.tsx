@@ -29,8 +29,13 @@ export function useFormHandler<T, SubT>(
     useTypedContext<IJDARouterContext<T>>(JDARouterContext);
   const api = useAPI<T>(moduleConfig.apiResource);
   useEffect(() => {
-    formRef.current?.setFormValue(ModuleParams?.moduleParams?.value);
-  }, [ModuleParams?.moduleParams?.value, formRef]);
+    if (ModuleParams?.moduleParams.mode !== JDAModuleMode.CREATE_ITEM)
+      formRef.current?.setFormValue(ModuleParams?.moduleParams?.value);
+  }, [
+    ModuleParams?.moduleParams?.mode,
+    ModuleParams?.moduleParams?.value,
+    formRef,
+  ]);
 
   const showListOrGoBack = useCallback(
     (item?: T) => {
@@ -44,11 +49,11 @@ export function useFormHandler<T, SubT>(
   );
   const handleFormCancel = React.useCallback(() => {
     if (ModuleParams?.prevScreen) {
-      router.goBack(ModuleParams.moduleParams.value);
+      router.goBack();
     } else {
       router.showList();
     }
-  }, [ModuleParams?.moduleParams.value, ModuleParams?.prevScreen, router]);
+  }, [ModuleParams?.prevScreen, router]);
   const handleFormSubmit = React.useCallback(
     async (submitedItem: T) => {
       switch (ModuleParams?.moduleParams.mode) {

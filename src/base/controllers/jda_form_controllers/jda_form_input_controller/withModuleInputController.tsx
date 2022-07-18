@@ -4,8 +4,8 @@ import {useCallback, useEffect, useMemo} from 'react';
 import {Controller, useFormContext, useWatch} from 'react-hook-form';
 import {IJDAModuleInput} from '.';
 import {Modules} from '../../../../data_types/enums/Modules';
-import {useAPI} from '../../jda_apis/useAPI';
 import {JDARouterContext} from '../../jda_router/JDARouterContext';
+import {useModuleInputAPI} from './useModuleInputAPI';
 import {
   IJDAFormInputAPI,
   IJDAFormInputControllerProps,
@@ -27,22 +27,7 @@ export function withModuleInputController<
   P extends IJDAModuleInputControllerProps<T>,
 >(Component: React.ComponentType<P>, apiResource: string) {
   return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
-    const api = useAPI<T>(apiResource);
-    const [options, setOptions] = React.useState<T[]>([]);
-
-    const search = React.useCallback(async () => {
-      console.log('Init search for ', apiResource);
-
-      const res = await api.getByPage(0);
-      if (res.success && res.payload.content) {
-        setOptions(res.payload.content);
-      } else setOptions([]);
-    }, [api]);
-
-    useEffect(() => {
-      search();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const {options, search} = useModuleInputAPI(apiResource);
 
     const {router} = React.useContext(JDARouterContext);
 
