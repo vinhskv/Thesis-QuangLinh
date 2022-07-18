@@ -30,7 +30,6 @@ export function useFormHandler<T, SubT>(
   const api = useAPI<T>(moduleConfig.apiResource);
   useEffect(() => {
     formRef.current?.setFormValue(ModuleParams?.moduleParams?.value);
-    console.log('Value : ', ModuleParams?.moduleParams.value);
   }, [ModuleParams?.moduleParams?.value, formRef]);
 
   const showListOrGoBack = useCallback(

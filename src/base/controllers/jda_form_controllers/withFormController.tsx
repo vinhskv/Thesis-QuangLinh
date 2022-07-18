@@ -93,7 +93,7 @@ export function withJDAFormControler<
 
       const setFormValue = useCallback(
         (value?: T) => {
-          console.log('value', value);
+          console.log('set form value: ', value);
           if (value) {
             form.reset(value as any);
           }

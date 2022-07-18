@@ -10,9 +10,10 @@ export interface IJDAInput<T> {
 }
 
 export interface IJDAModuleInput<T> extends IJDAInput<T> {
-  onCreate: () => void;
-  onEdit: () => void;
-  onShowDetail: () => void;
+  onCreate?: () => void;
+  onEdit?: () => void;
+  onShowDetail?: () => void;
+  onUnlink?: () => void;
   onSearch?: (keyword: string) => Promise<T[]>;
   options: T[];
 }

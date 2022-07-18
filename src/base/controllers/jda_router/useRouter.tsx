@@ -100,11 +100,14 @@ export function useRouter<T>(
   );
   const showDetail = useCallback(
     (item: T, moduleName?: Modules, options?: Partial<IJDAModuleParams<T>>) => {
-      updateParamOrNavigate({
-        mode: JDAModuleMode.VIEW_ITEM,
-        ...options,
-        value: {...item},
-      });
+      updateParamOrNavigate(
+        {
+          mode: JDAModuleMode.VIEW_ITEM,
+          ...options,
+          value: {...item},
+        },
+        moduleName,
+      );
     },
     [updateParamOrNavigate],
   );

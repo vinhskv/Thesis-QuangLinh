@@ -36,24 +36,28 @@ export function JDAModuleInput<T>(props: IJDAObjectInputProps<T>) {
           <>
             {props.value && !_.isEmpty(props.value) && !props.disabled && (
               <View style={styles.row}>
-                <Button
-                  style={styles.button}
-                  appearance={'ghost'}
-                  status="basic"
-                  accessoryRight={<Icon name="edit-2-outline" />}
-                  onPress={() => {
-                    props.onEdit?.();
-                  }}
-                />
-                <Button
-                  style={styles.button}
-                  appearance={'ghost'}
-                  status="danger"
-                  accessoryRight={<Icon name="flash-off-outline" />}
-                  onPress={() => {
-                    props.onChange?.(undefined);
-                  }}
-                />
+                {props.onEdit && (
+                  <Button
+                    style={styles.button}
+                    appearance={'ghost'}
+                    status="basic"
+                    accessoryRight={<Icon name="edit-2-outline" />}
+                    onPress={() => {
+                      props.onEdit?.();
+                    }}
+                  />
+                )}
+                {props.onUnlink && (
+                  <Button
+                    style={styles.button}
+                    appearance={'ghost'}
+                    status="danger"
+                    accessoryRight={<Icon name="flash-off-outline" />}
+                    onPress={() => {
+                      props.onUnlink?.();
+                    }}
+                  />
+                )}
               </View>
             )}
           </>
@@ -74,15 +78,17 @@ export function JDAModuleInput<T>(props: IJDAObjectInputProps<T>) {
               style: {margin: 10, flex: 1},
             }}
           />
-          <Button
-            style={styles.createBtn}
-            accessoryLeft={(p) => <Icon {...p} name="plus" />}
-            size="tiny"
-            onPress={() => {
-              props.onCreate?.();
-            }}>
-            Create
-          </Button>
+          {props.onCreate && (
+            <Button
+              style={styles.createBtn}
+              accessoryLeft={(p) => <Icon {...p} name="plus" />}
+              size="tiny"
+              onPress={() => {
+                props.onCreate?.();
+              }}>
+              Create
+            </Button>
+          )}
         </View>
         <List
           data={props.options}

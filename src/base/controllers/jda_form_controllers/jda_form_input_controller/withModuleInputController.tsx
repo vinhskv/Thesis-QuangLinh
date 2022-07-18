@@ -76,6 +76,9 @@ export function withModuleInputController<
     useEffect(() => {
       console.log(`Currrent value, ${props.name}  :   `, _currentValue);
     }, [_currentValue, props.name]);
+    const onUnlink = useCallback(() => {
+      setValue(props.name, undefined as any);
+    }, [props.name, setValue]);
     const onCreate = useCallback(async () => {
       router.showCreateForm(props.module, {
         value: moduleValue,
@@ -87,6 +90,8 @@ export function withModuleInputController<
     }, [router, moduleValue, props.module]);
 
     const onShowDetail = useCallback(async () => {
+      console.log('Show detail for ', moduleValue);
+
       router.showDetail(moduleValue, props.module);
     }, [router, moduleValue, props.module]);
 
@@ -112,6 +117,7 @@ export function withModuleInputController<
             onEdit={onEdit}
             onShowDetail={onShowDetail}
             onSearch={search}
+            onUnlink={onUnlink}
             options={options}
           />
         )}
