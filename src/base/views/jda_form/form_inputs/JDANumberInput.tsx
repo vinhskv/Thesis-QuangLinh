@@ -1,6 +1,6 @@
 import {Input} from '@ui-kitten/components';
 import * as React from 'react';
-import {IJDAInput} from '.';
+import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
 
 export interface IJDANumberInputProps extends IJDAInput<number> {}
 
@@ -11,7 +11,7 @@ export function JDANumberInput(props: IJDANumberInputProps) {
       label={props.label}
       status={props.error ? 'danger' : 'basic'}
       disabled={props.disabled}
-      onChangeText={t => {
+      onChangeText={(t) => {
         props.onChange?.(props.disabled ? undefined : parseInt(t, 10));
       }}
       keyboardType="numeric"

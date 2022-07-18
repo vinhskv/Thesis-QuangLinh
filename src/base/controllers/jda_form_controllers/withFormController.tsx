@@ -84,7 +84,7 @@ export function withJDAFormControler<
         mode: 'onSubmit',
       });
       const [mode, setMode] = useState<JDAFormMode>(props.mode);
-      console.log('Hide module input', props.hideModuleInputs);
+      // console.log('Hide module input', props.hideModuleInputs);
 
       useEffect(() => {
         console.log('initial value', props.initValue);
@@ -130,10 +130,10 @@ export function withJDAFormControler<
       );
 
       const formInputs = Object.keys(formConfig)
-        .map(key => {
+        .map((key) => {
           const config = formConfig[key as keyof T];
           if (props.hiddenFields?.includes(key as keyof T)) return null;
-          console.log(`config option for ${key}: `, config?.options);
+          // console.log(`config option for ${key}: `, config?.options);
           if (
             config?.options?.module &&
             props.hideModuleInputs?.includes(config.options.module)
@@ -151,14 +151,14 @@ export function withJDAFormControler<
             />
           );
         })
-        .filter(e => e);
+        .filter((e) => e);
       return (
         <FormProvider {...form}>
           <Component
             {...(props as P)}
             mode={mode}
             formInputs={formInputs}
-            submit={form.handleSubmit(d => handleSubmit(d as T))}
+            submit={form.handleSubmit((d) => handleSubmit(d as T))}
             cancel={props.onCancel}
           />
         </FormProvider>

@@ -1,8 +1,8 @@
 import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/withModuleController';
-import { Modules } from '../../data_types/enums/Modules';
-import {Enrolment, SubEnrolment} from '../../data_types/Enrolment';
+import {Modules} from '../../data_types/enums/Modules';
+import {Enrolment} from '../../data_types/Enrolment';
 
-export const EnrolmentModuleConfig: IJDAModuleConfig<Enrolment, SubEnrolment> = {
+export const EnrolmentModuleConfig: IJDAModuleConfig<Enrolment> = {
   primaryKey: 'id',
   route: Modules.Enrolment,
   apiResource: 'enrolments',
@@ -16,9 +16,9 @@ export const EnrolmentModuleConfig: IJDAModuleConfig<Enrolment, SubEnrolment> = 
     finalGrade: 'Final Grade',
     finalMark: 'Finalmark',
   },
-  quickRender: enrolment => (enrolment ? ` ${enrolment.id} |` : ''),
+  quickRender: (enrolment) => (enrolment ? ` ${enrolment.id} |` : ''),
   apiConfig: {
-    toPOST: enrolment => {
+    toPOST: (enrolment) => {
       return {
         ...enrolment,
         studentId: enrolment.student.id,

@@ -20,9 +20,7 @@ export const AddressFormConfig: IJDAFormConfig<Address> = {
   },
   student: {
     component: FormStudentInput,
-    options: {
-      module: Modules.Student,
-      hideInMode: [JDAFormMode.CREATE, JDAFormMode.EDIT],
-    },
+    options: {module: Modules.Student},
+    props: {associateField: 'address'},
   },
 };

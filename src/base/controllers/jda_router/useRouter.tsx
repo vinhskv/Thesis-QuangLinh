@@ -1,9 +1,10 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useRef } from 'react';
-import { Modules } from '../../../data_types/enums/Modules';
+import {RouteProp} from '@react-navigation/core';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useCallback, useRef} from 'react';
+import {Modules} from '../../../data_types/enums/Modules';
 import {
   IJDAModuleParams,
-  JDAModuleMode
+  JDAModuleMode,
 } from '../jda_module_controller/withModuleController';
 
 export interface IJDARouteParams<T> {
@@ -12,36 +13,6 @@ export interface IJDARouteParams<T> {
   moduleParams: IJDAModuleParams<T>;
   goBackData?: any;
 }
-
-// export type ReturnTypeUseRouter<T> = {
-//   ModuleParams: IJDARouteParams<T> | undefined;
-//   RouteState: RouteProp<any, string>;
-//   router: {
-//     goHome: () => void;
-//     goToModule: (moduleName: Modules) => void;
-//     showCreateForm: (
-//       moduleName?: Modules,
-//       options?: Partial<IJDAModuleParams<T>>,
-//     ) => void;
-//     showEditForm: (
-//       item: T,
-//       moduleName?: Modules,
-//       options?: Partial<IJDAModuleParams<T>>,
-//     ) => void;
-//     showDetail: (
-//       item: T,
-//       moduleName?: Modules,
-//       options?: Partial<IJDAModuleParams<T>>,
-//     ) => void;
-//     showList: (moduleName?: Modules) => void;
-//     goBack: (data?: any) => void;
-//     getGoBackData: <D extends unknown>(moduleName: Modules) => D | undefined;
-//     onFocus: (callback: () => void) => void;
-//   };
-// };
-
-// eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-vars
-export type ReturnTypeUseRouter<T> = ReturnType<typeof useRouter<T>>
 
 export function useRouter<T>(
   props: NativeStackScreenProps<any>,
@@ -120,7 +91,7 @@ export function useRouter<T>(
         {
           mode: JDAModuleMode.EDIT_ITEM,
           ...options,
-          value: {...item, ...options?.value},
+          value: {...item},
         },
         moduleName,
       );
@@ -132,7 +103,7 @@ export function useRouter<T>(
       updateParamOrNavigate({
         mode: JDAModuleMode.VIEW_ITEM,
         ...options,
-        value: {...item, ...options?.value},
+        value: {...item},
       });
     },
     [updateParamOrNavigate],
@@ -169,7 +140,6 @@ export function useRouter<T>(
     },
     [ModuleParams?.goBackData],
   );
-
   return {
     ModuleParams,
     RouteState: props.route,
@@ -186,3 +156,30 @@ export function useRouter<T>(
     },
   };
 }
+
+export type ReturnTypeUseRouter<T> = {
+  ModuleParams: IJDARouteParams<T> | undefined;
+  RouteState: RouteProp<any, string>;
+  router: {
+    goHome: () => void;
+    goToModule: (moduleName: Modules) => void;
+    showCreateForm: (
+      moduleName?: Modules,
+      options?: Partial<IJDAModuleParams<T>>,
+    ) => void;
+    showEditForm: (
+      item: T,
+      moduleName?: Modules,
+      options?: Partial<IJDAModuleParams<T>>,
+    ) => void;
+    showDetail: (
+      item: T,
+      moduleName?: Modules,
+      options?: Partial<IJDAModuleParams<T>>,
+    ) => void;
+    showList: (moduleName?: Modules) => void;
+    goBack: (data?: any) => void;
+    onFocus: (callback: () => void) => void;
+    getGoBackData: <D extends unknown>(moduleName: Modules) => D | undefined;
+  };
+};

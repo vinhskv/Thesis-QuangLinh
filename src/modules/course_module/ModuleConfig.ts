@@ -1,5 +1,5 @@
 import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/withModuleController';
-import { Modules } from '../../data_types/enums/Modules';
+import {Modules} from '../../data_types/enums/Modules';
 import {CourseModule} from '../../data_types/CourseModule';
 
 export const CourseModuleModuleConfig: IJDAModuleConfig<CourseModule> = {
@@ -14,9 +14,12 @@ export const CourseModuleModuleConfig: IJDAModuleConfig<CourseModule> = {
     semester: 'Semester',
     credits: 'Credits',
   },
-  quickRender: courseModule => (courseModule ? ` ${courseModule.id} | ${courseModule.code} | ${courseModule.name} | ${courseModule.semester} | ${courseModule.credits} |` : ''),
+  quickRender: (courseModule) =>
+    courseModule
+      ? ` ${courseModule.id} | ${courseModule.code} | ${courseModule.name} | ${courseModule.semester} | ${courseModule.credits} |`
+      : '',
   apiConfig: {
-    toPOST: courseModule => {
+    toPOST: (courseModule) => {
       return {
         ...courseModule,
       };

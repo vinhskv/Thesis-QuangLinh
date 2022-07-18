@@ -1,8 +1,8 @@
 import {IJDAModuleConfig} from '../../base/controllers/jda_module_controller/withModuleController';
 import {Modules} from '../../data_types/enums/Modules';
-import {Student, SubStudent} from '../../data_types/Student';
+import {Student} from '../../data_types/Student';
 
-export const StudentModuleConfig: IJDAModuleConfig<Student, SubStudent> = {
+export const StudentModuleConfig: IJDAModuleConfig<Student> = {
   primaryKey: 'id',
   route: Modules.Student,
   apiResource: 'students',
@@ -17,12 +17,12 @@ export const StudentModuleConfig: IJDAModuleConfig<Student, SubStudent> = {
     studentClass: 'Student class',
     enrolments: 'Course Enrolments',
   },
-  quickRender: student =>
+  quickRender: (student) =>
     student
       ? ` ${student.id} | ${student.name} | ${student.gender} | ${student.dob} | ${student.email} |`
       : '',
   apiConfig: {
-    toPOST: student => {
+    toPOST: (student) => {
       return {
         ...student,
         addressId: student.address?.id,

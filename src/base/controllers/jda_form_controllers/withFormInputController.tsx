@@ -6,8 +6,8 @@ import {
   useFormContext,
   UseFormStateReturn,
 } from 'react-hook-form';
+import {IJDAInput} from '.';
 import {Modules} from '../../../data_types/enums/Modules';
-import {IJDAInput} from '../../views/jda_form/form_inputs';
 import {JDAFormMode} from './withFormController';
 
 export interface IJDAFormInputAPI<T> extends IJDAInput<T> {
@@ -45,15 +45,13 @@ export function withJDAFormInputController<
         name={props.name}
         control={control}
         rules={props.rules}
-        render={item => (
+        render={(item) => (
           <Component
             {...componentProps}
             {...(props as P)}
             {...item}
-            // field={{
             value={item.field.value}
             onChange={(value: T) => item.field.onChange(value)}
-            // }}
           />
         )}
       />

@@ -1,22 +1,22 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ComponentType } from 'react';
-import { Modules } from '../../../data_types/enums/Modules';
-import { IAPIConfig } from '../../common_hooks/useAPI';
+import {ComponentType} from 'react';
+import {Modules} from '../../../data_types/enums/Modules';
+import {IAPIConfig} from '../../common_hooks/useAPI';
 import {
   IJDAFormControlerProps,
   IJDAFormRef,
-  JDAControlledFormComponent
+  JDAControlledFormComponent,
 } from '../jda_form_controllers/withFormController';
 import {
   IJDAListControllerProps,
   IJDAListRef,
-  JDAControlledListComponent
+  JDAControlledListComponent,
 } from '../jda_list_controllers/hocs/withJDAListController';
-import { JDARouterContext } from '../jda_router/JDARouterContext';
-import { useRouter } from '../jda_router/useRouter';
-import { useFormHandler } from './hooks/useFormHandler';
-import { useListHandler } from './hooks/useListHandler';
+import {JDARouterContext} from '../jda_router/JDARouterContext';
+import {useRouter} from '../jda_router/useRouter';
+import {useFormHandler} from './hooks/useFormHandler';
+import {useListHandler} from './hooks/useListHandler';
 
 export enum JDAModuleMode {
   CREATE_ITEM,
@@ -98,4 +98,8 @@ export function withModuleController<
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, prettier/prettier
-export type JDAControlledModuleComponent<T,ListProps extends IJDAListControllerProps<T>,FormProps extends IJDAFormControlerProps<T>,P extends IJDAModuleControllerProps<T>> = ReturnType<typeof withModuleController<T,ListProps,FormProps,P>>
+export type JDAControlledModuleComponent<
+  T,
+  P extends IJDAModuleControllerProps<T>,
+  // eslint-disable-next-line no-undef
+> = (props: Omit<P, keyof IJDAModuleAPI<T>>) => JSX.Element;

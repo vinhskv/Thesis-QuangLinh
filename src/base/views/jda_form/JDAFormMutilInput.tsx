@@ -25,7 +25,7 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
               size={'medium'}
               appearance={'ghost'}
               status="danger"
-              accessoryLeft={<Icon name="trash-2-outline" />}
+              accessoryLeft={<Icon name="close-circle-outline" />}
               onPress={() => props.remove(index)}
             />
           )}
@@ -34,7 +34,7 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
       {!props.disabled && (
         <Button
           size={'small'}
-          onPress={() => props.append(undefined as any)}
+          onPress={() => props.append({} as any)}
           appearance="outline"
           status={'basic'}
         >

@@ -1,4 +1,4 @@
-import {Student, SubStudent} from '../../data_types/Student';
+import {Student} from '../../data_types/Student';
 import {StudentListConfig} from './ListConfig';
 import {StudentModuleConfig} from './ModuleConfig';
 
@@ -9,7 +9,7 @@ export const {
   List: StudentList,
   ListItem: StudentListItem,
   Form: StudentForm,
-} = createModuleComponents<Student, SubStudent>(
+} = createModuleComponents<Student>(
   StudentModuleConfig,
   StudentListConfig,
   StudentFormConfig,

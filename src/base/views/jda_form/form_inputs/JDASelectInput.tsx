@@ -1,7 +1,7 @@
 import {Divider, Icon, List, ListItem} from '@ui-kitten/components';
 import * as React from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {IJDAInput} from '.';
+import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
 import {JDAButtonInput} from './JDAButtonInput';
 
 export interface IJDASelectInputProps<T> extends IJDAInput<T> {
@@ -24,7 +24,8 @@ export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={200}>
+        openDuration={200}
+      >
         <List
           data={props.values}
           ItemSeparatorComponent={Divider}
@@ -36,7 +37,7 @@ export function JDASelectInput<T>(props: IJDASelectInputProps<T>) {
                 }
                 ref.current?.close();
               }}
-              accessoryLeft={p => <Icon {...p} name="droplet-outline" />}
+              accessoryLeft={(p) => <Icon {...p} name="droplet-outline" />}
               title={props.valueRender(item)}
             />
           )}

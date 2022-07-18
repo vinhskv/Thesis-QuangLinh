@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {IJDAInput} from '.';
+import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
 import {enum2Array} from '../../../utils/enum2Array';
 import {JDASelectInput} from './JDASelectInput';
 
@@ -13,7 +13,7 @@ export function JDAEnumInput<T>(props: IEnumInputProps<T>) {
       {...(props as any)}
       values={enum2Array(props.enumObject)}
       onChange={props.onChange}
-      valueRender={v => (v ? String(v) : '')}
+      valueRender={(v) => (v ? String(v) : '')}
     />
   );
 }

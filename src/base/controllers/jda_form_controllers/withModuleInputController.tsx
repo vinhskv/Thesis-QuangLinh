@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { useCallback, useEffect } from 'react';
-import { Controller, useFormContext, useWatch } from 'react-hook-form';
-import { Modules } from '../../../data_types/enums/Modules';
-import { IJDAModuleInput } from '../../views/jda_form/form_inputs';
-import { useAPI } from '../jda_apis/useAPI';
-import { JDARouterContext } from '../jda_router/JDARouterContext';
+import {useCallback, useEffect} from 'react';
+import {Controller, useFormContext, useWatch} from 'react-hook-form';
+import {IJDAModuleInput} from '.';
+import {Modules} from '../../../data_types/enums/Modules';
+import {useAPI} from '../jda_apis/useAPI';
+import {JDARouterContext} from '../jda_router/JDARouterContext';
 import {
   IJDAFormInputAPI,
-  IJDAFormInputControllerProps
+  IJDAFormInputControllerProps,
 } from './withFormInputController';
 
 export interface IJDAModuleInputAPI<T>
@@ -19,6 +19,7 @@ export interface IJDAModuleInputControllerProps<T>
   module: Modules;
   apiResource: string;
   associateField?: string;
+  associateCollection?: string;
 }
 
 export function withModuleInputController<
@@ -26,7 +27,6 @@ export function withModuleInputController<
   P extends IJDAModuleInputControllerProps<T>,
 >(Component: React.ComponentType<P>) {
   return (props: Omit<P, keyof IJDAFormInputAPI<T>>) => {
-    console.log("DKJFSDLFJLSDFJLSDFJLSDJF                              ",props.associateField);
     const api = useAPI<T>(props.apiResource);
     const search = React.useCallback(async () => {
       const res = await api.getByPage(0);
@@ -35,16 +35,29 @@ export function withModuleInputController<
       } else return [];
     }, [api]);
     const {router} = React.useContext(JDARouterContext);
-    const _currentValue = useWatch(props.name);
-    const {control, getValues, setValue} = useFormContext<T>();
 
+    const {control, getValues, setValue} = useFormContext<T>();
+    const _currentValue = useWatch({
+      control: control,
+      name: props.name,
+    });
+    useEffect(() => {
+      console.log(`Currrent value, ${props.name}  :   `, _currentValue);
+    }, [_currentValue, props.name]);
     const onCreate = useCallback(async () => {
       router.showCreateForm(props.module, {
         value: {
           [props.associateField as keyof T]: getValues(),
+          [props.associateCollection as keyof T]: [getValues()],
         },
       });
-    }, [getValues, props.associateField, props.module, router]);
+    }, [
+      getValues,
+      props.associateCollection,
+      props.associateField,
+      props.module,
+      router,
+    ]);
 
     const onEdit = useCallback(async () => {
       router.showEditForm(_currentValue as any, props.module);
@@ -66,7 +79,7 @@ export function withModuleInputController<
         name={props.name}
         control={control}
         rules={props.rules}
-        render={item => (
+        render={(item) => (
           <Component
             {...(props as P)}
             {...item}
@@ -83,5 +96,8 @@ export function withModuleInputController<
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, prettier/prettier
-export type JDAControlledModuleInputComponent<T,P extends IJDAModuleInputControllerProps<T>> = ReturnType<typeof withModuleInputController<T,P>>;
+export type JDAControlledModuleInputComponent<
+  T,
+  P extends IJDAModuleInputControllerProps<T>,
+  // eslint-disable-next-line no-undef
+> = (props: Omit<P, keyof IJDAFormInputAPI<T>>) => JSX.Element;

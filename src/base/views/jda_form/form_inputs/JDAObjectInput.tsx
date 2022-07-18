@@ -1,13 +1,13 @@
 import {Button, Divider, Icon, List, ListItem} from '@ui-kitten/components';
+import _ from 'lodash';
 import * as React from 'react';
 import {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {IJDAModuleInput} from '.';
 import useDebounce from '../../../common_hooks/useDebounce';
+import {IJDAModuleInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
 import {JDAButtonInput} from './JDAButtonInput';
 import {JDAStringInput} from './JDAStringInput';
-
 export interface IJDAObjectInputProps<T> extends IJDAModuleInput<T> {
   renderOption: (option?: T) => string;
 }
@@ -19,7 +19,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
   const searchValue = useDebounce<string | undefined>(keyword, 500);
 
   useEffect(() => {
-    if (searchValue) props.onSearch(searchValue).then(r => setOptions(r));
+    if (searchValue) props.onSearch?.(searchValue).then((r) => setOptions(r));
   }, [props, searchValue]);
 
   return (
@@ -27,14 +27,18 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
       <JDAButtonInput
         disabled={props.disabled}
         onPress={() => {
-          if (props.value) props.onShowDetail();
+          if (props.value && !_.isEmpty(props.value)) props.onShowDetail?.();
           else ref.current?.open();
         }}
         label={props.label}
-        value={props.renderOption?.(props.value) ?? String(props.value)}
+        value={
+          _.isEmpty(props.value)
+            ? ''
+            : props.renderOption?.(props.value as T) ?? String(props.value)
+        }
         accessoryRight={
           <>
-            {props.value && !props.disabled && (
+            {props.value && !_.isEmpty(props.value) && !props.disabled && (
               <View style={styles.row}>
                 <Button
                   style={styles.button}
@@ -42,7 +46,7 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
                   status="basic"
                   accessoryRight={<Icon name="edit-2-outline" />}
                   onPress={() => {
-                    props.onEdit();
+                    props.onEdit?.();
                   }}
                 />
                 <Button
@@ -63,31 +67,33 @@ export function JDAObjectInput<T>(props: IJDAObjectInputProps<T>) {
       <RBSheet
         ref={ref as any}
         // height={300}
-        openDuration={250}>
+        openDuration={250}
+      >
         <View style={styles.bottomSheetContainer}>
           <JDAStringInput
             value={keyword}
             onChange={setKeyword}
             InputProps={{
-              accessoryLeft: p => <Icon {...p} name="search" />,
+              accessoryLeft: (p) => <Icon {...p} name="search" />,
               placeholder: 'Search',
               style: {margin: 10, flex: 1},
             }}
           />
           <Button
             style={styles.createBtn}
-            accessoryLeft={p => <Icon {...p} name="plus" />}
+            accessoryLeft={(p) => <Icon {...p} name="plus" />}
             size="tiny"
             onPress={() => {
-              props.onCreate();
-            }}>
+              props.onCreate?.();
+            }}
+          >
             Create
           </Button>
         </View>
         <List
           data={options}
           indicatorStyle="black"
-          ItemSeparatorComponent={p => <Divider {...p} />}
+          ItemSeparatorComponent={(p) => <Divider {...p} />}
           renderItem={({item}) => (
             <ListItem
               onPress={() => {

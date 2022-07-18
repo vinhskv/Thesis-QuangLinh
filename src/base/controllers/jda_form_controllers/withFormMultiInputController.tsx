@@ -4,9 +4,9 @@ import {
   Controller,
   useFieldArray,
   UseFieldArrayReturn,
-  useFormContext
+  useFormContext,
 } from 'react-hook-form';
-import { IJDAInput, IJDAModuleInput } from '../../views/jda_form/form_inputs';
+import {IJDAInput, IJDAModuleInput} from '.';
 interface IJDAFormMultiInputAPI<T> extends UseFieldArrayReturn<T> {
   formItems: React.ReactNode[];
 }
@@ -36,10 +36,10 @@ export function withJDAFormMultiInputController<
         name={`${props.name}.${index}` as any}
         render={({field: itemInput}) => (
           <SingleInputComponent
-            {...({} as any)}
             disabled={props.disabled}
-            value={itemInput.value}
-            onChange={itemInput.onChange}
+            value={itemInput.value as any}
+            {...(props as any)}
+            label={undefined}
           />
         )}
       />
@@ -59,5 +59,5 @@ export type JDAControlledFormMultiInputComponent<
   T,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Props extends IJDAFormMultiInputControllerProps<T>,
-// eslint-disable-next-line prettier/prettier
-> = ReturnType<typeof withJDAFormMultiInputController<T,Props>>;
+  // eslint-disable-next-line prettier/prettier, no-undef
+> = (props: Omit<Props, keyof IJDAFormMultiInputAPI<T>>) => JSX.Element;

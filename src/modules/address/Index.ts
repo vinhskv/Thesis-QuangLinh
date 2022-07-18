@@ -1,4 +1,4 @@
-import {Address, SubAddress} from '../../data_types/Address';
+import {Address} from '../../data_types/Address';
 import {AddressListConfig} from './ListConfig';
 import {AddressModuleConfig} from './ModuleConfig';
 
@@ -9,7 +9,7 @@ export const {
   List: AddressList,
   ListItem: AddressListItem,
   Form: AddressForm,
-} = createModuleComponents<Address, SubAddress>(
+} = createModuleComponents<Address>(
   AddressModuleConfig,
   AddressListConfig,
   AddressFormConfig,

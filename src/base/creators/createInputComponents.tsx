@@ -1,5 +1,10 @@
 import React, {ComponentType} from 'react';
 import {
+  getErrorString,
+  IJDAInput,
+  IJDAModuleInput,
+} from '../controllers/jda_form_controllers';
+import {
   IJDAFormInputControllerProps,
   withJDAFormInputController,
 } from '../controllers/jda_form_controllers/withFormInputController';
@@ -10,11 +15,7 @@ import {
 } from '../controllers/jda_form_controllers/withModuleInputController';
 import {IJDAModuleConfig} from '../controllers/jda_module_controller/withModuleController';
 import {enum2Array} from '../utils/enum2Array';
-import {
-  getErrorString,
-  IJDAInput,
-  IJDAModuleInput,
-} from '../views/jda_form/form_inputs';
+
 import {JDAEnumInput} from '../views/jda_form/form_inputs/JDAEnumInput';
 import {JDAObjectInput} from '../views/jda_form/form_inputs/JDAObjectInput';
 import {

@@ -7,7 +7,7 @@ import {
 import * as React from 'react';
 import {ReactElement} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {IJDAInput} from '.';
+import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
 
 export interface IJDAButtonInputProps
   extends IJDAInput<string>,
@@ -31,7 +31,8 @@ export function MyButtonInput(props: IJDAButtonInputProps) {
             status={props.error ? 'danger' : 'basic'}
             style={props.eva?.style ? props.eva.style.buttonLikeInput : {}}
             appearance="outline"
-            onPress={props.onPress}>
+            onPress={props.onPress}
+          >
             {props.value}
           </Button>
         </View>
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const JDAButtonInput = withStyles(MyButtonInput, theme => ({
+export const JDAButtonInput = withStyles(MyButtonInput, (theme) => ({
   buttonLikeInput: {
     justifyContent: 'flex-start',
     fontWeight: 'normal',

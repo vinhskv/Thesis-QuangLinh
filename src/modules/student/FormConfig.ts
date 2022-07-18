@@ -2,14 +2,14 @@ import {
   IJDAFormConfig,
   JDAFormMode,
 } from '../../base/controllers/jda_form_controllers/withFormController';
-import {Modules} from '../../data_types/enums/Modules';
 import {Student} from '../../data_types/Student';
+import {Modules} from '../../data_types/enums/Modules';
 
-import {FormDateInput, FormGenderInput, FormStringInput} from '../FormInputs';
+import {FormStringInput, FormGenderInput, FormDateInput} from '../FormInputs';
 
 import {FormAddressInput} from '../address/Input';
-import {FormMultiEnrolmentInput} from '../enrolment/Input';
 import {FormStudentClassInput} from '../student_class/Input';
+import {FormMultiEnrolmentInput} from '../enrolment/Input';
 
 export const StudentFormConfig: IJDAFormConfig<Student> = {
   id: {
@@ -31,9 +31,7 @@ export const StudentFormConfig: IJDAFormConfig<Student> = {
   address: {
     component: FormAddressInput,
     options: {module: Modules.Address, rules: {maxLength: 20}},
-    props: {
-      associateField: 'student',
-    },
+    props: {associateField: 'student'},
   },
   email: {
     component: FormStringInput,
@@ -42,13 +40,11 @@ export const StudentFormConfig: IJDAFormConfig<Student> = {
   studentClass: {
     component: FormStudentClassInput,
     options: {module: Modules.StudentClass, rules: {maxLength: 6}},
+    props: {associateCollection: 'students'},
   },
   enrolments: {
     component: FormMultiEnrolmentInput,
-    options: {
-      module: Modules.Enrolment,
-      rules: {required: true},
-      hideInMode: [JDAFormMode.CREATE],
-    },
+    options: {module: Modules.Enrolment, rules: {required: true}},
+    props: {associateField: 'student'},
   },
 };

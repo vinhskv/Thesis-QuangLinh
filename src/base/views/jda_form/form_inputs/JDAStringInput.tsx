@@ -1,6 +1,6 @@
 import {Input, InputProps} from '@ui-kitten/components';
 import * as React from 'react';
-import {IJDAInput} from '.';
+import {IJDAInput} from '../../../controllers/jda_form_controllers./../../controllers/jda_form_controllers';
 
 export interface IJDAStringInputProps extends IJDAInput<string> {
   InputProps?: InputProps;
@@ -16,7 +16,7 @@ export function JDAStringInput(props: IJDAStringInputProps) {
       clearButtonMode="while-editing"
       value={props.value}
       label={props.label}
-      onChangeText={v => {
+      onChangeText={(v) => {
         props.onChange?.(props.disabled ? undefined : v);
       }}
     />
