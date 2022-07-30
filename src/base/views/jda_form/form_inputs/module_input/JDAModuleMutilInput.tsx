@@ -1,13 +1,18 @@
 import {Button, Icon, Text, useTheme} from '@ui-kitten/components';
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {IJDAFormMultiInputControllerProps} from '../../controllers/jda_form_controllers/jda_form_input_controller/withFormMultiInputController';
+import {IJDAModuleMultiInputControllerProps} from '../../../../controllers/jda_form_controllers/jda_form_input_controller/withModuleMultiInputController';
+import ModuleSelect, {ModuleSelectRef} from './ModuleSelect';
 
-export interface IJDAFormMultiInputProps<T>
-  extends IJDAFormMultiInputControllerProps<T> {}
+export interface IJDAModuleMultiInputProps<T>
+  extends IJDAModuleMultiInputControllerProps<T> {
+  renderOption: (t?: T) => string;
+}
 
-export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
+export function JDAModuleMultiInput<T>(props: IJDAModuleMultiInputProps<T>) {
   const theme = useTheme();
+  const JDAModuleInput = ModuleSelect<T>();
+  const ref = React.useRef<ModuleSelectRef>();
   return (
     <>
       {props.label && (
@@ -31,16 +36,21 @@ export function JDAFormMutilInput<T>(props: IJDAFormMultiInputProps<T>) {
           )}
         </View>
       ))}
+
       {!props.disabled && (
         <Button
           size={'small'}
-          onPress={() => props.append({} as any)}
+          onPress={() => ref.current?.open()}
           appearance="outline"
-          status={'basic'}
-        >
+          status={'basic'}>
           {`+ Add ${props.label.toLowerCase()}`}
         </Button>
       )}
+      <JDAModuleInput
+        ref={ref as any}
+        renderOption={props.renderOption}
+        options={[]}
+      />
     </>
   );
 }

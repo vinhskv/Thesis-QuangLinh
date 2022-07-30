@@ -13,7 +13,9 @@ import {Modules} from '../../../../data_types/enums/Modules';
 import {IJDAModuleConfig} from '../../jda_module_controller/withModuleController';
 import {JDARouterContext} from '../../jda_router/JDARouterContext';
 import {useModuleInputAPI} from './useModuleInputAPI';
-interface IJDAFormMultiInputAPI<T> extends UseFieldArrayReturn<T> {
+interface IJDAFormMultiInputAPI<T>
+  extends UseFieldArrayReturn<T>,
+    Omit<IJDAModuleInput<T>, 'disabled'> {
   formItems: React.ReactNode[];
 }
 export interface IJDAModuleMultiInputControllerProps<T>

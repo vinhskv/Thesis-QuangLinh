@@ -12,18 +12,20 @@ import {
   IJDAModuleInputControllerProps,
   withModuleInputController,
 } from '../controllers/jda_form_controllers/jda_form_input_controller/withModuleInputController';
-import {withJDAModuleMultiInputController} from '../controllers/jda_form_controllers/jda_form_input_controller/withModuleMultiInputController';
+import {
+  IJDAModuleMultiInputControllerProps,
+  withJDAModuleMultiInputController,
+} from '../controllers/jda_form_controllers/jda_form_input_controller/withModuleMultiInputController';
 import {IJDAModuleConfig} from '../controllers/jda_module_controller/withModuleController';
 import {enum2Array} from '../utils/enum2Array';
-
 import {getErrorString} from '../views/jda_form/form_inputs';
 import {JDAEnumInput} from '../views/jda_form/form_inputs/JDAEnumInput';
-import {JDAModuleInput} from '../views/jda_form/form_inputs/JDAModuleInput';
-import {JDAFormMutilInput} from '../views/jda_form/JDAFormMutilInput';
+import {JDAFormMultiInput} from '../views/jda_form/form_inputs/JDAFormMutilInput';
+import {JDAModuleInput} from '../views/jda_form/form_inputs/module_input/JDAModuleInput';
+import {JDAModuleMultiInput} from '../views/jda_form/form_inputs/module_input/JDAModuleMutilInput';
 
 export function createFormDataInput<T>(
   Input: ComponentType<IJDAInput<T>> | ComponentType<IJDAModuleInput<T>>,
-  moduleConfig?: IJDAModuleConfig<T>,
 ) {
   function _FormInput(
     props: IJDAFormInputControllerProps<T> | IJDAModuleInputControllerProps<T>,
@@ -35,31 +37,57 @@ export function createFormDataInput<T>(
       />
     );
   }
-
-  const FormInput = moduleConfig
-    ? withModuleInputController<T, IJDAModuleInputControllerProps<T>>(
-        _FormInput,
-        moduleConfig,
-      )
-    : withJDAFormInputController<T, IJDAFormInputControllerProps<T>>(
-        _FormInput,
-      );
-  const FormMultiInput = moduleConfig
-    ? withJDAModuleMultiInputController(
-        JDAFormMutilInput,
-        Input as any,
-        moduleConfig,
-      )
-    : withJDAFormMultiInputController(JDAFormMutilInput, Input as any);
+  const FormInput = withJDAFormInputController<
+    T,
+    IJDAFormInputControllerProps<T>
+  >(_FormInput);
+  const FormMultiInput = withJDAFormMultiInputController(
+    JDAFormMultiInput,
+    Input as any,
+  );
 
   return {Input, FormInput, FormMultiInput};
 }
 
-export function createModuleInput<T>(config: IJDAModuleConfig<T>) {
+export function createModuleInput<T>(moduleConfig: IJDAModuleConfig<T>) {
   function Input(props: IJDAModuleInput<T>) {
-    return <JDAModuleInput<T> {...props} renderOption={config.quickRender} />;
+    return (
+      <JDAModuleInput<T> {...props} renderOption={moduleConfig.quickRender} />
+    );
   }
-  return createFormDataInput(Input, config);
+
+  function _FormInput(
+    props: IJDAFormInputControllerProps<T> | IJDAModuleInputControllerProps<T>,
+  ) {
+    return (
+      <Input
+        {...(props as any)}
+        error={getErrorString(props.fieldState.error, props.rules)}
+      />
+    );
+  }
+
+  const FormInput = withModuleInputController<
+    T,
+    IJDAModuleInputControllerProps<T>
+  >(_FormInput, moduleConfig);
+
+  function _FormMultiInput(props: IJDAModuleMultiInputControllerProps<T>) {
+    return (
+      <JDAModuleMultiInput {...props} renderOption={moduleConfig.quickRender} />
+    );
+  }
+
+  const FormMultiInput = withJDAModuleMultiInputController(
+    _FormMultiInput,
+    Input,
+    moduleConfig,
+  );
+  return {
+    Input,
+    FormInput,
+    FormMultiInput,
+  };
 }
 
 export function createEnumInput(enumObject: any) {
