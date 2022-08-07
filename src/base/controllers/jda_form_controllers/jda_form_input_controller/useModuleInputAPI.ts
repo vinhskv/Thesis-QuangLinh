@@ -15,6 +15,10 @@ export function useModuleInputAPI<T>(ModuleConfig: IJDAModuleConfig<T>) {
 
   const getTypedObject = React.useCallback(
     async (obj: T) => {
+      console.log('OBJ', obj);
+
+      console.log('ID', ModuleConfig.primaryKey);
+
       const res = await api.getById(obj[ModuleConfig.primaryKey]);
       if (res.success && res.payload) {
         return res.payload;

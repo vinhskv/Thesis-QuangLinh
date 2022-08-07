@@ -42,23 +42,11 @@ export function withModuleInputController<
       const linkedFieldValue = props.associateField
         ? {[props.associateField as keyof T]: value}
         : {};
-      const linkedCollectionValue = props.associateCollection
-        ? {
-            [props.associateCollection as keyof T]: value,
-          }
-        : {};
       return {
         ..._currentValue,
         ...linkedFieldValue,
-        ...linkedCollectionValue,
       };
-    }, [
-      _currentValue,
-      formValue,
-      props.associateCollection,
-      props.associateField,
-      props.name,
-    ]);
+    }, [_currentValue, formValue, props.associateField, props.name]);
     useEffect(() => {
       console.log(`Currrent value, ${props.name}  :   `, _currentValue);
     }, [_currentValue, props.name]);

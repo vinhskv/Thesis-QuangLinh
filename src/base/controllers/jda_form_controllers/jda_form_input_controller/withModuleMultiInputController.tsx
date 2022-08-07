@@ -2,11 +2,10 @@ import _ from 'lodash';
 import * as React from 'react';
 import {useState} from 'react';
 import {
-  ArrayPath,
-  Controller,
   useFieldArray,
   UseFieldArrayReturn,
   useFormContext,
+  useWatch,
 } from 'react-hook-form';
 import {IJDAModuleInput} from '.';
 import {Modules} from '../../../../data_types/enums/Modules';
@@ -20,7 +19,7 @@ interface IJDAFormMultiInputAPI<T>
 }
 export interface IJDAModuleMultiInputControllerProps<T>
   extends IJDAFormMultiInputAPI<T> {
-  name: ArrayPath<T>;
+  name: keyof any;
   label: string;
   disabled?: boolean;
   module: Modules;
@@ -39,30 +38,30 @@ export function withJDAModuleMultiInputController<
   return (props: Omit<Props, keyof IJDAFormMultiInputAPI<T>>) => {
     const {options, search, getTypedObject} = useModuleInputAPI(moduleConfig);
     const [activeIndex, setActiveIndex] = useState(0);
-    const {control, getValues, watch} = useFormContext<T>();
+    const {control, getValues, setValue} = useFormContext<any>();
 
-    const _currentValue = watch(props.name);
+    const _currentValue = useWatch({name: props.name as any, control});
 
-    const multiInputControl = useFieldArray<T>({control, name: props.name});
+    const multiInputControl = useFieldArray<T>({
+      control,
+      name: 'props.name' as any,
+    });
     const {router} = React.useContext(JDARouterContext);
     const moduleValue = React.useMemo(() => {
       const value = _.cloneDeep(_.omit(getValues() as any, [props.name]));
-      const linkedFieldValue = props.associateField
-        ? {[props.associateField as keyof T]: value}
-        : {};
       const linkedCollectionValue = props.associateCollection
         ? {
-            [props.associateCollection as keyof T]: value,
+            [props.associateCollection as any]: value,
           }
         : {};
       const rootValue = _.isArray(_currentValue)
         ? _currentValue[activeIndex]
         : {};
+
       console.log('Current value with index ', activeIndex, rootValue);
 
       return {
         ...rootValue,
-        ...linkedFieldValue,
         ...linkedCollectionValue,
       };
     }, [
@@ -70,22 +69,21 @@ export function withJDAModuleMultiInputController<
       activeIndex,
       getValues,
       props.associateCollection,
-      props.associateField,
       props.name,
     ]);
     React.useEffect(() => {
-      console.log(`Currrent value, ${props.name}  :   `, _currentValue);
+      console.log(
+        `Currrent value, ${props.name as string}  :   `,
+        _currentValue,
+      );
     }, [_currentValue, props.name]);
 
-    const onCreate = React.useCallback(
-      async (index: number) => {
-        setActiveIndex(index);
-        router.showCreateForm(props.module, {
-          value: moduleValue,
-        });
-      },
-      [moduleValue, props.module, router],
-    );
+    const onCreate = React.useCallback(async () => {
+      setActiveIndex(-1);
+      router.showCreateForm(props.module, {
+        value: moduleValue,
+      });
+    }, [moduleValue, props.module, router]);
 
     const onEdit = React.useCallback(
       async (index: number) => {
@@ -107,41 +105,54 @@ export function withJDAModuleMultiInputController<
     React.useEffect(() => {
       //Try to update value if goBackData Change
       const value = router.getGoBackData<T>(props.module);
-      if (value) multiInputControl.update(activeIndex, value as any);
+      if (value) {
+        if (activeIndex === -1) multiInputControl.append(value as any);
+        else multiInputControl.update(activeIndex, value as any);
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router.getGoBackData]);
 
-    const formItems = multiInputControl.fields.map((field, index) => (
-      <Controller
-        key={field.id + index}
-        control={control}
-        name={`${props.name}.${index}` as any}
-        render={({field: itemInput}) => (
-          <SingleInputComponent
-            disabled={props.disabled}
-            value={itemInput.value as any}
-            {...(props as any)}
-            label={undefined}
-            options={options}
-            onSearch={search}
-            onChange={(value: T) => {
-              getTypedObject(value)
-                .then((r) => itemInput.onChange(r))
-                .catch((e) => console.log(e));
-            }}
-            onEdit={() => onEdit(index)}
-            onShowDetail={() => onShowDetail(index)}
-            onCreate={() => onCreate(index)}
-          />
-        )}
-      />
-    ));
+    // React.useEffect(() => {
+    //   setValue(props.name as string, _.cloneDeep(multiInputControl.fields));
+    // }, [multiInputControl.fields, props.name, setValue]);
+
+    const formItems = multiInputControl.fields.map((field, index) => {
+      console.log('=========ENNB', field);
+      return (
+        <SingleInputComponent
+          key={field.id}
+          disabled={props.disabled}
+          value={field as any}
+          {...(props as any)}
+          label={undefined}
+          options={options}
+          onSearch={search}
+          onChange={(value: T) => {
+            getTypedObject(value)
+              .then((r) => multiInputControl.update(index, r as any))
+              .catch((e) => console.log(e));
+          }}
+          onEdit={() => onEdit(index)}
+          onShowDetail={() => onShowDetail(index)}
+        />
+      );
+    });
 
     return (
       <Component
         {...(props as Props)}
         {...multiInputControl}
         formItems={formItems}
+        onCreate={() => onCreate()}
+        onChange={(value: T) => {
+          getTypedObject(value)
+            .then((r) => {
+              // console.log('value', r);
+              multiInputControl.append(r as any);
+            })
+            .catch((e) => console.log(e));
+        }}
+        options={options}
       />
     );
   };

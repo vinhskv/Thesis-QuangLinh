@@ -46,11 +46,7 @@ export function JDAModuleMultiInput<T>(props: IJDAModuleMultiInputProps<T>) {
           {`+ Add ${props.label.toLowerCase()}`}
         </Button>
       )}
-      <JDAModuleInput
-        ref={ref as any}
-        renderOption={props.renderOption}
-        options={[]}
-      />
+      <JDAModuleInput ref={ref as any} {...props} />
     </>
   );
 }

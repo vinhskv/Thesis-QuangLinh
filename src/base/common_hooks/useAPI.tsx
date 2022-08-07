@@ -6,7 +6,7 @@ const axiosConfigs: AxiosRequestConfig = {
   withCredentials: true,
 };
 axios.interceptors.request.use((request) => {
-  console.log('Starting Request', JSON.stringify(request.data, null, 2));
+  console.log('Starting Request', JSON.stringify(request, null, 2));
   return request;
 });
 
