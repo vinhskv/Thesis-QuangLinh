@@ -52,9 +52,11 @@ export function withJDAModuleMultiInputController<
 
     const onEdit = React.useCallback(
       async (value: T) => {
-        router.showEditForm(value, props.module);
+        router.showEditForm(value, props.module, {
+          value: moduleValue,
+        });
       },
-      [router, props.module],
+      [router, props.module, moduleValue],
     );
 
     const onShowDetail = React.useCallback(
@@ -70,21 +72,18 @@ export function withJDAModuleMultiInputController<
       console.log('Goback data', value);
 
       if (value) {
-        const current_value: T[] = getValues(props.name as any) ?? [];
+        let current_value: T[] = getValues(props.name as any) ?? [];
         let index = current_value.findIndex(
           (i) => i[moduleConfig.primaryKey] === value[moduleConfig.primaryKey],
         );
-        let flag_update = false;
-        while (index >= 0) {
-          flag_update = true;
-          current_value[index] = value;
-          index = current_value.findIndex(
-            (i) =>
-              i[moduleConfig.primaryKey] === value[moduleConfig.primaryKey],
-          );
-        }
-        if (!flag_update) {
-          current_value.push(value);
+        if (index >= 0) {
+          current_value = [
+            ...current_value.slice(0, index),
+            value,
+            ...current_value.slice(index + 1),
+          ];
+        } else {
+          current_value = [...current_value, value];
         }
         setValue(props.name as any, current_value);
       }
