@@ -59,48 +59,6 @@ export function JDAModuleInput<T>(props: IJDAObjectInputProps<T>) {
       />
 
       <JDAModuleSelect {...(props as any)} ref={ref as any} />
-
-      {/* <RBSheet
-        ref={ref as any}
-        // height={300}
-        openDuration={250}>
-        <View style={styles.bottomSheetContainer}>
-          <JDAStringInput
-            value={keyword}
-            onChange={setKeyword}
-            InputProps={{
-              accessoryLeft: (p) => <Icon {...p} name="search" />,
-              placeholder: 'Search',
-              style: {margin: 10, flex: 1},
-            }}
-          />
-          {props.onCreate && (
-            <Button
-              style={styles.createBtn}
-              accessoryLeft={(p) => <Icon {...p} name="plus" />}
-              size="tiny"
-              onPress={() => {
-                props.onCreate?.();
-              }}>
-              Create
-            </Button>
-          )}
-        </View>
-        <List
-          data={props.options}
-          indicatorStyle="black"
-          ItemSeparatorComponent={(p) => <Divider {...p} />}
-          renderItem={({item}) => (
-            <ListItem
-              onPress={() => {
-                props.onChange?.(item);
-                ref.current?.close();
-              }}
-              title={props.renderOption(item)}
-            />
-          )}
-        />
-      </RBSheet> */}
     </>
   );
 }

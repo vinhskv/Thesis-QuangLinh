@@ -2,6 +2,7 @@ import {Button, Icon, Text, useTheme} from '@ui-kitten/components';
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {IJDAModuleMultiInputControllerProps} from '../../../../controllers/jda_form_controllers/jda_form_input_controller/withModuleMultiInputController';
+import {JDAButtonInput} from '../JDAButtonInput';
 import ModuleSelect, {ModuleSelectRef} from './ModuleSelect';
 
 export interface IJDAModuleMultiInputProps<T>
@@ -11,8 +12,8 @@ export interface IJDAModuleMultiInputProps<T>
 
 export function JDAModuleMultiInput<T>(props: IJDAModuleMultiInputProps<T>) {
   const theme = useTheme();
-  const JDAModuleInput = ModuleSelect<T>();
   const ref = React.useRef<ModuleSelectRef>();
+  const JDAModuleSelect = ModuleSelect<T>();
   return (
     <>
       {props.label && (
@@ -21,21 +22,40 @@ export function JDAModuleMultiInput<T>(props: IJDAModuleMultiInputProps<T>) {
         </Text>
       )}
 
-      {props.formItems.map((item, index) => (
-        <View style={styles.row} key={index}>
-          <View style={styles.expanded}>{item}</View>
-          {!props.disabled && (
-            <Button
-              style={styles.delete_btn}
-              size={'medium'}
-              appearance={'ghost'}
-              status="danger"
-              accessoryLeft={<Icon name="close-circle-outline" />}
-              onPress={() => props.remove(index)}
-            />
-          )}
-        </View>
-      ))}
+      {props.values?.map((item, index) => {
+        console.log('Item in Multiinput', item);
+
+        return (
+          <View style={styles.row} key={index}>
+            <View style={styles.expanded}>
+              <JDAButtonInput
+                value={props.renderOption(item)}
+                onPress={() => props.onShowDetail?.(item)}
+              />
+            </View>
+            {!props.disabled && (
+              <>
+                <Button
+                  style={styles.delete_btn}
+                  size={'medium'}
+                  appearance={'ghost'}
+                  status={'basic'}
+                  accessoryLeft={<Icon name="edit-2-outline" />}
+                  onPress={() => props.onEdit?.(item)}
+                />
+                <Button
+                  style={styles.delete_btn}
+                  size={'medium'}
+                  appearance={'ghost'}
+                  status="danger"
+                  accessoryLeft={<Icon name="close-circle-outline" />}
+                  onPress={() => props.onRemove(item)}
+                />
+              </>
+            )}
+          </View>
+        );
+      })}
 
       {!props.disabled && (
         <Button
@@ -46,7 +66,14 @@ export function JDAModuleMultiInput<T>(props: IJDAModuleMultiInputProps<T>) {
           {`+ Add ${props.label.toLowerCase()}`}
         </Button>
       )}
-      <JDAModuleInput ref={ref as any} {...props} />
+      <JDAModuleSelect
+        ref={ref as any}
+        options={props.options}
+        renderOption={props.renderOption}
+        onChange={(e) => (e ? props.onAppend(e) : {})}
+        onCreate={props.onCreate}
+        onSearch={props.onSearch}
+      />
     </>
   );
 }

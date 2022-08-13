@@ -15,6 +15,15 @@ export interface IJDAModuleInput<T> extends IJDAInput<T> {
   options: T[];
 }
 
+export interface IJDAMultiModuleInput<T> extends IJDAMultiInput<T> {
+  onCreate?: () => void;
+  onEdit?: (v: T) => void;
+  onShowDetail?: (v: T) => void;
+  onUnlink?: () => void;
+  onSearch?: (keyword: string) => Promise<T[]>;
+  options: T[];
+}
+
 export interface IJDAMultiInput<T> {
   values?: T[];
   onChange?: (values: T[]) => void;

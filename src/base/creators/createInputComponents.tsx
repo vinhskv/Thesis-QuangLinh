@@ -80,7 +80,6 @@ export function createModuleInput<T>(moduleConfig: IJDAModuleConfig<T>) {
 
   const FormMultiInput = withJDAModuleMultiInputController(
     _FormMultiInput,
-    Input,
     moduleConfig,
   );
   return {
