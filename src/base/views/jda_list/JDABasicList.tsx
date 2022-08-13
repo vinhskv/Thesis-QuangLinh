@@ -2,6 +2,7 @@ import {
   Button,
   Divider,
   Icon,
+  IndexPath,
   List,
   Select,
   SelectItem,
@@ -21,22 +22,24 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
               style={styles.paging_btn}
               appearance="ghost"
               accessoryLeft={<Icon name="arrow-ios-back-outline" />}
-              onPress={props.paging.backPage}
+              onPress={props.pageControl.backPage}
             />
             <Select
               value={props.paging.currentPage}
+              onSelect={(indexPath) =>
+                props.pageControl.goToPage((indexPath as IndexPath).row)
+              }
               style={styles.select}
-              size="small"
-              placeholder="Small">
-              {[...Array(100).keys()].map((e) => (
-                <SelectItem title={String(e + 1)} />
+              size="small">
+              {[...Array(props.paging.totalPage).keys()].map((e) => (
+                <SelectItem key={e} title={String(e + 1)} />
               ))}
             </Select>
             <Button
               style={styles.paging_btn}
               appearance="ghost"
               accessoryLeft={<Icon name="arrow-ios-forward-outline" />}
-              onPress={props.paging.nextPage}
+              onPress={props.pageControl.nextPage}
             />
           </View>
         }
