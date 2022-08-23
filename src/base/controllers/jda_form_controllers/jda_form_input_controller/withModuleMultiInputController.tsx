@@ -104,6 +104,7 @@ export function withJDAModuleMultiInputController<
               onCreate={onCreate}
               onAppend={(value: T) => {
                 if (
+                  !field.value ||
                   !field.value.find(
                     (e: T) =>
                       e[moduleConfig.primaryKey] ===
