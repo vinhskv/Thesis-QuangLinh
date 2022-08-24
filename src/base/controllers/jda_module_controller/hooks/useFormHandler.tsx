@@ -29,12 +29,36 @@ export function useFormHandler<T, SubT>(
     useTypedContext<IJDARouterContext<T>>(JDARouterContext);
   const api = useAPI<T>(moduleConfig.apiResource);
   useEffect(() => {
-    if (ModuleParams?.moduleParams.mode !== JDAModuleMode.CREATE_ITEM)
-      formRef.current?.setFormValue(ModuleParams?.moduleParams?.value);
+    console.log(
+      'Try to set form value from Module controller:',
+      ModuleParams?.moduleParams.value,
+    );
+
+    if (ModuleParams?.moduleParams.mode !== JDAModuleMode.CREATE_ITEM) {
+      const data = ModuleParams?.moduleParams?.value;
+      if (data) {
+        //try to update newest object from server
+
+        api
+          .getById(data[moduleConfig.primaryKey])
+          .then((r) => {
+            console.log('Resss', r);
+
+            formRef.current?.setFormValue(r.payload);
+          })
+          .catch((_e) => {
+            console.log(_e);
+
+            formRef.current?.setFormValue(data);
+          });
+      }
+    }
   }, [
-    ModuleParams?.moduleParams?.mode,
-    ModuleParams?.moduleParams?.value,
+    ModuleParams?.moduleParams.mode,
+    ModuleParams?.moduleParams.value,
+    api,
     formRef,
+    moduleConfig.primaryKey,
   ]);
 
   const showListOrGoBack = useCallback(

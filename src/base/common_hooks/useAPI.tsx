@@ -1,8 +1,9 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {useCallback} from 'react';
+import {BASE_API_URL} from '../../AppConfig';
 
 const axiosConfigs: AxiosRequestConfig = {
-  baseURL: 'http://localhost:8080',
+  baseURL: BASE_API_URL,
   withCredentials: true,
 };
 axios.interceptors.request.use((request) => {

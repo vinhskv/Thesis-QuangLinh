@@ -12,7 +12,9 @@
 
 # **1. Environment setup**
 
-Follow environment setting for Reactnative in [here](https://reactnative.dev/docs/environment-setup).
+* Follow environment setting for Reactnative in [here](https://reactnative.dev/docs/environment-setup).
+
+* Setup backend server ()
 
 # **2. Run application**
 
@@ -35,14 +37,6 @@ To start the application in android device/emulator:
 ```
 $ npm run android
 ```
-
-or in IOS device/simulator:
-
-```
-$ npm run ios
-```
-
-You might need to configure some more to run your app in IOS, follow this [instruction](https://reactnative.dev/docs/running-on-device)
 
 <details>
    <summary>Example output:</summary>
@@ -78,6 +72,13 @@ Starting: Intent { cmp=com.coursemanreactnative/.MainActivity }
 ```
 
 </details>
+or in IOS device/simulator:
+
+```
+$ npm run ios
+```
+
+You might need to configure some more to run your app in IOS, follow this [instruction](https://reactnative.dev/docs/running-on-device)
 
 ## Working with local back-end server (Android only)
 
@@ -181,12 +182,12 @@ src
 ...
 ```
 
-| Directory / File                              | Description                                                                                |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| \<ModuleName1>.ts, \<ModuleName2>.ts , v.v.   | Each file contains a typescript interface, which is representing for a Module in DDD model |
-| enums                                         | This folder contains typescript enums                                                      |
-| enums/Modules.ts                              | Declare all modules in DDD model                                                           |
-| enums/ \<EnumName1>.ts, \<EnumName2>.ts, v.v. | Each file contains a typescript enum, which is representing for a enum data in DDD model   |
+| Directory / File                              | Description                                                                                                                   |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| \<ModuleName1>.ts, \<ModuleName2>.ts , v.v.   | Each file contains a typescript interface, which is representing for a Module in DDD model (eg.: Student.ts, Address.ts, etc.) |
+| enums                                         | This folder contains typescript enums                                                                                         |
+| enums/Modules.ts                              | Declare all modules in DDD model                                                                                              |
+| enums/ \<EnumName1>.ts, \<EnumName2>.ts, v.v. | Each file contains a typescript enum, which is representing for a enum data in DDD model (eg.: Gender.ts)                                     |
 
 ## The /src/modules folder
 
@@ -211,7 +212,7 @@ src
 
 | Directory / File                     | Description                                                                                                                                                                                 |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| \<ModuleName1>, \<ModuleName2>, v.v. | Each folder contains the configurations for a module in DDD model.                                                                                                                          |
+| \<ModuleName1>, \<ModuleName2>, v.v. | Each folder contains the configurations for a module in DDD model. (eg. : student, address, etc.)                                                                                                                          |
 | FormConfig.ts                        | Contains Form configuration object (each module has a form), each key-value pair are input field with it's configurations which showed in Module's Form View                                |
 | Input.ts                             | This file declare default Input-View Components for each Module, There are 3 default input will be generated: [Input](), [FormInput]() and [FormMultiInput]() (will be described in future) |
 | ListConfig.ts                        | Contains List configuration object                                                                                                                                                          |

@@ -95,6 +95,8 @@ export function withJDAModuleMultiInputController<
         control={control}
         name={props.name as any}
         render={({field}) => {
+          console.log(`Field Value for ${props.name as any} `, field.value);
+
           return (
             <Component
               {...(props as Props)}
