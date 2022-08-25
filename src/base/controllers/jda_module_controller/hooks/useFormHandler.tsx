@@ -38,18 +38,17 @@ export function useFormHandler<T, SubT>(
       const data = ModuleParams?.moduleParams?.value;
       if (data) {
         //try to update newest object from server
-
+        formRef.current?.setLoading(true);
         api
           .getById(data[moduleConfig.primaryKey])
           .then((r) => {
-            console.log('Resss', r);
-
             formRef.current?.setFormValue(r.payload);
           })
           .catch((_e) => {
-            console.log(_e);
-
             formRef.current?.setFormValue(data);
+          })
+          .finally(() => {
+            formRef.current?.setLoading(false);
           });
       }
     }

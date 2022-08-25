@@ -30,12 +30,14 @@ export enum JDAFormMode {
 }
 export interface IJDAFormRef<T> {
   setMode: (mode: JDAFormMode) => void;
+  setLoading: (v: boolean) => void;
   setFormValue: (value?: T) => void;
 }
 
 export interface IJDAFormAPI {
   submit: () => void;
   cancel?: () => void;
+  loading: boolean;
   formInputs: React.ReactNode[];
 }
 
@@ -84,16 +86,15 @@ export function withJDAFormControler<
         mode: 'onSubmit',
       });
       const [mode, setMode] = useState<JDAFormMode>(props.mode);
+      const [loading, setLoading] = useState(false);
       // console.log('Hide module input', props.hideModuleInputs);
 
       useEffect(() => {
-        console.log('initial value', props.initValue);
         if (props.initValue) form.reset(props.initValue as any);
       }, [form, props.initValue]);
 
       const setFormValue = useCallback(
         (value?: T) => {
-          console.log('set form value: ', value);
           if (value) {
             form.reset(value as any);
           }
@@ -103,13 +104,12 @@ export function withJDAFormControler<
 
       useImperativeHandle(ref, () => ({
         setFormValue,
+        setLoading,
         setMode,
       }));
 
       const handleSubmit = useCallback(
         (data: T) => {
-          console.log('submit here!', data);
-
           props.onSubmit(data);
         },
         [props],
@@ -156,6 +156,7 @@ export function withJDAFormControler<
         <FormProvider {...form}>
           <Component
             {...(props as P)}
+            loading={loading}
             mode={mode}
             formInputs={formInputs}
             submit={form.handleSubmit((d) => handleSubmit(d as T))}
