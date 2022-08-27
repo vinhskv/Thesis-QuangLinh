@@ -38,7 +38,7 @@ export function useFormHandler<T, SubT>(
       const data = ModuleParams?.moduleParams?.value;
       if (data) {
         //try to update newest object from server
-        formRef.current?.setLoading(true);
+        formRef?.current?.setLoading(true);
         api
           .getById(data[moduleConfig.primaryKey])
           .then((r) => {
