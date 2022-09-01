@@ -30,7 +30,8 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
                 props.pageControl.goToPage((indexPath as IndexPath).row)
               }
               style={styles.select}
-              size="small">
+              size="small"
+            >
               {[...Array(props.paging.totalPage).keys()].map((e) => (
                 <SelectItem key={e} title={String(e + 1)} />
               ))}
@@ -49,7 +50,8 @@ export default function JDABasicList<T>(props: IJDABasicListProps<T>) {
               size={'small'}
               accessoryLeft={<Icon name="plus" />}
               style={styles.fab}
-              onPress={props.onAddItem}>
+              onPress={props.onAddItem}
+            >
               Add
             </Button>
           </View>

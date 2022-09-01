@@ -34,15 +34,15 @@ export function useFormHandler<T, SubT>(
       ModuleParams?.moduleParams.value,
     );
 
-    if (ModuleParams?.moduleParams.mode !== JDAModuleMode.CREATE_ITEM) {
+    if (true) {
       const data = ModuleParams?.moduleParams?.value;
-      if (data) {
+      if (data?.[moduleConfig.primaryKey]) {
         //try to update newest object from server
         formRef?.current?.setLoading(true);
         api
           .getById(data[moduleConfig.primaryKey])
           .then((r) => {
-            formRef.current?.setFormValue(r.payload);
+            formRef.current?.setFormValue({...r.payload, ...data});
           })
           .catch((_e) => {
             formRef.current?.setFormValue(data);
@@ -50,6 +50,10 @@ export function useFormHandler<T, SubT>(
           .finally(() => {
             formRef.current?.setLoading(false);
           });
+      } else {
+        console.log('Set raw data', data);
+
+        formRef.current?.setFormValue(data);
       }
     }
   }, [

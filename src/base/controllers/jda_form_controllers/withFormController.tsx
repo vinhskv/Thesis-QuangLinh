@@ -22,6 +22,7 @@ import {
   IJDAModuleInputControllerProps,
   JDAControlledModuleInputComponent,
 } from './jda_form_input_controller/withModuleInputController';
+import {IJDAModuleMultiInputControllerProps} from './jda_form_input_controller/withModuleMultiInputController';
 
 export enum JDAFormMode {
   CREATE,
@@ -49,6 +50,7 @@ type InputComponent<T> =
 type InputComponentProps<T> =
   | IJDAFormInputControllerProps<T>
   | IJDAModuleInputControllerProps<T>
+  | IJDAModuleMultiInputControllerProps<T>
   | IJDAFormMultiInputControllerProps<T>;
 
 export type IJDAFormConfig<T> = Partial<

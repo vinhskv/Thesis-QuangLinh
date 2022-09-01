@@ -32,7 +32,8 @@ export default function ModuleSelect<T>() {
         <RBSheet
           ref={ref as any}
           // height={300}
-          openDuration={250}>
+          openDuration={250}
+        >
           <View style={styles.bottomSheetContainer}>
             <JDAStringInput
               value={keyword}
@@ -50,7 +51,8 @@ export default function ModuleSelect<T>() {
                 size="tiny"
                 onPress={() => {
                   props.onCreate?.();
-                }}>
+                }}
+              >
                 Create
               </Button>
             )}

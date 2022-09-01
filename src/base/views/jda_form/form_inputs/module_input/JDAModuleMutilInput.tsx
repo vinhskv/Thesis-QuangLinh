@@ -62,7 +62,8 @@ export function JDAModuleMultiInput<T>(props: IJDAModuleMultiInputProps<T>) {
           size={'small'}
           onPress={() => ref.current?.open()}
           appearance="outline"
-          status={'basic'}>
+          status={'basic'}
+        >
           {`+ Add ${props.label.toLowerCase()}`}
         </Button>
       )}
