@@ -12,9 +12,9 @@
 
 # **1. Environment setup**
 
-- Follow environment setting for Reactnative in [here](https://reactnative.dev/docs/environment-setup).
+- Follow environment setting for Reactnative in [here](https://reactnative.dev/docs/environment-setup). (The last build using nodejs 14 and reactnative 0.67)
 
-- Setup backend server ()
+- Setup backend server (cd jda/example/courseman/mosar && mvn exec:java@runbe)
 
 # **2. Run application**
 
