@@ -13,6 +13,7 @@
 # **1. Environment setup**
 
 - Follow environment setting for Reactnative in [here](https://reactnative.dev/docs/environment-setup). (The last build using nodejs 14 and reactnative 0.67)
+-- Tip: Run ```npx react-native doctor``` to check & quick install all required environment of ReactNative
 
 - Setup backend server (cd jda/example/courseman/mosar && mvn exec:java@runbe)
 
