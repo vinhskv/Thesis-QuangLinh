@@ -12,7 +12,7 @@
 
 # **1. Environment setup**
 
-- Follow environment setting for Reactnative in [here](https://reactnative.dev/docs/environment-setup). (The last build using nodejs 14 and reactnative 0.67)
+- Follow environment setting for Reactnative in [here](https://reactnative.dev/docs/environment-setup).
 -- Tip: Run ```npx react-native doctor``` to check & quick install all required environment of ReactNative
 
 - Setup backend server (cd jda/example/courseman/mosar && mvn exec:java@runbe)
@@ -38,7 +38,14 @@ To start the application in android device/emulator:
 ```
 $ npm run android
 ```
+<details>
+   <summary> Clean android project (when build progress fail)</summary>
 
+   ```cd android```
+
+   ```gradlew clean```
+   
+</details>
 <details>
    <summary>Example output:</summary>
 
